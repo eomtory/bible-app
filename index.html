@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>성경 단어 암기</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #eee; font-family: 'Malgun Gothic', sans-serif; }
+
+  .header { background: #16213e; padding: 16px 20px; text-align: center; border-bottom: 2px solid #e94560; }
+  .header h1 { font-size: 20px; color: #e94560; }
+
+  .nav { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #16213e; min-height: 44px; flex-wrap: wrap; }
+  .nav span { color: #aaa; font-size: 14px; }
+  .nav button { background: none; border: none; color: #e94560; font-size: 14px; cursor: pointer; padding: 0; }
+  .nav button:hover { text-decoration: underline; }
+
+  .list-view { padding: 16px; }
+  .list-title { font-size: 15px; color: #aaa; margin-bottom: 12px; }
+  .item-btn {
+    display: block; width: 100%; padding: 14px 16px;
+    margin-bottom: 10px; background: #16213e;
+    border: 1px solid #e94560; border-radius: 10px;
+    color: #eee; font-size: 16px; cursor: pointer; text-align: left;
+  }
+  .item-btn:hover { background: #e94560; }
+
+  .verse-view { display: none; padding: 16px; }
+  .verse-title { font-size: 18px; color: #e94560; margin-bottom: 16px; font-weight: bold; }
+  .speech-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .speech-btn {
+    background: #0f3460; color: #eee; border: 1px solid #e94560; border-radius: 8px;
+    padding: 8px 12px; cursor: pointer; font-size: 14px;
+  }
+  .speech-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .speech-status { font-size: 13px; color: #aaa; }
+  .speech-result { font-size: 13px; color: #7eb8f7; width: 100%; }
+  .full-text { font-size: 17px; line-height: 2.8; background: #16213e; padding: 20px; border-radius: 12px; }
+
+  .word-chip {
+    display: inline-block; cursor: pointer; border-radius: 8px;
+    margin: 0 2px; vertical-align: middle; transition: all 0.3s;
+    border: 2px solid #e94560;
+  }
+  .word-chip img { display: block; width: 64px; height: 64px; object-fit: cover; border-radius: 6px; }
+  .word-chip.revealed { background: #0f3460; padding: 4px 10px; font-size: 15px; color: #fff; border-color: #0f3460; }
+
+  .word-text {
+    display: inline-block; background: #0f3460; color: #7eb8f7;
+    border-radius: 6px; padding: 2px 8px; margin: 0 2px;
+    font-size: 15px; vertical-align: middle;
+  }
+  .loading { text-align: center; padding: 40px; color: #aaa; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<div class="header"><h1>📖 성경 단어 암기</h1></div>
+<div class="nav" id="nav"></div>
+<div class="list-view" id="listView"><div class="loading">불러오는 중...</div></div>
+<div class="verse-view" id="verseView">
+  <div class="verse-title" id="verseTitle"></div>
+  <div class="speech-controls">
+    <button id="speechStartBtn" class="speech-btn" type="button">🎙 음성 시작</button>
+    <button id="speechStopBtn" class="speech-btn" type="button" disabled>■ 중지</button>
+    <span id="speechStatus" class="speech-status">음성 대기</span>
+    <div id="speechResult" class="speech-result"></div>
+  </div>
+  <div class="full-text" id="fullText"></div>
+</div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycby3fyxc7L4n48ENR2T37VTo6TNRaPfABXRj2cX2ST6Xa3zw5D6RcUS-d-LLHgapT98t9w/exec";
+
+let state = { step: "book", book: null, chapter: null };
+let recognition = null;
+let isListening = false;
+
+function fetchJSON(url) {
+  return new Promise((resolve, reject) => {
+    const cb = "cb_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    const script = document.createElement("script");
+    let cleaned = false;
+    const cleanup = () => {
+      if (cleaned) return;
+      cleaned = true;
+      delete window[cb];
+      script.remove();
+      clearTimeout(timer);
+    };
+
+    window[cb] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("네트워크 오류"));
+    };
+
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error("요청 시간 초과"));
+    }, 10000);
+
+    script.src = url + "&callback=" + cb;
+    document.body.appendChild(script);
+  });
+}
+
+function showList() {
+  document.getElementById("verseView").style.display = "none";
+  document.getElementById("listView").style.display = "block";
+}
+
+function showLoading() {
+  showList();
+  document.getElementById("listView").innerHTML = "<div class='loading'>불러오는 중...</div>";
+}
+
+function updateNav() {
+  const nav = document.getElementById("nav");
+  nav.innerHTML = "";
+
+  const homeBtn = document.createElement("button");
+  homeBtn.textContent = "📚 전체";
+  homeBtn.onclick = () => goStep("book");
+  nav.appendChild(homeBtn);
+
+  if (state.book) {
+    nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+    const bookBtn = document.createElement("button");
+    bookBtn.textContent = state.book;
+    bookBtn.onclick = () => goStep("chapter");
+    nav.appendChild(bookBtn);
+  }
+
+  if (state.chapter) {
+    nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+    const chapBtn = document.createElement("button");
+    chapBtn.textContent = `${state.chapter}장`;
+    chapBtn.onclick = () => goStep("verse");
+    nav.appendChild(chapBtn);
+  }
+}
+
+function goStep(step) {
+  stopListening();
+  if (step === "book") {
+    state = { step: "book", book: null, chapter: null };
+    updateNav();
+    loadBooks();
+  } else if (step === "chapter") {
+    state.step = "chapter";
+    state.chapter = null;
+    updateNav();
+    loadChapters();
+  } else if (step === "verse") {
+    state.step = "verse";
+    updateNav();
+    loadVerses();
+  }
+}
+
+async function loadBooks() {
+  showLoading();
+  const list = document.getElementById("listView");
+  try {
+    const books = await fetchJSON(`${API}?action=getBooks`);
+    list.innerHTML = `<div class='list-title'>성경책을 선택하세요</div>`;
+    books.forEach(b => {
+      const btn = document.createElement("button");
+      btn.className = "item-btn";
+      btn.textContent = b;
+      btn.onclick = () => { state.book = b; state.chapter = null; goStep("chapter"); };
+      list.appendChild(btn);
+    });
+  } catch (err) {
+    list.innerHTML = `<div class='loading'>목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>`;
+  }
+}
+
+async function loadChapters() {
+  showLoading();
+  const list = document.getElementById("listView");
+  try {
+    const chapters = await fetchJSON(`${API}?action=getChapters&book=${encodeURIComponent(state.book)}`);
+    list.innerHTML = `<div class='list-title'>${state.book} - 장을 선택하세요</div>`;
+    chapters.forEach(c => {
+      const btn = document.createElement("button");
+      btn.className = "item-btn";
+      btn.textContent = `${c}장`;
+      btn.onclick = () => { state.chapter = c; goStep("verse"); };
+      list.appendChild(btn);
+    });
+  } catch (err) {
+    list.innerHTML = `<div class='loading'>장을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>`;
+  }
+}
+
+async function loadVerses() {
+  showLoading();
+  const list = document.getElementById("listView");
+  try {
+    const verses = await fetchJSON(`${API}?action=getVerses&book=${encodeURIComponent(state.book)}&chapter=${state.chapter}`);
+    list.innerHTML = `<div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>`;
+    verses.forEach(v => {
+      const btn = document.createElement("button");
+      btn.className = "item-btn";
+      btn.textContent = `${v.Verse}절`;
+      btn.onclick = () => openVerse(v);
+      list.appendChild(btn);
+    });
+  } catch (err) {
+    list.innerHTML = `<div class='loading'>절을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>`;
+  }
+}
+
+async function openVerse(verse) {
+  stopListening();
+  document.getElementById("listView").style.display = "none";
+  document.getElementById("verseView").style.display = "block";
+  document.getElementById("verseTitle").textContent = `${verse.Book} ${verse.Chapter}장 ${verse.Verse}절`;
+  document.getElementById("fullText").innerHTML = "<div class='loading'>불러오는 중...</div>";
+  document.getElementById("speechResult").textContent = "";
+  document.getElementById("speechStatus").textContent = "음성 대기";
+
+  // 네비에 절 표시
+  updateNav();
+  const nav = document.getElementById("nav");
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: `${verse.Verse}절`, style: "color:#eee" }));
+
+  try {
+    const cards = await fetchJSON(`${API}?action=getCards&verseId=${verse.VerseID}`);
+    renderText(verse.FullText, cards);
+  } catch (err) {
+    document.getElementById("fullText").innerHTML = "<div class='loading'>본문을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>";
+  }
+}
+
+function renderText(fullText, cards) {
+  const container = document.getElementById("fullText");
+  container.innerHTML = "";
+  let text = fullText;
+  const markers = [];
+
+  [...cards].sort((a, b) => b.WordText.length - a.WordText.length)
+    .forEach((card, i) => {
+      if (text.includes(card.WordText)) {
+        text = text.split(card.WordText).join(`\x00${i}\x00`);
+        markers[i] = card;
+      }
+    });
+
+  text.split(/(\x00\d+\x00)/).forEach(part => {
+    const match = part.match(/\x00(\d+)\x00/);
+    if (match) {
+      const card = markers[parseInt(match[1])];
+      if (!card) return;
+      if (card.ImageURL) {
+        const chip = document.createElement("span");
+        chip.className = "word-chip";
+        chip.dataset.word = card.WordText || "";
+        chip.dataset.imageUrl = card.ImageURL || "";
+        const img = document.createElement("img");
+        img.src = card.ImageURL; img.alt = card.WordText;
+        chip.appendChild(img);
+        chip.onclick = () => toggleWord(chip, card);
+        container.appendChild(chip);
+      } else {
+        const span = document.createElement("span");
+        span.className = "word-text";
+        span.textContent = card.WordText;
+        container.appendChild(span);
+      }
+    } else {
+      container.appendChild(document.createTextNode(part));
+    }
+  });
+}
+
+function toggleWord(chip, card) {
+  if (chip.classList.contains("revealed")) {
+    chip.classList.remove("revealed");
+    chip.innerHTML = "";
+    const img = document.createElement("img");
+    img.src = card.ImageURL; img.alt = card.WordText;
+    chip.appendChild(img);
+  } else {
+    revealChip(chip, card.WordText);
+  }
+}
+
+function revealChip(chip, wordText) {
+  chip.classList.add("revealed");
+  chip.textContent = wordText || chip.dataset.word || "";
+}
+
+function normalizeKorean(text = "") {
+  return text
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/[\s\p{P}\p{S}]+/gu, "");
+}
+
+function stripKoreanPostposition(text = "") {
+  const suffixes = [
+    "으로부터", "에서부터", "에게서", "까지는", "까지도", "이라도", "라도", "으로는", "로는",
+    "에게는", "께서는", "에서는", "부터", "까지", "처럼", "보다", "하고", "이며", "이랑",
+    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "으로서", "으로써", "와", "과",
+    "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
+  ];
+  for (const suffix of suffixes) {
+    if (text.length > suffix.length + 1 && text.endsWith(suffix)) {
+      return text.slice(0, -suffix.length);
+    }
+  }
+  return text;
+}
+
+function applyTranscript(transcript) {
+  const spoken = normalizeKorean(transcript);
+  if (!spoken) return 0;
+
+  let revealed = 0;
+  document.querySelectorAll(".word-chip").forEach((chip) => {
+    if (chip.classList.contains("revealed")) return;
+    const normalizedWord = normalizeKorean(chip.dataset.word || "");
+    const strippedWord = stripKoreanPostposition(normalizedWord);
+    if (!strippedWord) return;
+    if (spoken.includes(normalizedWord) || spoken.includes(strippedWord)) {
+      revealChip(chip, chip.dataset.word);
+      revealed += 1;
+    }
+  });
+  return revealed;
+}
+
+function setSpeechStatus(text) {
+  document.getElementById("speechStatus").textContent = text;
+}
+
+function initSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const startBtn = document.getElementById("speechStartBtn");
+  const stopBtn = document.getElementById("speechStopBtn");
+
+  if (!SpeechRecognition) {
+    startBtn.disabled = true;
+    stopBtn.disabled = true;
+    setSpeechStatus("이 브라우저는 음성인식을 지원하지 않습니다.");
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "ko-KR";
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isListening = true;
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    setSpeechStatus("듣는 중...");
+  };
+
+  recognition.onresult = (event) => {
+    let transcript = "";
+    for (let i = event.resultIndex; i < event.results.length; i += 1) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    document.getElementById("speechResult").textContent = `인식 결과: ${transcript}`;
+    if (event.results[event.results.length - 1].isFinal) {
+      const count = applyTranscript(transcript);
+      setSpeechStatus(`완료: ${count}개 단어 공개`);
+    }
+  };
+
+  recognition.onerror = () => {
+    setSpeechStatus("음성인식 오류가 발생했습니다.");
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    if (document.getElementById("speechStatus").textContent === "듣는 중...") {
+      setSpeechStatus("음성 대기");
+    }
+  };
+
+  startBtn.onclick = startListening;
+  stopBtn.onclick = stopListening;
+}
+
+function startListening() {
+  if (!recognition || isListening) return;
+  document.getElementById("speechResult").textContent = "";
+  setSpeechStatus("마이크 권한 확인 중...");
+  recognition.start();
+}
+
+function stopListening() {
+  if (!recognition || !isListening) return;
+  recognition.stop();
+}
+
+initSpeechRecognition();
+loadBooks();
+</script>
+</body>
+</html>
