@@ -18,6 +18,9 @@
 
   .list-view { padding: 16px; }
   .list-title { font-size: 15px; color: #aaa; margin-bottom: 12px; }
+  .list-actions { margin-bottom: 12px; }
+  .verse-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .verse-check { width: 18px; height: 18px; accent-color: #e94560; }
   .item-btn {
     display: block; width: 100%; padding: 14px 16px;
     margin-bottom: 10px; background: #16213e;
@@ -59,6 +62,11 @@
     font-size: 15px; vertical-align: middle;
   }
   .loading { text-align: center; padding: 40px; color: #aaa; font-size: 15px; }
+  .verse-block { margin-bottom: 18px; }
+  .verse-block-title {
+    font-size: 14px; color: #e94560; margin-bottom: 8px; font-weight: bold;
+    border-left: 3px solid #e94560; padding-left: 8px;
+  }
 </style>
 </head>
 <body>
@@ -88,6 +96,7 @@ const API = "https://script.google.com/macros/s/AKfycby3fyxc7L4n48ENR2T37VTo6TNR
 let state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1 };
 let recognition = null;
 let isListening = false;
+const cardsCache = new Map();
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -222,14 +231,35 @@ async function loadVerses() {
     const verses = await fetchJSON(`${API}?action=getVerses&book=${encodeURIComponent(state.book)}&chapter=${state.chapter}`);
     state.verses = verses;
     state.currentVerseIndex = -1;
-    list.innerHTML = `<div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>`;
+    list.innerHTML = `
+      <div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>
+      <div class='list-actions'>
+        <button id="startSelectedBtn" class="study-btn" type="button" disabled>선택한 절 시작</button>
+      </div>
+    `;
+    const startSelectedBtn = document.getElementById("startSelectedBtn");
+    startSelectedBtn.onclick = openSelectedVerses;
+
     verses.forEach((v, index) => {
+      const row = document.createElement("div");
+      row.className = "verse-row";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "verse-check";
+      checkbox.value = String(index);
+      checkbox.addEventListener("change", updateStartSelectedButtonState);
+      row.appendChild(checkbox);
+
       const btn = document.createElement("button");
       btn.className = "item-btn";
       btn.textContent = `${v.Verse}절`;
       btn.onclick = () => openVerse(v, index);
-      list.appendChild(btn);
+      row.appendChild(btn);
+      list.appendChild(row);
     });
+
+    prefetchVerseCards(verses.slice(0, 5));
   } catch (err) {
     state.verses = [];
     state.currentVerseIndex = -1;
@@ -255,17 +285,17 @@ async function openVerse(verse, verseIndex = -1) {
   nav.appendChild(Object.assign(document.createElement("span"), { textContent: `${verse.Verse}절`, style: "color:#eee" }));
 
   try {
-    const cards = await fetchJSON(`${API}?action=getCards&verseId=${verse.VerseID}`);
-    renderText(verse.FullText, cards);
+    const cards = await getCardsForVerse(verse.VerseID);
+    renderText(verse.FullText, cards, document.getElementById("fullText"));
     refreshScore();
+    prefetchVerseCards(state.verses.slice(state.currentVerseIndex + 1, state.currentVerseIndex + 4));
   } catch (err) {
     document.getElementById("fullText").innerHTML = "<div class='loading'>본문을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>";
     refreshScore();
   }
 }
 
-function renderText(fullText, cards) {
-  const container = document.getElementById("fullText");
+function renderText(fullText, cards, container) {
   container.innerHTML = "";
   let text = fullText;
   const markers = [];
@@ -303,6 +333,19 @@ function renderText(fullText, cards) {
       container.appendChild(document.createTextNode(part));
     }
   });
+}
+
+function renderVerseBlock(wrapper, verse, cards) {
+  wrapper.innerHTML = "";
+  const title = document.createElement("div");
+  title.className = "verse-block-title";
+  title.textContent = `${verse.Book} ${verse.Chapter}장 ${verse.Verse}절`;
+  wrapper.appendChild(title);
+
+  const textBox = document.createElement("div");
+  textBox.className = "full-text";
+  wrapper.appendChild(textBox);
+  renderText(verse.FullText, cards, textBox);
 }
 
 function toggleWord(chip, card) {
@@ -383,6 +426,11 @@ function refreshScore() {
 
 function refreshStudyControls() {
   const nextBtn = document.getElementById("nextVerseBtn");
+  if (state.currentVerseIndex === -2) {
+    const blocks = document.querySelectorAll(".verse-block");
+    nextBtn.disabled = blocks.length <= 1;
+    return;
+  }
   const hasNext = state.currentVerseIndex >= 0 && state.currentVerseIndex < state.verses.length - 1;
   nextBtn.disabled = !hasNext;
 }
@@ -402,6 +450,26 @@ function resetRevealedWords() {
 }
 
 function openNextVerse() {
+  if (state.currentVerseIndex === -2) {
+    const blocks = Array.from(document.querySelectorAll(".verse-block"));
+    if (blocks.length === 0) return;
+
+    const active = blocks.findIndex(block => block.dataset.active === "1");
+    const next = active >= 0 ? active + 1 : 0;
+    if (active >= 0) blocks[active].dataset.active = "0";
+
+    if (next >= blocks.length) {
+      setSpeechStatus("선택한 절의 마지막입니다.");
+      blocks[blocks.length - 1].dataset.active = "1";
+      return;
+    }
+
+    blocks[next].dataset.active = "1";
+    blocks[next].scrollIntoView({ behavior: "smooth", block: "start" });
+    setSpeechStatus(`${next + 1}/${blocks.length} 절 위치로 이동`);
+    return;
+  }
+
   if (state.currentVerseIndex < 0) return;
   const nextIndex = state.currentVerseIndex + 1;
   if (nextIndex >= state.verses.length) {
@@ -410,6 +478,88 @@ function openNextVerse() {
     return;
   }
   openVerse(state.verses[nextIndex], nextIndex);
+}
+
+function updateStartSelectedButtonState() {
+  const checked = document.querySelectorAll(".verse-check:checked").length;
+  const startBtn = document.getElementById("startSelectedBtn");
+  if (!startBtn) return;
+  startBtn.disabled = checked === 0;
+  startBtn.textContent = checked > 0 ? `선택한 절 시작 (${checked})` : "선택한 절 시작";
+}
+
+async function getCardsForVerse(verseId) {
+  if (!cardsCache.has(verseId)) {
+    const promise = fetchJSON(`${API}?action=getCards&verseId=${verseId}`);
+    cardsCache.set(verseId, promise);
+  }
+  const value = cardsCache.get(verseId);
+  const cards = await value;
+  if (value && typeof value.then === "function") {
+    cardsCache.set(verseId, cards);
+  }
+  return cards;
+}
+
+function prefetchVerseCards(verses) {
+  verses.forEach((verse) => {
+    if (!verse || cardsCache.has(verse.VerseID)) return;
+    const promise = fetchJSON(`${API}?action=getCards&verseId=${verse.VerseID}`)
+      .then((cards) => {
+        cardsCache.set(verse.VerseID, cards);
+        return cards;
+      })
+      .catch(() => {
+        cardsCache.delete(verse.VerseID);
+      });
+    cardsCache.set(verse.VerseID, promise);
+  });
+}
+
+async function openSelectedVerses() {
+  stopListening();
+  const checkedIndexes = Array.from(document.querySelectorAll(".verse-check:checked"))
+    .map(input => parseInt(input.value, 10))
+    .filter(index => Number.isInteger(index) && state.verses[index]);
+
+  if (checkedIndexes.length === 0) return;
+
+  const selectedVerses = checkedIndexes.map(index => state.verses[index]);
+  state.currentVerseIndex = -2;
+  document.getElementById("listView").style.display = "none";
+  document.getElementById("verseView").style.display = "block";
+  document.getElementById("verseTitle").textContent = `${state.book} ${state.chapter}장 - 선택 ${selectedVerses.length}절`;
+  document.getElementById("speechResult").textContent = "";
+  document.getElementById("speechStatus").textContent = "음성 대기";
+
+  updateNav();
+  const nav = document.getElementById("nav");
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: `${selectedVerses.length}절 선택`, style: "color:#eee" }));
+
+  const fullText = document.getElementById("fullText");
+  fullText.innerHTML = "";
+
+  const wrappers = selectedVerses.map((verse, i) => {
+    const block = document.createElement("section");
+    block.className = "verse-block";
+    block.dataset.active = i === 0 ? "1" : "0";
+    block.innerHTML = `<div class='loading'>${verse.Verse}절 불러오는 중...</div>`;
+    fullText.appendChild(block);
+    return { verse, block };
+  });
+
+  await Promise.all(wrappers.map(async ({ verse, block }) => {
+    try {
+      const cards = await getCardsForVerse(verse.VerseID);
+      renderVerseBlock(block, verse, cards);
+    } catch (err) {
+      block.innerHTML = `<div class='loading'>${verse.Verse}절을 불러오지 못했습니다.</div>`;
+    }
+  }));
+
+  refreshStudyControls();
+  refreshScore();
 }
 
 function setSpeechStatus(text) {
