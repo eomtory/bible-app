@@ -30,7 +30,7 @@
   .item-btn:hover { background: #e94560; }
 
   .verse-view { display: none; padding: 16px; }
-  .verse-title { font-size: 18px; color: #e94560; margin-bottom: 16px; font-weight: bold; }
+  .verse-title { font-size: 18px; color: #e94560; margin: 4px 0 12px; font-weight: bold; }
   .speech-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
   .speech-btn {
     background: #0f3460; color: #eee; border: 1px solid #e94560; border-radius: 8px;
@@ -39,14 +39,14 @@
   .speech-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .speech-status { font-size: 13px; color: #aaa; }
   .speech-result { font-size: 13px; color: #7eb8f7; width: 100%; }
-  .study-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .study-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
   .study-btn {
     background: #16213e; color: #eee; border: 1px solid #e94560; border-radius: 8px;
     padding: 8px 12px; cursor: pointer; font-size: 14px;
   }
   .study-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .score-text { font-size: 14px; color: #7eb8f7; }
-  .full-text { font-size: 17px; line-height: 2.8; background: #16213e; padding: 20px; border-radius: 12px; }
+  .full-text { font-size: 17px; line-height: 2.3; background: #16213e; padding: 20px; border-radius: 12px; }
 
   .word-chip {
     display: inline-block; cursor: pointer; border-radius: 8px;
@@ -62,19 +62,27 @@
     font-size: 15px; vertical-align: middle;
   }
   .loading { text-align: center; padding: 40px; color: #aaa; font-size: 15px; }
-  .verse-block { margin-bottom: 18px; }
-  .verse-block-content { display: flex; align-items: flex-start; gap: 10px; }
+  .verse-block { margin-bottom: 14px; }
+  .verse-block-content {
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+  }
   .verse-marker {
-    min-width: 52px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
     font-size: 13px;
     font-weight: bold;
     color: #e94560;
     border: 1px solid #e94560;
     border-radius: 8px;
-    padding: 8px 6px;
+    padding: 6px;
     background: #16213e;
   }
+  .verse-block .full-text { line-height: 1.9; padding: 14px 16px; }
 </style>
 </head>
 <body>
@@ -83,7 +91,6 @@
 <div class="nav" id="nav"></div>
 <div class="list-view" id="listView"><div class="loading">불러오는 중...</div></div>
 <div class="verse-view" id="verseView">
-  <div class="verse-title" id="verseTitle"></div>
   <div class="speech-controls">
     <button id="speechStartBtn" class="speech-btn" type="button">🎙 음성 시작</button>
     <button id="speechStopBtn" class="speech-btn" type="button" disabled>■ 중지</button>
@@ -95,6 +102,7 @@
     <button id="resetRevealBtn" class="study-btn" type="button">다시 가리기</button>
     <button id="nextVerseBtn" class="study-btn" type="button">다음 절</button>
   </div>
+  <div class="verse-title" id="verseTitle"></div>
   <div class="full-text" id="fullText"></div>
 </div>
 
