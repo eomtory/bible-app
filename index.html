@@ -36,6 +36,13 @@
   .speech-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .speech-status { font-size: 13px; color: #aaa; }
   .speech-result { font-size: 13px; color: #7eb8f7; width: 100%; }
+  .study-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .study-btn {
+    background: #16213e; color: #eee; border: 1px solid #e94560; border-radius: 8px;
+    padding: 8px 12px; cursor: pointer; font-size: 14px;
+  }
+  .study-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .score-text { font-size: 14px; color: #7eb8f7; }
   .full-text { font-size: 17px; line-height: 2.8; background: #16213e; padding: 20px; border-radius: 12px; }
 
   .word-chip {
@@ -67,13 +74,18 @@
     <span id="speechStatus" class="speech-status">음성 대기</span>
     <div id="speechResult" class="speech-result"></div>
   </div>
+  <div class="study-controls">
+    <span id="scoreText" class="score-text">정답률: 0/0 (0%)</span>
+    <button id="resetRevealBtn" class="study-btn" type="button">다시 가리기</button>
+    <button id="nextVerseBtn" class="study-btn" type="button">다음 절</button>
+  </div>
   <div class="full-text" id="fullText"></div>
 </div>
 
 <script>
 const API = "https://script.google.com/macros/s/AKfycby3fyxc7L4n48ENR2T37VTo6TNRaPfABXRj2cX2ST6Xa3zw5D6RcUS-d-LLHgapT98t9w/exec";
 
-let state = { step: "book", book: null, chapter: null };
+let state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1 };
 let recognition = null;
 let isListening = false;
 
@@ -149,16 +161,19 @@ function updateNav() {
 function goStep(step) {
   stopListening();
   if (step === "book") {
-    state = { step: "book", book: null, chapter: null };
+    state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1 };
     updateNav();
     loadBooks();
   } else if (step === "chapter") {
     state.step = "chapter";
     state.chapter = null;
+    state.verses = [];
+    state.currentVerseIndex = -1;
     updateNav();
     loadChapters();
   } else if (step === "verse") {
     state.step = "verse";
+    state.currentVerseIndex = -1;
     updateNav();
     loadVerses();
   }
@@ -205,27 +220,33 @@ async function loadVerses() {
   const list = document.getElementById("listView");
   try {
     const verses = await fetchJSON(`${API}?action=getVerses&book=${encodeURIComponent(state.book)}&chapter=${state.chapter}`);
+    state.verses = verses;
+    state.currentVerseIndex = -1;
     list.innerHTML = `<div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>`;
-    verses.forEach(v => {
+    verses.forEach((v, index) => {
       const btn = document.createElement("button");
       btn.className = "item-btn";
       btn.textContent = `${v.Verse}절`;
-      btn.onclick = () => openVerse(v);
+      btn.onclick = () => openVerse(v, index);
       list.appendChild(btn);
     });
   } catch (err) {
+    state.verses = [];
+    state.currentVerseIndex = -1;
     list.innerHTML = `<div class='loading'>절을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>`;
   }
 }
 
-async function openVerse(verse) {
+async function openVerse(verse, verseIndex = -1) {
   stopListening();
+  state.currentVerseIndex = verseIndex >= 0 ? verseIndex : state.verses.findIndex(v => v.VerseID === verse.VerseID);
   document.getElementById("listView").style.display = "none";
   document.getElementById("verseView").style.display = "block";
   document.getElementById("verseTitle").textContent = `${verse.Book} ${verse.Chapter}장 ${verse.Verse}절`;
   document.getElementById("fullText").innerHTML = "<div class='loading'>불러오는 중...</div>";
   document.getElementById("speechResult").textContent = "";
   document.getElementById("speechStatus").textContent = "음성 대기";
+  refreshStudyControls();
 
   // 네비에 절 표시
   updateNav();
@@ -236,8 +257,10 @@ async function openVerse(verse) {
   try {
     const cards = await fetchJSON(`${API}?action=getCards&verseId=${verse.VerseID}`);
     renderText(verse.FullText, cards);
+    refreshScore();
   } catch (err) {
     document.getElementById("fullText").innerHTML = "<div class='loading'>본문을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>";
+    refreshScore();
   }
 }
 
@@ -258,7 +281,7 @@ function renderText(fullText, cards) {
   text.split(/(\x00\d+\x00)/).forEach(part => {
     const match = part.match(/\x00(\d+)\x00/);
     if (match) {
-      const card = markers[parseInt(match[1])];
+      const card = markers[parseInt(match[1], 10)];
       if (!card) return;
       if (card.ImageURL) {
         const chip = document.createElement("span");
@@ -292,6 +315,7 @@ function toggleWord(chip, card) {
   } else {
     revealChip(chip, card.WordText);
   }
+  refreshScore();
 }
 
 function revealChip(chip, wordText) {
@@ -336,7 +360,56 @@ function applyTranscript(transcript) {
       revealed += 1;
     }
   });
+  refreshScore();
   return revealed;
+}
+
+function getScoreData() {
+  const chips = Array.from(document.querySelectorAll(".word-chip"));
+  const total = chips.length;
+  const revealed = chips.filter(chip => chip.classList.contains("revealed")).length;
+  return { total, revealed };
+}
+
+function refreshScore() {
+  const scoreText = document.getElementById("scoreText");
+  const { total, revealed } = getScoreData();
+  const percent = total > 0 ? Math.round((revealed / total) * 100) : 0;
+  scoreText.textContent = `정답률: ${revealed}/${total} (${percent}%)`;
+
+  const resetBtn = document.getElementById("resetRevealBtn");
+  resetBtn.disabled = total === 0;
+}
+
+function refreshStudyControls() {
+  const nextBtn = document.getElementById("nextVerseBtn");
+  const hasNext = state.currentVerseIndex >= 0 && state.currentVerseIndex < state.verses.length - 1;
+  nextBtn.disabled = !hasNext;
+}
+
+function resetRevealedWords() {
+  document.querySelectorAll(".word-chip.revealed").forEach((chip) => {
+    chip.classList.remove("revealed");
+    chip.textContent = "";
+    const img = document.createElement("img");
+    img.src = chip.dataset.imageUrl || "";
+    img.alt = chip.dataset.word || "";
+    chip.appendChild(img);
+  });
+  document.getElementById("speechResult").textContent = "";
+  setSpeechStatus("음성 대기");
+  refreshScore();
+}
+
+function openNextVerse() {
+  if (state.currentVerseIndex < 0) return;
+  const nextIndex = state.currentVerseIndex + 1;
+  if (nextIndex >= state.verses.length) {
+    setSpeechStatus("현재 장의 마지막 절입니다.");
+    refreshStudyControls();
+    return;
+  }
+  openVerse(state.verses[nextIndex], nextIndex);
 }
 
 function setSpeechStatus(text) {
@@ -408,6 +481,9 @@ function stopListening() {
   if (!recognition || !isListening) return;
   recognition.stop();
 }
+
+document.getElementById("resetRevealBtn").onclick = resetRevealedWords;
+document.getElementById("nextVerseBtn").onclick = openNextVerse;
 
 initSpeechRecognition();
 loadBooks();
