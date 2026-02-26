@@ -19,6 +19,7 @@
   .list-view { padding: 16px; }
   .list-title { font-size: 15px; color: #aaa; margin-bottom: 12px; }
   .list-actions { margin-bottom: 12px; }
+  .list-hint { font-size: 12px; color: #8ea3bd; margin-top: 6px; }
   .verse-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
   .verse-check { width: 18px; height: 18px; accent-color: #e94560; }
   .item-btn {
@@ -46,6 +47,12 @@
   }
   .study-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .score-text { font-size: 14px; color: #7eb8f7; }
+  .mode-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .mode-btn {
+    background: #16213e; color: #9bcaff; border: 1px solid #2a4d7b; border-radius: 999px;
+    padding: 6px 12px; font-size: 13px; cursor: pointer;
+  }
+  .mode-btn.active { background: #0f3460; color: #fff; border-color: #e94560; }
   .full-text { font-size: 17px; line-height: 2.3; background: #16213e; padding: 20px; border-radius: 12px; }
 
   .word-chip {
@@ -54,6 +61,9 @@
     border: 2px solid #e94560;
   }
   .word-chip img { display: block; width: 64px; height: 64px; object-fit: cover; border-radius: 6px; }
+  .word-chip.hint {
+    background: #0f3460; padding: 4px 10px; font-size: 15px; color: #7eb8f7; border-color: #0f3460;
+  }
   .word-chip.revealed { background: #0f3460; padding: 4px 10px; font-size: 15px; color: #fff; border-color: #0f3460; }
 
   .word-text {
@@ -102,6 +112,12 @@
     <button id="resetRevealBtn" class="study-btn" type="button">다시 가리기</button>
     <button id="nextVerseBtn" class="study-btn" type="button">다음 절</button>
   </div>
+  <div class="mode-controls">
+    <button class="mode-btn active" type="button" data-mode="image">이미지</button>
+    <button class="mode-btn" type="button" data-mode="blank">빈칸</button>
+    <button class="mode-btn" type="button" data-mode="chosung">초성</button>
+    <button class="mode-btn" type="button" data-mode="first">첫글자</button>
+  </div>
   <div class="verse-title" id="verseTitle"></div>
   <div class="full-text" id="fullText"></div>
 </div>
@@ -109,10 +125,18 @@
 <script>
 const API = "https://script.google.com/macros/s/AKfycby3fyxc7L4n48ENR2T37VTo6TNRaPfABXRj2cX2ST6Xa3zw5D6RcUS-d-LLHgapT98t9w/exec";
 
-let state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1 };
+let state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1, studyMode: "image" };
 let recognition = null;
 let isListening = false;
 const cardsCache = new Map();
+const versesCache = new Map();
+const chapterCardsCache = new Map();
+let isDragSelecting = false;
+let dragSelectValue = false;
+let touchDragInitialized = false;
+let dragMoved = false;
+let dragStartCheckbox = null;
+let multiVerseObserver = null;
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
@@ -185,8 +209,10 @@ function updateNav() {
 
 function goStep(step) {
   stopListening();
+  disconnectMultiVerseObserver();
   if (step === "book") {
-    state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1 };
+    const currentMode = state.studyMode || "image";
+    state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1, studyMode: currentMode };
     updateNav();
     loadBooks();
   } else if (step === "chapter") {
@@ -244,17 +270,26 @@ async function loadVerses() {
   showLoading();
   const list = document.getElementById("listView");
   try {
-    const verses = await fetchJSON(`${API}?action=getVerses&book=${encodeURIComponent(state.book)}&chapter=${state.chapter}`);
+    const cacheKey = `${state.book}:${state.chapter}`;
+    let verses = versesCache.get(cacheKey);
+    if (!verses) {
+      verses = await fetchJSON(`${API}?action=getVerses&book=${encodeURIComponent(state.book)}&chapter=${state.chapter}`);
+      versesCache.set(cacheKey, verses);
+    }
     state.verses = verses;
     state.currentVerseIndex = -1;
     list.innerHTML = `
       <div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>
       <div class='list-actions'>
         <button id="startSelectedBtn" class="study-btn" type="button" disabled>선택한 절 시작</button>
+        <button id="clearSelectedBtn" class="study-btn" type="button" disabled>전체 해제</button>
+        <div class="list-hint">체크박스는 클릭으로 1개 선택, 드래그로 여러 개 연속 선택할 수 있습니다.</div>
       </div>
     `;
     const startSelectedBtn = document.getElementById("startSelectedBtn");
     startSelectedBtn.onclick = openSelectedVerses;
+    const clearSelectedBtn = document.getElementById("clearSelectedBtn");
+    clearSelectedBtn.onclick = clearAllSelections;
 
     verses.forEach((v, index) => {
       const row = document.createElement("div");
@@ -265,7 +300,10 @@ async function loadVerses() {
       checkbox.className = "verse-check";
       checkbox.value = String(index);
       checkbox.addEventListener("change", updateStartSelectedButtonState);
+      checkbox.addEventListener("mousedown", startDragSelect);
+      checkbox.addEventListener("touchstart", startTouchDragSelect, { passive: false });
       row.appendChild(checkbox);
+      row.addEventListener("mouseenter", dragSelectOverRow);
 
       const btn = document.createElement("button");
       btn.className = "item-btn";
@@ -275,6 +313,7 @@ async function loadVerses() {
       list.appendChild(row);
     });
 
+    setupTouchDragSelection();
     prefetchVerseCards(verses.slice(0, 5));
   } catch (err) {
     state.verses = [];
@@ -283,8 +322,83 @@ async function loadVerses() {
   }
 }
 
+function setVerseCheckbox(checkbox, checked) {
+  checkbox.checked = checked;
+}
+
+function clearAllSelections() {
+  document.querySelectorAll(".verse-check:checked").forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  updateStartSelectedButtonState();
+}
+
+function startDragSelect(event) {
+  if (event.button !== 0) return;
+  const checkbox = event.currentTarget;
+  if (!checkbox) return;
+  isDragSelecting = true;
+  dragMoved = false;
+  dragStartCheckbox = checkbox;
+  dragSelectValue = !checkbox.checked;
+}
+
+function startTouchDragSelect(event) {
+  event.preventDefault();
+  const checkbox = event.currentTarget;
+  if (!checkbox) return;
+  isDragSelecting = true;
+  dragMoved = false;
+  dragStartCheckbox = checkbox;
+  dragSelectValue = !checkbox.checked;
+  setVerseCheckbox(checkbox, dragSelectValue);
+  updateStartSelectedButtonState();
+}
+
+function dragSelectOverRow(event) {
+  if (!isDragSelecting) return;
+  const checkbox = event.currentTarget.querySelector(".verse-check");
+  if (!checkbox) return;
+  if (!dragMoved && dragStartCheckbox) {
+    setVerseCheckbox(dragStartCheckbox, dragSelectValue);
+    dragMoved = true;
+  }
+  dragMoved = true;
+  setVerseCheckbox(checkbox, dragSelectValue);
+  updateStartSelectedButtonState();
+}
+
+function setupTouchDragSelection() {
+  if (touchDragInitialized) return;
+  touchDragInitialized = true;
+
+  document.addEventListener("touchmove", (event) => {
+    if (!isDragSelecting) return;
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    const row = target && target.closest ? target.closest(".verse-row") : null;
+    if (!row) return;
+
+    const checkbox = row.querySelector(".verse-check");
+    if (!checkbox) return;
+    dragMoved = true;
+    setVerseCheckbox(checkbox, dragSelectValue);
+    updateStartSelectedButtonState();
+    event.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener("touchend", () => {
+    isDragSelecting = false;
+    dragMoved = false;
+    dragStartCheckbox = null;
+  });
+}
+
 async function openVerse(verse, verseIndex = -1) {
   stopListening();
+  disconnectMultiVerseObserver();
   state.currentVerseIndex = verseIndex >= 0 ? verseIndex : state.verses.findIndex(v => v.VerseID === verse.VerseID);
   document.getElementById("listView").style.display = "none";
   document.getElementById("verseView").style.display = "block";
@@ -301,7 +415,7 @@ async function openVerse(verse, verseIndex = -1) {
   nav.appendChild(Object.assign(document.createElement("span"), { textContent: `${verse.Verse}절`, style: "color:#eee" }));
 
   try {
-    const cards = await getCardsForVerse(verse.VerseID);
+    const cards = await getCardsForVerse(verse);
     renderText(verse.FullText, cards, document.getElementById("fullText"));
     refreshScore();
     prefetchVerseCards(state.verses.slice(state.currentVerseIndex + 1, state.currentVerseIndex + 4));
@@ -329,26 +443,79 @@ function renderText(fullText, cards, container) {
     if (match) {
       const card = markers[parseInt(match[1], 10)];
       if (!card) return;
-      if (card.ImageURL) {
-        const chip = document.createElement("span");
-        chip.className = "word-chip";
-        chip.dataset.word = card.WordText || "";
-        chip.dataset.imageUrl = card.ImageURL || "";
-        const img = document.createElement("img");
-        img.src = card.ImageURL; img.alt = card.WordText;
-        chip.appendChild(img);
-        chip.onclick = () => toggleWord(chip, card);
-        container.appendChild(chip);
-      } else {
-        const span = document.createElement("span");
-        span.className = "word-text";
-        span.textContent = card.WordText;
-        container.appendChild(span);
-      }
+      const chip = document.createElement("span");
+      chip.className = "word-chip";
+      chip.dataset.word = card.WordText || "";
+      chip.dataset.imageUrl = card.ImageURL || "";
+      setChipHidden(chip);
+      chip.onclick = () => toggleWord(chip, card);
+      container.appendChild(chip);
     } else {
       container.appendChild(document.createTextNode(part));
     }
   });
+}
+
+function toChosung(text = "") {
+  const CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+  return Array.from(text).map((ch) => {
+    const code = ch.charCodeAt(0);
+    if (code < 0xac00 || code > 0xd7a3) return ch;
+    const offset = code - 0xac00;
+    const choIndex = Math.floor(offset / 588);
+    return CHO[choIndex];
+  }).join("");
+}
+
+function toFirstHint(text = "") {
+  if (!text) return "";
+  if (text.length === 1) return text;
+  return `${text[0]}${"_".repeat(Math.max(2, text.length - 1))}`;
+}
+
+function toBlankHint(text = "") {
+  if (!text) return "";
+  return "_".repeat(Math.max(2, text.length));
+}
+
+function getHiddenDisplayWord(word = "") {
+  if (state.studyMode === "blank") return toBlankHint(word);
+  if (state.studyMode === "chosung") return toChosung(word);
+  if (state.studyMode === "first") return toFirstHint(word);
+  return word;
+}
+
+function optimizeImageUrl(url = "") {
+  if (!url) return "";
+  if (url.includes("drive.google.com/thumbnail")) {
+    return url.replace(/sz=w\d+/, "sz=w512");
+  }
+  if (url.includes("drive.google.com/uc?export=view&id=")) {
+    const id = url.split("id=")[1];
+    if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w512`;
+  }
+  return url;
+}
+
+function setChipHidden(chip) {
+  chip.classList.remove("revealed");
+  chip.innerHTML = "";
+  const word = chip.dataset.word || "";
+  const imageUrl = chip.dataset.imageUrl || "";
+
+  if (state.studyMode === "image" && imageUrl) {
+    chip.classList.remove("hint");
+    const img = document.createElement("img");
+    img.src = optimizeImageUrl(imageUrl);
+    img.alt = word;
+    img.loading = "lazy";
+    img.decoding = "async";
+    chip.appendChild(img);
+    return;
+  }
+
+  chip.classList.add("hint");
+  chip.textContent = getHiddenDisplayWord(word);
 }
 
 function renderVerseBlock(wrapper, verse, cards) {
@@ -370,11 +537,7 @@ function renderVerseBlock(wrapper, verse, cards) {
 
 function toggleWord(chip, card) {
   if (chip.classList.contains("revealed")) {
-    chip.classList.remove("revealed");
-    chip.innerHTML = "";
-    const img = document.createElement("img");
-    img.src = card.ImageURL; img.alt = card.WordText;
-    chip.appendChild(img);
+    setChipHidden(chip);
   } else {
     revealChip(chip, card.WordText);
   }
@@ -382,6 +545,7 @@ function toggleWord(chip, card) {
 }
 
 function revealChip(chip, wordText) {
+  chip.classList.remove("hint");
   chip.classList.add("revealed");
   chip.textContent = wordText || chip.dataset.word || "";
 }
@@ -456,17 +620,25 @@ function refreshStudyControls() {
 }
 
 function resetRevealedWords() {
-  document.querySelectorAll(".word-chip.revealed").forEach((chip) => {
-    chip.classList.remove("revealed");
-    chip.textContent = "";
-    const img = document.createElement("img");
-    img.src = chip.dataset.imageUrl || "";
-    img.alt = chip.dataset.word || "";
-    chip.appendChild(img);
+  document.querySelectorAll(".word-chip").forEach((chip) => {
+    setChipHidden(chip);
   });
   document.getElementById("speechResult").textContent = "";
   setSpeechStatus("음성 대기");
   refreshScore();
+}
+
+function updateModeButtons() {
+  document.querySelectorAll(".mode-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.mode === state.studyMode);
+  });
+}
+
+function setStudyMode(mode) {
+  if (!mode || state.studyMode === mode) return;
+  state.studyMode = mode;
+  updateModeButtons();
+  resetRevealedWords();
 }
 
 function openNextVerse() {
@@ -503,25 +675,87 @@ function openNextVerse() {
 function updateStartSelectedButtonState() {
   const checked = document.querySelectorAll(".verse-check:checked").length;
   const startBtn = document.getElementById("startSelectedBtn");
+  const clearBtn = document.getElementById("clearSelectedBtn");
   if (!startBtn) return;
   startBtn.disabled = checked === 0;
+  if (clearBtn) clearBtn.disabled = checked === 0;
   startBtn.textContent = checked > 0 ? `선택한 절 시작 (${checked})` : "선택한 절 시작";
 }
 
-async function getCardsForVerse(verseId) {
-  if (!cardsCache.has(verseId)) {
-    const promise = fetchJSON(`${API}?action=getCards&verseId=${verseId}`);
-    cardsCache.set(verseId, promise);
+async function getChapterCardsMap(book, chapter) {
+  const key = `${book}:${chapter}`;
+  if (chapterCardsCache.has(key)) {
+    return chapterCardsCache.get(key);
   }
-  const value = cardsCache.get(verseId);
-  const cards = await value;
-  if (value && typeof value.then === "function") {
-    cardsCache.set(verseId, cards);
+
+  const promise = (async () => {
+    try {
+      const rows = await fetchJSON(`${API}?action=getCardsByChapter&book=${encodeURIComponent(book)}&chapter=${encodeURIComponent(chapter)}`);
+      const map = new Map();
+      rows.forEach((row) => {
+        if (!row || !row.VerseID) return;
+        if (!map.has(row.VerseID)) map.set(row.VerseID, []);
+        map.get(row.VerseID).push({
+          CardID: row.CardID || "",
+          VerseID: row.VerseID,
+          WordText: row.WordText || "",
+          ImageURL: row.ImageURL || ""
+        });
+      });
+
+      map.forEach((cards, verseId) => cardsCache.set(verseId, cards));
+      chapterCardsCache.set(key, map);
+      return map;
+    } catch (err) {
+      chapterCardsCache.delete(key);
+      return null;
+    }
+  })();
+
+  chapterCardsCache.set(key, promise);
+  const value = await promise;
+  if (value && typeof value.then === "function") return value;
+  return value;
+}
+
+async function getCardsForVerse(verse) {
+  const verseId = verse.VerseID;
+  if (!verseId) return [];
+
+  if (cardsCache.has(verseId)) {
+    const cached = cardsCache.get(verseId);
+    return cached && typeof cached.then === "function" ? await cached : cached;
   }
-  return cards;
+
+  if (verse.Book && verse.Chapter !== undefined && verse.Chapter !== null) {
+    const chapterMap = await getChapterCardsMap(verse.Book, verse.Chapter);
+    if (chapterMap instanceof Map && chapterMap.has(verseId)) {
+      return chapterMap.get(verseId);
+    }
+  }
+
+  const fallbackPromise = fetchJSON(`${API}?action=getCards&verseId=${verseId}`)
+    .then((cards) => {
+      cardsCache.set(verseId, cards);
+      return cards;
+    })
+    .catch((err) => {
+      cardsCache.delete(verseId);
+      throw err;
+    });
+  cardsCache.set(verseId, fallbackPromise);
+  return await fallbackPromise;
 }
 
 function prefetchVerseCards(verses) {
+  if (!verses || verses.length === 0) return;
+
+  const first = verses[0];
+  if (first && first.Book && first.Chapter !== undefined && first.Chapter !== null) {
+    getChapterCardsMap(first.Book, first.Chapter);
+    return;
+  }
+
   verses.forEach((verse) => {
     if (!verse || cardsCache.has(verse.VerseID)) return;
     const promise = fetchJSON(`${API}?action=getCards&verseId=${verse.VerseID}`)
@@ -559,6 +793,7 @@ async function openSelectedVerses() {
 
   const fullText = document.getElementById("fullText");
   fullText.innerHTML = "";
+  disconnectMultiVerseObserver();
 
   const wrappers = selectedVerses.map((verse, i) => {
     const block = document.createElement("section");
@@ -569,17 +804,54 @@ async function openSelectedVerses() {
     return { verse, block };
   });
 
-  await Promise.all(wrappers.map(async ({ verse, block }) => {
+  const renderVerseAsync = async ({ verse, block }) => {
+    if (block.dataset.rendered === "1") return;
     try {
-      const cards = await getCardsForVerse(verse.VerseID);
+      const cards = await getCardsForVerse(verse);
       renderVerseBlock(block, verse, cards);
+      block.dataset.rendered = "1";
+      refreshScore();
     } catch (err) {
       block.innerHTML = `<div class='loading'>${verse.Verse}절을 불러오지 못했습니다.</div>`;
+      block.dataset.rendered = "1";
     }
-  }));
+  };
+
+  await Promise.all(wrappers.slice(0, 2).map(renderVerseAsync));
+  prefetchVerseCards(selectedVerses.slice(0, 6));
+
+  if ("IntersectionObserver" in window) {
+    multiVerseObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const block = entry.target;
+        const idx = parseInt(block.dataset.verseIndex || "-1", 10);
+        if (!Number.isInteger(idx) || idx < 0 || idx >= wrappers.length) return;
+        renderVerseAsync(wrappers[idx]);
+        if (multiVerseObserver) multiVerseObserver.unobserve(block);
+      });
+    }, { rootMargin: "300px 0px" });
+
+    wrappers.forEach((item, idx) => {
+      item.block.dataset.verseIndex = String(idx);
+      if (idx < 2) return;
+      multiVerseObserver.observe(item.block);
+    });
+  } else {
+    wrappers.forEach((item, idx) => {
+      if (idx < 2) return;
+      renderVerseAsync(item);
+    });
+  }
 
   refreshStudyControls();
   refreshScore();
+}
+
+function disconnectMultiVerseObserver() {
+  if (!multiVerseObserver) return;
+  multiVerseObserver.disconnect();
+  multiVerseObserver = null;
 }
 
 function setSpeechStatus(text) {
@@ -623,7 +895,24 @@ function initSpeechRecognition() {
     }
   };
 
-  recognition.onerror = () => {
+  recognition.onerror = (event) => {
+    const code = event && event.error ? event.error : "";
+    if (code === "not-allowed" || code === "service-not-allowed") {
+      setSpeechStatus("마이크 권한이 없어 음성인식을 사용할 수 없습니다.");
+      return;
+    }
+    if (code === "no-speech") {
+      setSpeechStatus("음성이 감지되지 않았습니다. 다시 시도해 주세요.");
+      return;
+    }
+    if (code === "network") {
+      setSpeechStatus("네트워크 문제로 음성인식에 실패했습니다.");
+      return;
+    }
+    if (code === "aborted") {
+      setSpeechStatus("음성인식이 중지되었습니다.");
+      return;
+    }
     setSpeechStatus("음성인식 오류가 발생했습니다.");
   };
 
@@ -654,7 +943,16 @@ function stopListening() {
 
 document.getElementById("resetRevealBtn").onclick = resetRevealedWords;
 document.getElementById("nextVerseBtn").onclick = openNextVerse;
+document.querySelectorAll(".mode-btn").forEach((btn) => {
+  btn.onclick = () => setStudyMode(btn.dataset.mode || "image");
+});
+document.addEventListener("mouseup", () => {
+  isDragSelecting = false;
+  dragMoved = false;
+  dragStartCheckbox = null;
+});
 
+updateModeButtons();
 initSpeechRecognition();
 loadBooks();
 </script>
