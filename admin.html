@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>성경 카드 편집</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, #f6f1e7 0%, #ece2d0 100%);
+    color: #2b2117;
+    font-family: "Malgun Gothic", sans-serif;
+  }
+  .shell {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .title h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .title p {
+    margin: 0;
+    color: #6a5541;
+    font-size: 14px;
+  }
+  .topbar a, .btn {
+    border: 1px solid #7b4b2a;
+    background: #fff6ea;
+    color: #5a351e;
+    border-radius: 999px;
+    padding: 10px 14px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .btn.primary {
+    background: #7b4b2a;
+    color: #fff8ef;
+  }
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 18px;
+  }
+  .panel {
+    background: rgba(255, 248, 239, 0.92);
+    border: 1px solid rgba(123, 75, 42, 0.2);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 18px 40px rgba(86, 52, 29, 0.08);
+  }
+  .panel h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+  }
+  .verse-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 70vh;
+    overflow: auto;
+  }
+  .verse-btn {
+    width: 100%;
+    text-align: left;
+    border: 1px solid #d8c2a9;
+    background: #fff;
+    color: #3d2d20;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .verse-btn.active {
+    border-color: #7b4b2a;
+    background: #f7e5ce;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    color: #6a5541;
+    font-size: 13px;
+  }
+  .verse-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .verse-form .full {
+    grid-column: 1 / -1;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field span {
+    font-size: 13px;
+    color: #6a5541;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    border: 1px solid #dfc9b2;
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: #fff;
+    font: inherit;
+    color: #2b2117;
+  }
+  .field textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .token-card {
+    background: #fff;
+    border: 1px solid #dfc9b2;
+    border-radius: 14px;
+    padding: 12px;
+  }
+  .token-card strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  .token-card label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6a5541;
+  }
+  .preview-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px;
+  }
+  .preview-card {
+    background: #fff;
+    border: 1px solid #dfc9b2;
+    border-radius: 14px;
+    padding: 12px;
+    min-height: 150px;
+  }
+  .preview-card img {
+    display: block;
+    width: 100%;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #ede3d4;
+    margin-top: 10px;
+  }
+  .preview-card .missing {
+    margin-top: 10px;
+    min-height: 96px;
+    border-radius: 10px;
+    border: 1px dashed #d4b18b;
+    display: grid;
+    place-items: center;
+    color: #926841;
+    font-size: 13px;
+    background: #fdf7ef;
+  }
+  .alias-box {
+    width: 100%;
+    min-height: 220px;
+    border-radius: 14px;
+    border: 1px solid #dfc9b2;
+    padding: 12px;
+    resize: vertical;
+    font: inherit;
+    background: #fff;
+  }
+  .status {
+    margin-top: 12px;
+    color: #6a5541;
+    font-size: 13px;
+  }
+  .row-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 14px 0 18px;
+  }
+  @media (max-width: 980px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .verse-form {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="title">
+      <h1>성경 카드 편집</h1>
+      <p>`CardsRaw`의 `x` 편집 흐름을 브라우저에서 그대로 쓰는 화면입니다. 저장은 이 브라우저 `localStorage`에 됩니다.</p>
+    </div>
+    <a href="./offline-index.html">오프라인 학습 화면</a>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" id="saveBtn" type="button">브라우저에 저장</button>
+    <button class="btn" id="rebuildBtn" type="button">카드 다시 만들기</button>
+    <button class="btn" id="resetBtn" type="button">기본 데이터로 되돌리기</button>
+    <button class="btn" id="exportBtn" type="button">백업 JSON 내보내기</button>
+    <label class="btn" for="importFile">백업 JSON 가져오기</label>
+    <input id="importFile" type="file" accept="application/json" hidden>
+  </div>
+
+  <div class="layout">
+    <section class="panel">
+      <h2>절 목록</h2>
+      <div class="verse-list" id="verseList"></div>
+      <div class="status" id="statusText">준비됨</div>
+    </section>
+
+    <section class="panel">
+      <h2 id="editorTitle">절 선택</h2>
+      <div class="meta" id="editorMeta"></div>
+
+      <div class="verse-form">
+        <label class="field">
+          <span>책</span>
+          <input id="bookInput" type="text" placeholder="잠언">
+        </label>
+        <label class="field">
+          <span>장</span>
+          <input id="chapterInput" type="number" min="1" placeholder="8">
+        </label>
+        <label class="field">
+          <span>절</span>
+          <input id="verseInput" type="number" min="1" placeholder="13">
+        </label>
+        <label class="field full">
+          <span>본문</span>
+          <textarea id="fullTextInput" placeholder="구절 본문 입력"></textarea>
+        </label>
+      </div>
+
+      <div class="row-actions">
+        <button class="btn primary" id="newVerseBtn" type="button">새 구절 준비</button>
+        <button class="btn primary" id="saveVerseBtn" type="button">구절 저장</button>
+        <button class="btn" id="deleteVerseBtn" type="button">선택 구절 삭제</button>
+        <button class="btn" id="joinPhraseBtn" type="button">선택 절 카드 다시 계산</button>
+        <button class="btn" id="saveAliasesBtn" type="button">별칭 저장 후 전체 재계산</button>
+      </div>
+
+      <div class="token-grid" id="tokenGrid"></div>
+
+      <h2>미리보기 카드</h2>
+      <div class="preview-list" id="previewList"></div>
+
+      <h2 style="margin-top:20px;">Aliases</h2>
+      <textarea class="alias-box" id="aliasBox"></textarea>
+    </section>
+  </div>
+</div>
+
+<script src="./data/default-data.js"></script>
+<script>
+const STORAGE_KEYS = {
+  verses: "bible-app-verses",
+  cardsRaw: "bible-app-cards-raw",
+  cards: "bible-app-cards",
+  aliases: "bible-app-aliases",
+  images: "bible-app-images"
+};
+
+let data = loadData();
+let selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
+let isCreatingVerse = false;
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function readStorage(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+function writeStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function loadData() {
+  const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
+  return {
+    verses: readStorage(STORAGE_KEYS.verses) || clone(defaults.verses || []),
+    cardsRaw: readStorage(STORAGE_KEYS.cardsRaw) || clone(defaults.cardsRaw || []),
+    cards: readStorage(STORAGE_KEYS.cards) || clone(defaults.cards || []),
+    aliases: readStorage(STORAGE_KEYS.aliases) || clone(defaults.aliases || []),
+    images: readStorage(STORAGE_KEYS.images) || clone(defaults.images || [])
+  };
+}
+
+function saveData() {
+  writeStorage(STORAGE_KEYS.verses, data.verses);
+  writeStorage(STORAGE_KEYS.cardsRaw, data.cardsRaw);
+  writeStorage(STORAGE_KEYS.cards, data.cards);
+  writeStorage(STORAGE_KEYS.aliases, data.aliases);
+  writeStorage(STORAGE_KEYS.images, data.images);
+  setStatus("브라우저에 저장했습니다.");
+}
+
+function makeVerseID(book, chapter, verse) {
+  return `${normalize(book)}:${chapter}:${verse}`;
+}
+
+function resetToDefault() {
+  const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
+  data = {
+    verses: clone(defaults.verses || []),
+    cardsRaw: clone(defaults.cardsRaw || []),
+    cards: clone(defaults.cards || []),
+    aliases: clone(defaults.aliases || []),
+    images: clone(defaults.images || [])
+  };
+  selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
+  renderAll();
+  saveData();
+}
+
+function normalize(text = "") {
+  return String(text).normalize("NFC").trim().replace(/\s+/g, " ");
+}
+
+function normalizeImagePath(path = "") {
+  return String(path)
+    .replace(/^이미지\//, "BibleCards_Images/")
+    .replace(/^\.\/이미지\//, "./BibleCards_Images/");
+}
+
+const AUTO_IMAGE_DIRS = ["BibleCards_Images", "./BibleCards_Images"];
+const AUTO_IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+
+function tokenize(text = "") {
+  return String(text)
+    .replace(/[“”‘’"'.,!?;:()[\]{}]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean);
+}
+
+function buildRawRowsForVerse(verse, existingRows = []) {
+  const existingMap = new Map();
+  const counters = {};
+
+  existingRows.forEach((row) => {
+    const token = row.Token || "";
+    const keyBase = `${token}`;
+    counters[keyBase] = (counters[keyBase] || 0) + 1;
+    existingMap.set(`${keyBase}||${counters[keyBase]}`, row.JoinWithPrev || "");
+  });
+
+  const nextCounters = {};
+  return tokenize(verse.FullText).map((token) => {
+    nextCounters[token] = (nextCounters[token] || 0) + 1;
+    const key = `${token}||${nextCounters[token]}`;
+    return {
+      Book: verse.Book,
+      Chapter: verse.Chapter,
+      Verse: verse.Verse,
+      VerseID: verse.VerseID,
+      Token: token,
+      JoinWithPrev: existingMap.get(key) || ""
+    };
+  });
+}
+
+function stripPostposition(text = "") {
+  const suffixes = [
+    "으로부터", "에서부터", "에게서", "까지는", "까지도", "이라도", "라도", "으로는", "로는",
+    "에게는", "께서는", "에서는", "부터", "까지", "처럼", "보다", "하고", "이며", "이랑",
+    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "으로서", "으로써", "와", "과",
+    "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
+  ];
+  for (const suffix of suffixes) {
+    if (text.length > suffix.length + 1 && text.endsWith(suffix)) {
+      return text.slice(0, -suffix.length);
+    }
+  }
+  return text;
+}
+
+function buildAliasMap() {
+  const map = new Map();
+  data.aliases.forEach((item) => {
+    if (!item.variant || !item.base) return;
+    map.set(normalize(item.variant), normalize(item.base));
+  });
+  return map;
+}
+
+function buildImageMap() {
+  const map = new Map();
+  data.images.forEach((item) => {
+    if (!item.key || !item.path) return;
+    map.set(normalize(item.key), normalizeImagePath(item.path));
+  });
+  return map;
+}
+
+function getImageLookupTerms(text, aliasMap) {
+  const terms = [];
+  const push = (value) => {
+    const normalized = normalize(value);
+    if (!normalized || terms.includes(normalized)) return;
+    terms.push(normalized);
+  };
+
+  const normalized = normalize(text);
+  const alias = aliasMap.get(normalized);
+  const stripped = stripPostposition(normalized);
+  const strippedAlias = aliasMap.get(stripped);
+
+  push(normalized);
+  push(alias);
+  push(stripped);
+  push(strippedAlias);
+  return terms;
+}
+
+function inferImagePathFromText(text, aliasMap) {
+  const term = getImageLookupTerms(text, aliasMap)[0];
+  if (!term) return "";
+  const stem = term.normalize("NFD").replace(/[\\/:*?"<>|]/g, "").trim();
+  if (!stem) return "";
+  return `${AUTO_IMAGE_DIRS[0]}/${stem}${AUTO_IMAGE_EXTENSIONS[0]}`;
+}
+
+function getImageCandidateUrls(text, explicitUrl, aliasMap, imageMap) {
+  const urls = [];
+  const push = (value) => {
+    const normalized = normalizeImagePath(value);
+    if (!normalized || urls.includes(normalized)) return;
+    urls.push(normalized);
+  };
+
+  push(explicitUrl);
+
+  getImageLookupTerms(text, aliasMap).forEach((term) => {
+    if (imageMap.has(term)) push(imageMap.get(term));
+    const stems = [term.normalize("NFD"), term.normalize("NFC")];
+    stems.forEach((stem) => {
+      const safeStem = stem.replace(/[\\/:*?"<>|]/g, "").trim();
+      if (!safeStem) return;
+      AUTO_IMAGE_DIRS.forEach((dir) => {
+        AUTO_IMAGE_EXTENSIONS.forEach((ext) => push(`${dir}/${safeStem}${ext}`));
+      });
+    });
+  });
+
+  return urls;
+}
+
+function resolveImage(text, aliasMap, imageMap) {
+  for (const term of getImageLookupTerms(text, aliasMap)) {
+    if (imageMap.has(term)) return imageMap.get(term);
+  }
+  return inferImagePathFromText(text, aliasMap);
+}
+
+function rebuildCards() {
+  const aliasMap = buildAliasMap();
+  const imageMap = buildImageMap();
+  const out = [];
+  const groups = new Map();
+
+  data.cardsRaw.forEach((row) => {
+    if (!row.VerseID) return;
+    if (!groups.has(row.VerseID)) groups.set(row.VerseID, []);
+    groups.get(row.VerseID).push(row);
+  });
+
+  data.verses.forEach((verse) => {
+    const rows = groups.get(verse.VerseID) || [];
+    let current = null;
+    let seq = 1;
+
+    rows.forEach((row) => {
+      const shouldJoin = ["x", "off", "join", "1"].includes(String(row.JoinWithPrev || "").trim().toLowerCase());
+      if (shouldJoin && current) {
+        current.WordText += ` ${row.Token}`;
+        current.ImageURL = resolveImage(current.WordText, aliasMap, imageMap);
+        return;
+      }
+
+      if (current) out.push(current);
+      current = {
+        CardID: `${verse.VerseID}-${seq}`,
+        VerseID: verse.VerseID,
+        Book: verse.Book,
+        Chapter: verse.Chapter,
+        Verse: verse.Verse,
+        WordText: row.Token,
+        ImageURL: resolveImage(row.Token, aliasMap, imageMap)
+      };
+      seq += 1;
+    });
+
+    if (current) out.push(current);
+  });
+
+  data.cards = out;
+}
+
+function getSelectedVerse() {
+  return data.verses.find((verse) => verse.VerseID === selectedVerseId) || null;
+}
+
+function getSelectedRawRows() {
+  return data.cardsRaw.filter((row) => row.VerseID === selectedVerseId);
+}
+
+function getSelectedCards() {
+  return data.cards.filter((card) => card.VerseID === selectedVerseId);
+}
+
+function sortVerses() {
+  data.verses.sort((a, b) => {
+    if (a.Book !== b.Book) return a.Book.localeCompare(b.Book, "ko");
+    if (Number(a.Chapter) !== Number(b.Chapter)) return Number(a.Chapter) - Number(b.Chapter);
+    return Number(a.Verse) - Number(b.Verse);
+  });
+}
+
+function populateVerseForm() {
+  const verse = getSelectedVerse();
+  document.getElementById("bookInput").value = verse ? verse.Book : "";
+  document.getElementById("chapterInput").value = verse ? verse.Chapter : "";
+  document.getElementById("verseInput").value = verse ? verse.Verse : "";
+  document.getElementById("fullTextInput").value = verse ? verse.FullText : "";
+}
+
+function clearVerseForm() {
+  isCreatingVerse = true;
+  selectedVerseId = null;
+  document.getElementById("bookInput").value = "";
+  document.getElementById("chapterInput").value = "";
+  document.getElementById("verseInput").value = "";
+  document.getElementById("fullTextInput").value = "";
+  renderAll();
+  setStatus("새 구절 입력 상태입니다.");
+}
+
+function saveVerseFromForm() {
+  const book = normalize(document.getElementById("bookInput").value);
+  const chapter = Number(document.getElementById("chapterInput").value);
+  const verseNo = Number(document.getElementById("verseInput").value);
+  const fullText = normalize(document.getElementById("fullTextInput").value);
+
+  if (!book || !chapter || !verseNo || !fullText) {
+    setStatus("책, 장, 절, 본문을 모두 입력하세요.");
+    return;
+  }
+
+  const nextVerseId = makeVerseID(book, chapter, verseNo);
+  const verse = {
+    VerseID: nextVerseId,
+    Book: book,
+    Chapter: chapter,
+    Verse: verseNo,
+    FullText: fullText
+  };
+
+  const previousSelectedId = selectedVerseId;
+  const existingVerseIndex = data.verses.findIndex((item) => item.VerseID === nextVerseId);
+  const oldRows = previousSelectedId ? data.cardsRaw.filter((row) => row.VerseID === previousSelectedId) : [];
+
+  if (isCreatingVerse || previousSelectedId !== nextVerseId) {
+    if (existingVerseIndex >= 0) {
+      data.verses[existingVerseIndex] = verse;
+    } else {
+      data.verses.push(verse);
+    }
+  } else {
+    const currentIndex = data.verses.findIndex((item) => item.VerseID === previousSelectedId);
+    if (currentIndex >= 0) data.verses[currentIndex] = verse;
+  }
+
+  if (previousSelectedId && previousSelectedId !== nextVerseId) {
+    data.cardsRaw = data.cardsRaw.filter((row) => row.VerseID !== previousSelectedId);
+    data.cards = data.cards.filter((row) => row.VerseID !== previousSelectedId);
+  }
+
+  data.cardsRaw = data.cardsRaw.filter((row) => row.VerseID !== nextVerseId);
+  data.cardsRaw.push(...buildRawRowsForVerse(verse, oldRows));
+
+  sortVerses();
+  selectedVerseId = nextVerseId;
+  isCreatingVerse = false;
+  rebuildCards();
+  renderAll();
+  saveData();
+  setStatus("구절을 저장하고 토큰/카드를 다시 만들었습니다.");
+}
+
+function deleteSelectedVerse() {
+  const verse = getSelectedVerse();
+  if (!verse) {
+    setStatus("삭제할 구절이 없습니다.");
+    return;
+  }
+
+  data.verses = data.verses.filter((item) => item.VerseID !== verse.VerseID);
+  data.cardsRaw = data.cardsRaw.filter((row) => row.VerseID !== verse.VerseID);
+  data.cards = data.cards.filter((row) => row.VerseID !== verse.VerseID);
+  selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
+  isCreatingVerse = false;
+  renderAll();
+  saveData();
+  setStatus("선택 구절을 삭제했습니다.");
+}
+
+function renderVerseList() {
+  const verseList = document.getElementById("verseList");
+  verseList.innerHTML = "";
+
+  data.verses.forEach((verse) => {
+    const btn = document.createElement("button");
+    btn.className = `verse-btn${verse.VerseID === selectedVerseId ? " active" : ""}`;
+    btn.type = "button";
+    btn.textContent = `${verse.Book} ${verse.Chapter}:${verse.Verse}`;
+    btn.onclick = () => {
+      selectedVerseId = verse.VerseID;
+      isCreatingVerse = false;
+      renderAll();
+    };
+    verseList.appendChild(btn);
+  });
+}
+
+function renderEditor() {
+  const verse = getSelectedVerse();
+  const tokenGrid = document.getElementById("tokenGrid");
+  const previewList = document.getElementById("previewList");
+  const title = document.getElementById("editorTitle");
+  const meta = document.getElementById("editorMeta");
+  const aliasMap = buildAliasMap();
+  const imageMap = buildImageMap();
+
+  tokenGrid.innerHTML = "";
+  previewList.innerHTML = "";
+
+  if (!verse) {
+    title.textContent = "절 선택";
+    meta.innerHTML = "";
+    populateVerseForm();
+    return;
+  }
+
+  title.textContent = `${verse.Book} ${verse.Chapter}:${verse.Verse}`;
+  meta.innerHTML = `
+    <span>원문: ${verse.FullText}</span>
+    <span>토큰 ${getSelectedRawRows().length}개 / 카드 ${getSelectedCards().length}개</span>
+  `;
+
+  getSelectedRawRows().forEach((row) => {
+    const card = document.createElement("div");
+    card.className = "token-card";
+    card.innerHTML = `<strong>${row.Token}</strong>`;
+
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = String(row.JoinWithPrev || "").trim().toLowerCase() === "x";
+    input.onchange = () => {
+      row.JoinWithPrev = input.checked ? "x" : "";
+      rebuildCards();
+      renderEditor();
+    };
+    label.appendChild(input);
+    label.appendChild(document.createTextNode("앞 단어와 붙이기 (x)"));
+    card.appendChild(label);
+    tokenGrid.appendChild(card);
+  });
+
+  getSelectedCards().forEach((card) => {
+    const item = document.createElement("div");
+    item.className = "preview-card";
+    item.innerHTML = `<strong>${card.WordText}</strong><div style="margin-top:6px; font-size:13px; color:#6a5541;">${card.ImageURL || "이미지 없음"}</div>`;
+    const candidates = getImageCandidateUrls(card.WordText, card.ImageURL, aliasMap, imageMap);
+    if (candidates.length > 0) {
+      const img = document.createElement("img");
+      img.alt = card.WordText;
+      item.appendChild(img);
+      let index = 0;
+      const showMissing = () => {
+        img.remove();
+        const missing = document.createElement("div");
+        missing.className = "missing";
+        missing.textContent = "파일 확인 필요";
+        item.appendChild(missing);
+      };
+      const tryNext = () => {
+        if (index >= candidates.length) {
+          showMissing();
+          return;
+        }
+        img.src = encodeURI(candidates[index]);
+        index += 1;
+      };
+      img.onerror = tryNext;
+      tryNext();
+    } else {
+      const missing = document.createElement("div");
+      missing.className = "missing";
+      missing.textContent = "매칭 실패";
+      item.appendChild(missing);
+    }
+    previewList.appendChild(item);
+  });
+}
+
+function renderAliases() {
+  const lines = ["Variant\tBase"];
+  data.aliases.forEach((item) => lines.push(`${item.variant}\t${item.base}`));
+  document.getElementById("aliasBox").value = lines.join("\n");
+}
+
+function parseAliasesFromBox() {
+  const lines = document.getElementById("aliasBox").value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  const items = [];
+  lines.slice(1).forEach((line) => {
+    const parts = line.includes("->")
+      ? line.split(/\s*->\s*/)
+      : line.includes("|")
+        ? line.split(/\s*\|\s*/)
+        : line.includes(",")
+          ? line.split(/\s*,\s*/)
+          : line.split(/\t+/);
+    const [variant, base] = parts;
+    if (variant && base) items.push({ variant, base });
+  });
+  data.aliases = items;
+}
+
+function exportBackup() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "bible-app-backup.json";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function importBackup(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      data = {
+        verses: parsed.verses || [],
+        cardsRaw: parsed.cardsRaw || [],
+        cards: parsed.cards || [],
+        aliases: parsed.aliases || [],
+        images: parsed.images || []
+      };
+      selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
+      renderAll();
+      saveData();
+    } catch (err) {
+      setStatus("가져오기 실패: JSON 형식이 올바르지 않습니다.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function setStatus(message) {
+  document.getElementById("statusText").textContent = message;
+}
+
+function renderAll() {
+  renderVerseList();
+  renderAliases();
+  populateVerseForm();
+  renderEditor();
+}
+
+document.getElementById("saveBtn").onclick = () => saveData();
+document.getElementById("rebuildBtn").onclick = () => {
+  rebuildCards();
+  renderEditor();
+  saveData();
+};
+document.getElementById("resetBtn").onclick = resetToDefault;
+document.getElementById("exportBtn").onclick = exportBackup;
+document.getElementById("importFile").addEventListener("change", (event) => {
+  const file = event.target.files && event.target.files[0];
+  if (file) importBackup(file);
+  event.target.value = "";
+});
+document.getElementById("joinPhraseBtn").onclick = () => {
+  rebuildCards();
+  renderEditor();
+  setStatus("현재 절 카드 미리보기를 갱신했습니다. 저장 버튼을 눌러 반영하세요.");
+};
+document.getElementById("newVerseBtn").onclick = () => clearVerseForm();
+document.getElementById("saveVerseBtn").onclick = () => saveVerseFromForm();
+document.getElementById("deleteVerseBtn").onclick = () => deleteSelectedVerse();
+document.getElementById("saveAliasesBtn").onclick = () => {
+  parseAliasesFromBox();
+  rebuildCards();
+  renderAll();
+  saveData();
+};
+
+rebuildCards();
+renderAll();
+</script>
+</body>
+</html>
