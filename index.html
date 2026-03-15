@@ -157,12 +157,17 @@ let appData = loadAppData();
 
 function loadAppData() {
   const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
-  return {
+  const source = {
     verses: defaults.verses || [],
-    cards: defaults.cards || [],
     cardsRaw: defaults.cardsRaw || [],
     aliases: defaults.aliases || [],
     images: defaults.images || []
+  };
+  return {
+    ...source,
+    cards: Array.isArray(defaults.cards) && defaults.cards.length > 0
+      ? defaults.cards
+      : buildCards(source)
   };
 }
 
@@ -516,7 +521,7 @@ function stripPostposition(text = "") {
   const suffixes = [
     "으로부터", "에서부터", "에게서", "까지는", "까지도", "이라도", "라도", "으로는", "로는",
     "에게는", "께서는", "에서는", "부터", "까지", "처럼", "보다", "하고", "이며", "이랑",
-    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "으로서", "으로써", "와", "과",
+    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "에", "으로서", "으로써", "와", "과",
     "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
   ];
   for (const suffix of suffixes) {
@@ -609,26 +614,25 @@ function getDictionaryFormCandidates(text = "") {
   return candidates;
 }
 
-function buildAliasMap() {
+function buildAliasMap(aliases = appData.aliases || []) {
   const map = new Map();
-  appData.aliases.forEach((item) => {
+  aliases.forEach((item) => {
     if (!item.variant || !item.base) return;
     map.set(normalize(item.variant), normalize(item.base));
   });
   return map;
 }
 
-function buildImageMap() {
+function buildImageMap(images = appData.images || []) {
   const map = new Map();
-  appData.images.forEach((item) => {
+  images.forEach((item) => {
     if (!item.key || !item.path) return;
     map.set(normalize(item.key), item.path);
   });
   return map;
 }
 
-function getImageLookupTerms(text) {
-  const aliasMap = buildAliasMap();
+function getImageLookupTerms(text, aliasMap = buildAliasMap()) {
   const terms = [];
   const queue = [text];
   const seen = new Set();
@@ -656,7 +660,75 @@ function getImageLookupTerms(text) {
   return terms;
 }
 
+function inferImagePathFromText(text, aliasMap = buildAliasMap()) {
+  for (const term of getImageLookupTerms(text, aliasMap)) {
+    const stems = [term.normalize("NFD"), term.normalize("NFC")];
+    for (const stem of stems) {
+      const safeStem = stem.replace(/[\\/:*?"<>|]/g, "").trim();
+      if (!safeStem) continue;
+      for (const dir of AUTO_IMAGE_DIRS) {
+        for (const ext of AUTO_IMAGE_EXTENSIONS) {
+          return `${dir}/${safeStem}${ext}`;
+        }
+      }
+    }
+  }
+  return "";
+}
+
+function resolveImage(text, aliasMap = buildAliasMap(), imageMap = buildImageMap()) {
+  for (const term of getImageLookupTerms(text, aliasMap)) {
+    if (imageMap.has(term)) return imageMap.get(term);
+  }
+  return inferImagePathFromText(text, aliasMap);
+}
+
+function buildCards(sourceData) {
+  const aliasMap = buildAliasMap(sourceData.aliases || []);
+  const imageMap = buildImageMap(sourceData.images || []);
+  const groups = new Map();
+  const cards = [];
+
+  (sourceData.cardsRaw || []).forEach((row) => {
+    if (!row.VerseID) return;
+    if (!groups.has(row.VerseID)) groups.set(row.VerseID, []);
+    groups.get(row.VerseID).push(row);
+  });
+
+  (sourceData.verses || []).forEach((verse) => {
+    const rows = groups.get(verse.VerseID) || [];
+    let current = null;
+    let seq = 1;
+
+    rows.forEach((row) => {
+      const shouldJoin = ["x", "off", "join", "1"].includes(String(row.JoinWithPrev || "").trim().toLowerCase());
+      if (shouldJoin && current) {
+        current.WordText += ` ${row.Token}`;
+        current.ImageURL = resolveImage(current.WordText, aliasMap, imageMap);
+        return;
+      }
+
+      if (current) cards.push(current);
+      current = {
+        CardID: `${verse.VerseID}-${seq}`,
+        VerseID: verse.VerseID,
+        Book: verse.Book,
+        Chapter: verse.Chapter,
+        Verse: verse.Verse,
+        WordText: row.Token,
+        ImageURL: resolveImage(row.Token, aliasMap, imageMap)
+      };
+      seq += 1;
+    });
+
+    if (current) cards.push(current);
+  });
+
+  return cards;
+}
+
 function getImageCandidateUrls(word = "", explicitUrl = "") {
+  const aliasMap = buildAliasMap();
   const imageMap = buildImageMap();
   const urls = [];
   const push = (value) => {
@@ -667,7 +739,7 @@ function getImageCandidateUrls(word = "", explicitUrl = "") {
 
   push(explicitUrl);
 
-  getImageLookupTerms(word).forEach((term) => {
+  getImageLookupTerms(word, aliasMap).forEach((term) => {
     if (imageMap.has(term)) push(imageMap.get(term));
     const stems = [term.normalize("NFD"), term.normalize("NFC")];
     stems.forEach((stem) => {

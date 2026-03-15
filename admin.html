@@ -295,16 +295,8 @@
 
 <script src="./data/default-data.js"></script>
 <script>
-const STORAGE_KEYS = {
-  verses: "bible-app-verses",
-  cardsRaw: "bible-app-cards-raw",
-  cards: "bible-app-cards",
-  aliases: "bible-app-aliases",
-  images: "bible-app-images",
-  defaultsVersion: "bible-app-defaults-version"
-};
-
 let data = loadData();
+if (!data.cards.length) rebuildCards();
 let selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
 let isCreatingVerse = false;
 
@@ -337,6 +329,7 @@ function makeVerseID(book, chapter, verse) {
 
 function resetToDefault() {
   data = getDefaultsData();
+  if (!data.cards.length) rebuildCards();
   selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
   renderAll();
   saveData();
@@ -394,7 +387,7 @@ function stripPostposition(text = "") {
   const suffixes = [
     "으로부터", "에서부터", "에게서", "까지는", "까지도", "이라도", "라도", "으로는", "로는",
     "에게는", "께서는", "에서는", "부터", "까지", "처럼", "보다", "하고", "이며", "이랑",
-    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "으로서", "으로써", "와", "과",
+    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "에", "으로서", "으로써", "와", "과",
     "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
   ];
   for (const suffix of suffixes) {
@@ -849,7 +842,14 @@ function parseAliasesFromBox() {
 }
 
 function exportBackup() {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const payload = {
+    verses: data.verses,
+    cardsRaw: data.cardsRaw,
+    cards: data.cards,
+    aliases: data.aliases,
+    images: data.images
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -870,6 +870,7 @@ function importBackup(file) {
         aliases: parsed.aliases || [],
         images: parsed.images || []
       };
+      if (!data.cards.length) rebuildCards();
       selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
       renderAll();
       saveData();
