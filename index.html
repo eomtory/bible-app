@@ -1,15 +1,1037 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bible App</title>
-  <meta http-equiv="refresh" content="0; url=./offline-index.html">
-  <script>
-    window.location.replace("./offline-index.html");
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>성경 단어 암기</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; color: #eee; font-family: "Malgun Gothic", sans-serif; }
+
+  .header {
+    background: #16213e;
+    padding: 16px 20px;
+    text-align: center;
+    border-bottom: 2px solid #e94560;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header h1 { font-size: 20px; color: #e94560; }
+  .header a {
+    color: #9bcaff;
+    text-decoration: none;
+    border: 1px solid #2a4d7b;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .nav { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #16213e; min-height: 44px; flex-wrap: wrap; }
+  .nav span { color: #aaa; font-size: 14px; }
+  .nav button { background: none; border: none; color: #e94560; font-size: 14px; cursor: pointer; padding: 0; }
+  .nav button:hover { text-decoration: underline; }
+
+  .list-view { padding: 16px; }
+  .list-title { font-size: 15px; color: #aaa; margin-bottom: 12px; }
+  .list-actions { margin-bottom: 12px; }
+  .list-hint { font-size: 12px; color: #8ea3bd; margin-top: 6px; }
+  .verse-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .verse-check { width: 18px; height: 18px; accent-color: #e94560; }
+  .item-btn {
+    display: block; width: 100%; padding: 14px 16px;
+    margin-bottom: 10px; background: #16213e;
+    border: 1px solid #e94560; border-radius: 10px;
+    color: #eee; font-size: 16px; cursor: pointer; text-align: left;
+  }
+  .item-btn:hover { background: #e94560; }
+
+  .verse-view { display: none; padding: 16px; }
+  .verse-title { font-size: 18px; color: #e94560; margin: 4px 0 12px; font-weight: bold; }
+  .speech-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .speech-btn {
+    background: #0f3460; color: #eee; border: 1px solid #e94560; border-radius: 8px;
+    padding: 8px 12px; cursor: pointer; font-size: 14px;
+  }
+  .speech-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .speech-status { font-size: 13px; color: #aaa; }
+  .speech-result { font-size: 13px; color: #7eb8f7; width: 100%; }
+  .study-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .study-btn {
+    background: #16213e; color: #eee; border: 1px solid #e94560; border-radius: 8px;
+    padding: 8px 12px; cursor: pointer; font-size: 14px;
+  }
+  .study-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .score-text { font-size: 14px; color: #7eb8f7; }
+  .mode-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .mode-btn {
+    background: #16213e; color: #9bcaff; border: 1px solid #2a4d7b; border-radius: 999px;
+    padding: 6px 12px; font-size: 13px; cursor: pointer;
+  }
+  .mode-btn.active { background: #0f3460; color: #fff; border-color: #e94560; }
+  .full-text { font-size: 17px; line-height: 2.3; background: #16213e; padding: 20px; border-radius: 12px; }
+
+  .word-chip {
+    display: inline-block; cursor: pointer; border-radius: 8px;
+    margin: 0 2px; vertical-align: middle; transition: all 0.3s;
+    border: 2px solid #e94560;
+  }
+  .word-chip img { display: block; width: 64px; height: 64px; object-fit: cover; border-radius: 6px; }
+  .word-chip.hint {
+    background: #0f3460; padding: 4px 10px; font-size: 15px; color: #7eb8f7; border-color: #0f3460;
+  }
+  .word-chip.revealed {
+    background: #0f3460; padding: 4px 10px; font-size: 15px; color: #fff; border-color: #0f3460;
+  }
+
+  .loading { text-align: center; padding: 40px; color: #aaa; font-size: 15px; }
+  .verse-block { margin-bottom: 14px; }
+  .verse-block-content {
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+  }
+  .verse-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    font-size: 13px;
+    font-weight: bold;
+    color: #e94560;
+    border: 1px solid #e94560;
+    border-radius: 8px;
+    padding: 6px;
+    background: #16213e;
+  }
+  .verse-block .full-text { line-height: 1.9; padding: 14px 16px; }
+</style>
 </head>
 <body>
-  <p><a href="./offline-index.html">이동하기</a></p>
+
+<div class="header">
+  <h1>성경 단어 암기</h1>
+</div>
+<div class="nav" id="nav"></div>
+<div class="list-view" id="listView"><div class="loading">불러오는 중...</div></div>
+<div class="verse-view" id="verseView">
+  <div class="speech-controls">
+    <button id="speechStartBtn" class="speech-btn" type="button">음성 시작</button>
+    <button id="speechStopBtn" class="speech-btn" type="button" disabled>중지</button>
+    <span id="speechStatus" class="speech-status">음성 대기</span>
+    <div id="speechResult" class="speech-result"></div>
+  </div>
+  <div class="study-controls">
+    <span id="scoreText" class="score-text">정답률: 0/0 (0%)</span>
+    <button id="resetRevealBtn" class="study-btn" type="button">다시 가리기</button>
+    <button id="nextVerseBtn" class="study-btn" type="button">다음 절</button>
+  </div>
+  <div class="mode-controls">
+    <button class="mode-btn active" type="button" data-mode="image">이미지</button>
+    <button class="mode-btn" type="button" data-mode="blank">빈칸</button>
+    <button class="mode-btn" type="button" data-mode="chosung">초성</button>
+    <button class="mode-btn" type="button" data-mode="first">첫글자</button>
+  </div>
+  <div class="verse-title" id="verseTitle"></div>
+  <div class="full-text" id="fullText"></div>
+</div>
+
+<script src="./data/default-data.js"></script>
+<script>
+const AUTO_IMAGE_DIRS = ["BibleCards_Images", "./BibleCards_Images"];
+const AUTO_IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+
+let state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1, studyMode: "image" };
+let recognition = null;
+let isListening = false;
+let isDragSelecting = false;
+let dragSelectValue = false;
+let touchDragInitialized = false;
+let dragMoved = false;
+let dragStartCheckbox = null;
+let multiVerseObserver = null;
+let appData = loadAppData();
+
+function loadAppData() {
+  const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
+  return {
+    verses: defaults.verses || [],
+    cards: defaults.cards || [],
+    cardsRaw: defaults.cardsRaw || [],
+    aliases: defaults.aliases || [],
+    images: defaults.images || []
+  };
+}
+
+function syncAppData() {
+  appData = loadAppData();
+}
+
+function getBooksData() {
+  syncAppData();
+  return [...new Set(appData.verses.map((verse) => verse.Book).filter(Boolean))];
+}
+
+function getChaptersData(book) {
+  syncAppData();
+  return [...new Set(
+    appData.verses.filter((verse) => verse.Book === book).map((verse) => verse.Chapter)
+  )].sort((a, b) => Number(a) - Number(b));
+}
+
+function getVersesData(book, chapter) {
+  syncAppData();
+  return appData.verses.filter((verse) => verse.Book === book && String(verse.Chapter) === String(chapter));
+}
+
+function getCardsForVerse(verse) {
+  syncAppData();
+  return appData.cards.filter((card) => card.VerseID === verse.VerseID);
+}
+
+function showList() {
+  document.getElementById("verseView").style.display = "none";
+  document.getElementById("listView").style.display = "block";
+}
+
+function showLoading() {
+  showList();
+  document.getElementById("listView").innerHTML = "<div class='loading'>불러오는 중...</div>";
+}
+
+function updateNav() {
+  const nav = document.getElementById("nav");
+  nav.innerHTML = "";
+
+  const homeBtn = document.createElement("button");
+  homeBtn.textContent = "전체";
+  homeBtn.onclick = () => goStep("book");
+  nav.appendChild(homeBtn);
+
+  if (state.book) {
+    nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+    const bookBtn = document.createElement("button");
+    bookBtn.textContent = state.book;
+    bookBtn.onclick = () => goStep("chapter");
+    nav.appendChild(bookBtn);
+  }
+
+  if (state.chapter) {
+    nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+    const chapBtn = document.createElement("button");
+    chapBtn.textContent = `${state.chapter}장`;
+    chapBtn.onclick = () => goStep("verse");
+    nav.appendChild(chapBtn);
+  }
+}
+
+function goStep(step) {
+  stopListening();
+  disconnectMultiVerseObserver();
+
+  if (step === "book") {
+    const currentMode = state.studyMode || "image";
+    state = { step: "book", book: null, chapter: null, verses: [], currentVerseIndex: -1, studyMode: currentMode };
+    updateNav();
+    loadBooks();
+    return;
+  }
+
+  if (step === "chapter") {
+    state.step = "chapter";
+    state.chapter = null;
+    state.verses = [];
+    state.currentVerseIndex = -1;
+    updateNav();
+    loadChapters();
+    return;
+  }
+
+  state.step = "verse";
+  state.currentVerseIndex = -1;
+  updateNav();
+  loadVerses();
+}
+
+function loadBooks() {
+  showLoading();
+  const list = document.getElementById("listView");
+  const books = getBooksData();
+
+  if (books.length === 0) {
+    list.innerHTML = "<div class='loading'>데이터가 없습니다.</div>";
+    return;
+  }
+
+  list.innerHTML = "<div class='list-title'>성경책을 선택하세요</div>";
+  books.forEach((book) => {
+    const btn = document.createElement("button");
+    btn.className = "item-btn";
+    btn.textContent = book;
+    btn.onclick = () => { state.book = book; state.chapter = null; goStep("chapter"); };
+    list.appendChild(btn);
+  });
+}
+
+function loadChapters() {
+  showLoading();
+  const list = document.getElementById("listView");
+  const chapters = getChaptersData(state.book);
+
+  if (chapters.length === 0) {
+    list.innerHTML = "<div class='loading'>장이 없습니다.</div>";
+    return;
+  }
+
+  list.innerHTML = `<div class='list-title'>${state.book} - 장을 선택하세요</div>`;
+  chapters.forEach((chapter) => {
+    const btn = document.createElement("button");
+    btn.className = "item-btn";
+    btn.textContent = `${chapter}장`;
+    btn.onclick = () => { state.chapter = chapter; goStep("verse"); };
+    list.appendChild(btn);
+  });
+}
+
+function loadVerses() {
+  showLoading();
+  const list = document.getElementById("listView");
+  const verses = getVersesData(state.book, state.chapter);
+  state.verses = verses;
+  state.currentVerseIndex = -1;
+
+  if (verses.length === 0) {
+    list.innerHTML = "<div class='loading'>절이 없습니다.</div>";
+    return;
+  }
+
+  list.innerHTML = `
+    <div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>
+    <div class='list-actions'>
+      <button id="startSelectedBtn" class="study-btn" type="button" disabled>선택한 절 시작</button>
+      <button id="clearSelectedBtn" class="study-btn" type="button" disabled>전체 해제</button>
+      <div class="list-hint">체크박스는 클릭으로 1개 선택, 드래그로 여러 개 연속 선택할 수 있습니다.</div>
+    </div>
+  `;
+
+  document.getElementById("startSelectedBtn").onclick = openSelectedVerses;
+  document.getElementById("clearSelectedBtn").onclick = clearAllSelections;
+
+  verses.forEach((verse, index) => {
+    const row = document.createElement("div");
+    row.className = "verse-row";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "verse-check";
+    checkbox.value = String(index);
+    checkbox.addEventListener("change", updateStartSelectedButtonState);
+    checkbox.addEventListener("mousedown", startDragSelect);
+    checkbox.addEventListener("touchstart", startTouchDragSelect, { passive: false });
+    row.appendChild(checkbox);
+    row.addEventListener("mouseenter", dragSelectOverRow);
+
+    const btn = document.createElement("button");
+    btn.className = "item-btn";
+    btn.textContent = `${verse.Verse}절`;
+    btn.onclick = () => openVerse(verse, index);
+    row.appendChild(btn);
+    list.appendChild(row);
+  });
+
+  setupTouchDragSelection();
+}
+
+function setVerseCheckbox(checkbox, checked) {
+  checkbox.checked = checked;
+}
+
+function clearAllSelections() {
+  document.querySelectorAll(".verse-check:checked").forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  updateStartSelectedButtonState();
+}
+
+function startDragSelect(event) {
+  if (event.button !== 0) return;
+  const checkbox = event.currentTarget;
+  if (!checkbox) return;
+  isDragSelecting = true;
+  dragMoved = false;
+  dragStartCheckbox = checkbox;
+  dragSelectValue = !checkbox.checked;
+}
+
+function startTouchDragSelect(event) {
+  event.preventDefault();
+  const checkbox = event.currentTarget;
+  if (!checkbox) return;
+  isDragSelecting = true;
+  dragMoved = false;
+  dragStartCheckbox = checkbox;
+  dragSelectValue = !checkbox.checked;
+  setVerseCheckbox(checkbox, dragSelectValue);
+  updateStartSelectedButtonState();
+}
+
+function dragSelectOverRow(event) {
+  if (!isDragSelecting) return;
+  const checkbox = event.currentTarget.querySelector(".verse-check");
+  if (!checkbox) return;
+  if (!dragMoved && dragStartCheckbox) {
+    setVerseCheckbox(dragStartCheckbox, dragSelectValue);
+    dragMoved = true;
+  }
+  dragMoved = true;
+  setVerseCheckbox(checkbox, dragSelectValue);
+  updateStartSelectedButtonState();
+}
+
+function setupTouchDragSelection() {
+  if (touchDragInitialized) return;
+  touchDragInitialized = true;
+
+  document.addEventListener("touchmove", (event) => {
+    if (!isDragSelecting) return;
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    const row = target && target.closest ? target.closest(".verse-row") : null;
+    if (!row) return;
+
+    const checkbox = row.querySelector(".verse-check");
+    if (!checkbox) return;
+    dragMoved = true;
+    setVerseCheckbox(checkbox, dragSelectValue);
+    updateStartSelectedButtonState();
+    event.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener("touchend", () => {
+    isDragSelecting = false;
+    dragMoved = false;
+    dragStartCheckbox = null;
+  });
+}
+
+function openVerse(verse, verseIndex = -1) {
+  stopListening();
+  disconnectMultiVerseObserver();
+  state.currentVerseIndex = verseIndex >= 0 ? verseIndex : state.verses.findIndex((item) => item.VerseID === verse.VerseID);
+  document.getElementById("listView").style.display = "none";
+  document.getElementById("verseView").style.display = "block";
+  document.getElementById("verseTitle").textContent = `${verse.Book} ${verse.Chapter}장 ${verse.Verse}절`;
+  document.getElementById("speechResult").textContent = "";
+  document.getElementById("speechStatus").textContent = "음성 대기";
+  document.getElementById("fullText").innerHTML = "";
+  refreshStudyControls();
+
+  updateNav();
+  const nav = document.getElementById("nav");
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: `${verse.Verse}절`, style: "color:#eee" }));
+
+  const cards = getCardsForVerse(verse);
+  renderText(verse.FullText, cards, document.getElementById("fullText"));
+  refreshScore();
+}
+
+function renderText(fullText, cards, container) {
+  container.innerHTML = "";
+  let text = fullText;
+  const markers = [];
+
+  [...cards].sort((a, b) => b.WordText.length - a.WordText.length).forEach((card, index) => {
+    if (card.WordText && text.includes(card.WordText)) {
+      text = text.split(card.WordText).join(`\x00${index}\x00`);
+      markers[index] = card;
+    }
+  });
+
+  text.split(/(\x00\d+\x00)/).forEach((part) => {
+    const match = part.match(/\x00(\d+)\x00/);
+    if (match) {
+      const card = markers[parseInt(match[1], 10)];
+      if (!card) return;
+      const chip = document.createElement("span");
+      chip.className = "word-chip";
+      chip.dataset.word = card.WordText || "";
+      chip.dataset.imageUrl = card.ImageURL || "";
+      setChipHidden(chip);
+      chip.onclick = () => toggleWord(chip, card);
+      container.appendChild(chip);
+      return;
+    }
+    container.appendChild(document.createTextNode(part));
+  });
+}
+
+function toChosung(text = "") {
+  const CHO = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
+  return Array.from(text).map((ch) => {
+    const code = ch.charCodeAt(0);
+    if (code < 0xac00 || code > 0xd7a3) return ch;
+    return CHO[Math.floor((code - 0xac00) / 588)];
+  }).join("");
+}
+
+function toFirstHint(text = "") {
+  if (!text) return "";
+  if (text.length === 1) return text;
+  return `${text[0]}${"_".repeat(Math.max(2, text.length - 1))}`;
+}
+
+function toBlankHint(text = "") {
+  if (!text) return "";
+  return "_".repeat(Math.max(2, text.length));
+}
+
+function getHiddenDisplayWord(word = "") {
+  if (state.studyMode === "blank") return toBlankHint(word);
+  if (state.studyMode === "chosung") return toChosung(word);
+  if (state.studyMode === "first") return toFirstHint(word);
+  return word;
+}
+
+function optimizeImageUrl(url = "") {
+  if (!url) return "";
+  const normalized = url
+    .replace(/^이미지\//, "BibleCards_Images/")
+    .replace(/^\.\/이미지\//, "./BibleCards_Images/");
+  return encodeURI(normalized);
+}
+
+function normalize(text = "") {
+  return String(text).normalize("NFC").trim().replace(/\s+/g, " ");
+}
+
+function stripPostposition(text = "") {
+  const suffixes = [
+    "으로부터", "에서부터", "에게서", "까지는", "까지도", "이라도", "라도", "으로는", "로는",
+    "에게는", "께서는", "에서는", "부터", "까지", "처럼", "보다", "하고", "이며", "이랑",
+    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "으로서", "으로써", "와", "과",
+    "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
+  ];
+  for (const suffix of suffixes) {
+    const minBaseLength = suffix === "다" ? 2 : 1;
+    if (text.length >= suffix.length + minBaseLength && text.endsWith(suffix)) {
+      return text.slice(0, -suffix.length);
+    }
+  }
+  return text;
+}
+
+function getBaseFormCandidates(text = "") {
+  const candidates = [];
+  const push = (value) => {
+    const normalized = normalize(value);
+    if (!normalized || candidates.includes(normalized)) return;
+    candidates.push(normalized);
+  };
+  const normalized = normalize(text);
+
+  if (normalized === "내" || normalized.startsWith("내게") || normalized.startsWith("내가")) {
+    push("나");
+  }
+  if (normalized.endsWith("이라") && normalized.length > 2) {
+    push(normalized.slice(0, -2));
+  }
+  if (normalized.endsWith("하는") && normalized.length > 3) {
+    push(`${normalized.slice(0, -2)}하다`);
+  }
+  if (normalized.endsWith("로운") && normalized.length > 2) {
+    push(normalized.slice(0, -2));
+  }
+  if (normalized.endsWith("한") && normalized.length > 2) {
+    push(normalized.slice(0, -1));
+  }
+
+  return candidates;
+}
+
+function getDictionaryFormCandidates(text = "") {
+  const candidates = [];
+  const push = (value) => {
+    const normalized = normalize(value);
+    if (!normalized || candidates.includes(normalized)) return;
+    candidates.push(normalized);
+  };
+  const appendBatchim = (char, batchimIndex) => {
+    const code = char.charCodeAt(0);
+    const HANGUL_BASE = 0xac00;
+    const HANGUL_END = 0xd7a3;
+    const JONGSEONG_COUNT = 28;
+    if (code < HANGUL_BASE || code > HANGUL_END) return "";
+    const offset = code - HANGUL_BASE;
+    const jong = offset % JONGSEONG_COUNT;
+    if (jong !== 0) return "";
+    return String.fromCharCode(code + batchimIndex);
+  };
+  const addStemVariants = (stem) => {
+    const normalizedStem = normalize(stem);
+    if (!normalizedStem || normalizedStem.length < 2) return;
+    push(normalizedStem);
+    push(`${normalizedStem}다`);
+    if (normalizedStem.endsWith("으") && normalizedStem.length > 2) {
+      push(`${normalizedStem.slice(0, -1)}다`);
+      const stemWithoutEu = normalizedStem.slice(0, -1);
+      const head = stemWithoutEu.slice(0, -1);
+      const tail = stemWithoutEu.slice(-1);
+      const siotIrregularTail = appendBatchim(tail, 19);
+      if (siotIrregularTail) {
+        push(`${head}${siotIrregularTail}다`);
+      }
+    }
+  };
+
+  const normalized = normalize(text);
+  push(normalized);
+
+  const rules = [
+    "느니라", "나니", "니라", "하니라", "하니", "느냐", "느뇨", "는가", "도다",
+    "므로", "으며", "면서", "려고", "려니", "려면", "려", "아서", "어서", "여서",
+    "하며", "하여", "아라", "어라", "여라", "아도", "어도", "여도", "아서도", "어서도",
+    "으면", "면", "고", "며", "니", "라", "는", "은", "을", "던", "어", "아", "여"
+  ];
+
+  rules.forEach((suffix) => {
+    if (normalized.length <= suffix.length + 1 || !normalized.endsWith(suffix)) return;
+    addStemVariants(normalized.slice(0, -suffix.length));
+  });
+
+  return candidates;
+}
+
+function buildAliasMap() {
+  const map = new Map();
+  appData.aliases.forEach((item) => {
+    if (!item.variant || !item.base) return;
+    map.set(normalize(item.variant), normalize(item.base));
+  });
+  return map;
+}
+
+function buildImageMap() {
+  const map = new Map();
+  appData.images.forEach((item) => {
+    if (!item.key || !item.path) return;
+    map.set(normalize(item.key), item.path);
+  });
+  return map;
+}
+
+function getImageLookupTerms(text) {
+  const aliasMap = buildAliasMap();
+  const terms = [];
+  const queue = [text];
+  const seen = new Set();
+
+  while (queue.length > 0) {
+    const current = normalize(queue.shift());
+    if (!current || seen.has(current)) continue;
+    seen.add(current);
+    terms.push(current);
+
+    const stripped = stripPostposition(current);
+    const next = [
+      stripped,
+      aliasMap.get(current),
+      aliasMap.get(stripped),
+      ...getBaseFormCandidates(current),
+      ...getDictionaryFormCandidates(current)
+    ];
+    next.forEach((value) => {
+      const normalized = normalize(value);
+      if (normalized && !seen.has(normalized)) queue.push(normalized);
+    });
+  }
+
+  return terms;
+}
+
+function getImageCandidateUrls(word = "", explicitUrl = "") {
+  const imageMap = buildImageMap();
+  const urls = [];
+  const push = (value) => {
+    const optimized = optimizeImageUrl(value);
+    if (!optimized || urls.includes(optimized)) return;
+    urls.push(optimized);
+  };
+
+  push(explicitUrl);
+
+  getImageLookupTerms(word).forEach((term) => {
+    if (imageMap.has(term)) push(imageMap.get(term));
+    const stems = [term.normalize("NFD"), term.normalize("NFC")];
+    stems.forEach((stem) => {
+      const safeStem = stem.replace(/[\\/:*?"<>|]/g, "").trim();
+      if (!safeStem) return;
+      AUTO_IMAGE_DIRS.forEach((dir) => {
+        AUTO_IMAGE_EXTENSIONS.forEach((ext) => push(`${dir}/${safeStem}${ext}`));
+      });
+    });
+  });
+
+  return urls;
+}
+
+function showChipHint(chip, word) {
+  chip.classList.add("hint");
+  chip.textContent = getHiddenDisplayWord(word);
+}
+
+function renderChipImage(chip, word, imageUrl) {
+  const candidates = getImageCandidateUrls(word, imageUrl);
+  if (candidates.length === 0) {
+    showChipHint(chip, word);
+    return;
+  }
+
+  chip.classList.remove("hint");
+  const img = document.createElement("img");
+  img.alt = word;
+  img.loading = "lazy";
+  img.decoding = "async";
+
+  let index = 0;
+  const tryNext = () => {
+    if (index >= candidates.length) {
+      showChipHint(chip, word);
+      return;
+    }
+    img.src = candidates[index];
+    index += 1;
+  };
+
+  img.onerror = tryNext;
+  chip.appendChild(img);
+  tryNext();
+}
+
+function setChipHidden(chip) {
+  chip.classList.remove("revealed");
+  chip.innerHTML = "";
+  const word = chip.dataset.word || "";
+  const imageUrl = chip.dataset.imageUrl || "";
+
+  if (state.studyMode === "image") {
+    renderChipImage(chip, word, imageUrl);
+    return;
+  }
+
+  showChipHint(chip, word);
+}
+
+function renderVerseBlock(wrapper, verse, cards) {
+  wrapper.innerHTML = "";
+  const content = document.createElement("div");
+  content.className = "verse-block-content";
+  wrapper.appendChild(content);
+
+  const marker = document.createElement("div");
+  marker.className = "verse-marker";
+  marker.textContent = `${verse.Verse}절`;
+  content.appendChild(marker);
+
+  const textBox = document.createElement("div");
+  textBox.className = "full-text";
+  content.appendChild(textBox);
+  renderText(verse.FullText, cards, textBox);
+}
+
+function toggleWord(chip, card) {
+  if (chip.classList.contains("revealed")) {
+    setChipHidden(chip);
+  } else {
+    revealChip(chip, card.WordText);
+  }
+  refreshScore();
+}
+
+function revealChip(chip, wordText) {
+  chip.classList.remove("hint");
+  chip.classList.add("revealed");
+  chip.textContent = wordText || chip.dataset.word || "";
+}
+
+function normalizeKorean(text = "") {
+  return text.normalize("NFC").toLowerCase().replace(/[\s\p{P}\p{S}]+/gu, "");
+}
+
+function stripKoreanPostposition(text = "") {
+  const suffixes = [
+    "으로부터", "에서부터", "에게서", "까지는", "까지도", "이라도", "라도", "으로는", "로는",
+    "에게는", "께서는", "에서는", "부터", "까지", "처럼", "보다", "하고", "이며", "이랑",
+    "랑", "이나", "나", "으로", "로", "에게", "께", "에서", "으로서", "으로써", "와", "과",
+    "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
+  ];
+  for (const suffix of suffixes) {
+    if (text.length > suffix.length + 1 && text.endsWith(suffix)) {
+      return text.slice(0, -suffix.length);
+    }
+  }
+  return text;
+}
+
+function applyTranscript(transcript) {
+  const spoken = normalizeKorean(transcript);
+  if (!spoken) return 0;
+
+  let revealed = 0;
+  document.querySelectorAll(".word-chip").forEach((chip) => {
+    if (chip.classList.contains("revealed")) return;
+    const normalizedWord = normalizeKorean(chip.dataset.word || "");
+    const strippedWord = stripKoreanPostposition(normalizedWord);
+    if (!strippedWord) return;
+    if (spoken.includes(normalizedWord) || spoken.includes(strippedWord)) {
+      revealChip(chip, chip.dataset.word);
+      revealed += 1;
+    }
+  });
+  refreshScore();
+  return revealed;
+}
+
+function getScoreData() {
+  const chips = Array.from(document.querySelectorAll(".word-chip"));
+  const total = chips.length;
+  const revealed = chips.filter((chip) => chip.classList.contains("revealed")).length;
+  return { total, revealed };
+}
+
+function refreshScore() {
+  const scoreText = document.getElementById("scoreText");
+  const { total, revealed } = getScoreData();
+  const percent = total > 0 ? Math.round((revealed / total) * 100) : 0;
+  scoreText.textContent = `정답률: ${revealed}/${total} (${percent}%)`;
+  document.getElementById("resetRevealBtn").disabled = total === 0;
+}
+
+function refreshStudyControls() {
+  const nextBtn = document.getElementById("nextVerseBtn");
+  if (state.currentVerseIndex === -2) {
+    nextBtn.disabled = document.querySelectorAll(".verse-block").length <= 1;
+    return;
+  }
+  nextBtn.disabled = !(state.currentVerseIndex >= 0 && state.currentVerseIndex < state.verses.length - 1);
+}
+
+function resetRevealedWords() {
+  document.querySelectorAll(".word-chip").forEach((chip) => setChipHidden(chip));
+  document.getElementById("speechResult").textContent = "";
+  setSpeechStatus("음성 대기");
+  refreshScore();
+}
+
+function updateModeButtons() {
+  document.querySelectorAll(".mode-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.mode === state.studyMode);
+  });
+}
+
+function setStudyMode(mode) {
+  if (!mode || state.studyMode === mode) return;
+  state.studyMode = mode;
+  updateModeButtons();
+  resetRevealedWords();
+}
+
+function openNextVerse() {
+  if (state.currentVerseIndex === -2) {
+    const blocks = Array.from(document.querySelectorAll(".verse-block"));
+    if (blocks.length === 0) return;
+
+    const active = blocks.findIndex((block) => block.dataset.active === "1");
+    const next = active >= 0 ? active + 1 : 0;
+    if (active >= 0) blocks[active].dataset.active = "0";
+
+    if (next >= blocks.length) {
+      setSpeechStatus("선택한 절의 마지막입니다.");
+      blocks[blocks.length - 1].dataset.active = "1";
+      return;
+    }
+
+    blocks[next].dataset.active = "1";
+    blocks[next].scrollIntoView({ behavior: "smooth", block: "start" });
+    setSpeechStatus(`${next + 1}/${blocks.length} 절 위치로 이동`);
+    return;
+  }
+
+  if (state.currentVerseIndex < 0) return;
+  const nextIndex = state.currentVerseIndex + 1;
+  if (nextIndex >= state.verses.length) {
+    setSpeechStatus("현재 장의 마지막 절입니다.");
+    refreshStudyControls();
+    return;
+  }
+  openVerse(state.verses[nextIndex], nextIndex);
+}
+
+function updateStartSelectedButtonState() {
+  const checked = document.querySelectorAll(".verse-check:checked").length;
+  const startBtn = document.getElementById("startSelectedBtn");
+  const clearBtn = document.getElementById("clearSelectedBtn");
+  if (!startBtn) return;
+  startBtn.disabled = checked === 0;
+  clearBtn.disabled = checked === 0;
+  startBtn.textContent = checked > 0 ? `선택한 절 시작 (${checked})` : "선택한 절 시작";
+}
+
+function openSelectedVerses() {
+  stopListening();
+  const checkedIndexes = Array.from(document.querySelectorAll(".verse-check:checked"))
+    .map((input) => parseInt(input.value, 10))
+    .filter((index) => Number.isInteger(index) && state.verses[index]);
+
+  if (checkedIndexes.length === 0) return;
+
+  const selectedVerses = checkedIndexes.map((index) => state.verses[index]);
+  state.currentVerseIndex = -2;
+  document.getElementById("listView").style.display = "none";
+  document.getElementById("verseView").style.display = "block";
+  document.getElementById("verseTitle").textContent = `${state.book} ${state.chapter}장`;
+  document.getElementById("speechResult").textContent = "";
+  document.getElementById("speechStatus").textContent = `음성 대기 (${selectedVerses.length}절 선택)`;
+
+  updateNav();
+  const nav = document.getElementById("nav");
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: "›" }));
+  nav.appendChild(Object.assign(document.createElement("span"), { textContent: `${selectedVerses.length}절 선택`, style: "color:#eee" }));
+
+  const fullText = document.getElementById("fullText");
+  fullText.innerHTML = "";
+  disconnectMultiVerseObserver();
+
+  selectedVerses.forEach((verse, index) => {
+    const block = document.createElement("section");
+    block.className = "verse-block";
+    block.dataset.active = index === 0 ? "1" : "0";
+    renderVerseBlock(block, verse, getCardsForVerse(verse));
+    fullText.appendChild(block);
+  });
+
+  refreshStudyControls();
+  refreshScore();
+}
+
+function disconnectMultiVerseObserver() {
+  if (!multiVerseObserver) return;
+  multiVerseObserver.disconnect();
+  multiVerseObserver = null;
+}
+
+function setSpeechStatus(text) {
+  document.getElementById("speechStatus").textContent = text;
+}
+
+function initSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const startBtn = document.getElementById("speechStartBtn");
+  const stopBtn = document.getElementById("speechStopBtn");
+
+  if (!SpeechRecognition) {
+    startBtn.disabled = true;
+    stopBtn.disabled = true;
+    setSpeechStatus("이 브라우저는 음성인식을 지원하지 않습니다.");
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "ko-KR";
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isListening = true;
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    setSpeechStatus("듣는 중...");
+  };
+
+  recognition.onresult = (event) => {
+    let transcript = "";
+    for (let i = event.resultIndex; i < event.results.length; i += 1) {
+      transcript += event.results[i][0].transcript;
+    }
+
+    document.getElementById("speechResult").textContent = `인식 결과: ${transcript}`;
+    if (event.results[event.results.length - 1].isFinal) {
+      const count = applyTranscript(transcript);
+      setSpeechStatus(`완료: ${count}개 단어 공개`);
+    }
+  };
+
+  recognition.onerror = (event) => {
+    const code = event && event.error ? event.error : "";
+    if (code === "not-allowed" || code === "service-not-allowed") {
+      setSpeechStatus("마이크 권한이 없어 음성인식을 사용할 수 없습니다.");
+      return;
+    }
+    if (code === "no-speech") {
+      setSpeechStatus("음성이 감지되지 않았습니다. 다시 시도해 주세요.");
+      return;
+    }
+    if (code === "network") {
+      setSpeechStatus("네트워크 문제로 음성인식에 실패했습니다.");
+      return;
+    }
+    if (code === "aborted") {
+      setSpeechStatus("음성인식이 중지되었습니다.");
+      return;
+    }
+    setSpeechStatus("음성인식 오류가 발생했습니다.");
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    if (document.getElementById("speechStatus").textContent === "듣는 중...") {
+      setSpeechStatus("음성 대기");
+    }
+  };
+
+  startBtn.onclick = startListening;
+  stopBtn.onclick = stopListening;
+}
+
+function startListening() {
+  if (!recognition || isListening) return;
+  document.getElementById("speechResult").textContent = "";
+  setSpeechStatus("마이크 권한 확인 중...");
+  recognition.start();
+}
+
+function stopListening() {
+  if (!recognition || !isListening) return;
+  recognition.stop();
+}
+
+window.addEventListener("storage", () => {
+  syncAppData();
+  if (state.step === "book") loadBooks();
+});
+
+document.getElementById("resetRevealBtn").onclick = resetRevealedWords;
+document.getElementById("nextVerseBtn").onclick = openNextVerse;
+document.querySelectorAll(".mode-btn").forEach((btn) => {
+  btn.onclick = () => setStudyMode(btn.dataset.mode || "image");
+});
+document.addEventListener("mouseup", () => {
+  isDragSelecting = false;
+  dragMoved = false;
+  dragStartCheckbox = null;
+});
+
+updateModeButtons();
+initSpeechRecognition();
+updateNav();
+loadBooks();
+</script>
 </body>
 </html>
