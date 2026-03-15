@@ -1,7 +1,6 @@
-window.BIBLE_APP_DEFAULT_DATA = {
+{
   "verses": [],
   "cards": [],
   "aliases": [],
   "images": []
 }
-;
