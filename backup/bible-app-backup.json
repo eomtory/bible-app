@@ -448,7 +448,7 @@
       "id": "잠언:8:17-raw-13",
       "VerseID": "잠언:8:17",
       "Token": "것이니라",
-      "JoinWithPrev": false
+      "JoinWithPrev": true
     },
     {
       "id": "잠언:8:18-raw-1",
@@ -658,7 +658,7 @@
       "id": "잠언:8:21-raw-11",
       "VerseID": "잠언:8:21",
       "Token": "함이니라",
-      "JoinWithPrev": false
+      "JoinWithPrev": true
     }
   ],
   "cards": [
@@ -1064,16 +1064,9 @@
     {
       "CardID": "잠언:8:17-card-12",
       "VerseID": "잠언:8:17",
-      "WordText": "만날",
-      "ImageKey": "만날",
-      "ImageURL": "BibleCards_Images/만날.png"
-    },
-    {
-      "CardID": "잠언:8:17-card-13",
-      "VerseID": "잠언:8:17",
-      "WordText": "것이니라",
-      "ImageKey": "것이니라",
-      "ImageURL": "BibleCards_Images/것이니라.png"
+      "WordText": "만날 것이니라",
+      "ImageKey": "만날 것이니라",
+      "ImageURL": "BibleCards_Images/만날 것이니라.png"
     },
     {
       "CardID": "잠언:8:18-card-1",
@@ -1309,16 +1302,9 @@
     {
       "CardID": "잠언:8:21-card-10",
       "VerseID": "잠언:8:21",
-      "WordText": "하려",
-      "ImageKey": "하려",
-      "ImageURL": "BibleCards_Images/하려.png"
-    },
-    {
-      "CardID": "잠언:8:21-card-11",
-      "VerseID": "잠언:8:21",
-      "WordText": "함이니라",
-      "ImageKey": "함이니라",
-      "ImageURL": "BibleCards_Images/함이니라.png"
+      "WordText": "하려 함이니라",
+      "ImageKey": "하려 함이니라",
+      "ImageURL": "BibleCards_Images/하려 함이니라.png"
     }
   ],
   "aliases": [],
