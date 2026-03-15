@@ -1091,7 +1091,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 12,
       "WordText": "주소를",
-      "ImageURL": "BibleCards_Images/주소를.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-5",
@@ -1703,7 +1703,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 19,
       "WordText": "소득은",
-      "ImageURL": "BibleCards_Images/소득은.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-8",
@@ -1712,7 +1712,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 19,
       "WordText": "순은보다",
-      "ImageURL": "BibleCards_Images/순은보다.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-9",
@@ -1748,7 +1748,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 20,
       "WordText": "길로",
-      "ImageURL": "BibleCards_Images/길로.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-4",
@@ -1784,7 +1784,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 20,
       "WordText": "가운데로",
-      "ImageURL": "BibleCards_Images/가운데로.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-8",
@@ -1802,7 +1802,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 21,
       "WordText": "이는",
-      "ImageURL": "BibleCards_Images/이는.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-2",
@@ -1865,7 +1865,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 21,
       "WordText": "곳간에",
-      "ImageURL": "BibleCards_Images/곳간에.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-9",
@@ -1892,7 +1892,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "하나님의",
-      "ImageURL": "BibleCards_Images/하나님의.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-2",
@@ -1901,7 +1901,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "말씀은",
-      "ImageURL": "BibleCards_Images/말씀은.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-3",
@@ -1910,7 +1910,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "살아",
-      "ImageURL": "BibleCards_Images/살아.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-4",
@@ -1928,7 +1928,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "활력이",
-      "ImageURL": "BibleCards_Images/활력이.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-6",
@@ -1937,7 +1937,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "있어",
-      "ImageURL": "BibleCards_Images/있어.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-7",
@@ -1946,7 +1946,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "좌우에",
-      "ImageURL": "BibleCards_Images/좌우에.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-8",
@@ -1955,7 +1955,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "날선",
-      "ImageURL": "BibleCards_Images/날선.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-9",
@@ -1964,7 +1964,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "어떤",
-      "ImageURL": "BibleCards_Images/어떤.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-10",
@@ -1973,7 +1973,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "검보다도",
-      "ImageURL": "BibleCards_Images/검보다도.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-11",
@@ -1982,7 +1982,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "예리하여",
-      "ImageURL": "BibleCards_Images/예리하여.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-12",
@@ -1991,7 +1991,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "혼과",
-      "ImageURL": "BibleCards_Images/혼과.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-13",
@@ -2000,7 +2000,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "영과",
-      "ImageURL": "BibleCards_Images/영과.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-14",
@@ -2009,7 +2009,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "및",
-      "ImageURL": "BibleCards_Images/및.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-15",
@@ -2018,7 +2018,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "관절과",
-      "ImageURL": "BibleCards_Images/관절과.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-16",
@@ -2027,7 +2027,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "골수를",
-      "ImageURL": "BibleCards_Images/골수를.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-17",
@@ -2036,7 +2036,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "찔러",
-      "ImageURL": "BibleCards_Images/찔러.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-18",
@@ -2045,7 +2045,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "쪼개기까지",
-      "ImageURL": "BibleCards_Images/쪼개기까지.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-19",
@@ -2054,7 +2054,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "하며",
-      "ImageURL": "BibleCards_Images/하며.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-20",
@@ -2063,7 +2063,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "또",
-      "ImageURL": "BibleCards_Images/또.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-21",
@@ -2072,7 +2072,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "마음의",
-      "ImageURL": "BibleCards_Images/마음의.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-22",
@@ -2081,7 +2081,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "생각과",
-      "ImageURL": "BibleCards_Images/생각과.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-23",
@@ -2090,7 +2090,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "뜻을",
-      "ImageURL": "BibleCards_Images/뜻을.png"
+      "ImageURL": ""
     },
     {
       "CardID": "히브리서:4:2-24",
@@ -2099,7 +2099,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 4,
       "Verse": 2,
       "WordText": "판단하나니",
-      "ImageURL": "BibleCards_Images/판단하나니.png"
+      "ImageURL": ""
     }
   ],
   "aliases": [],
@@ -2270,7 +2270,7 @@ window.BIBLE_APP_DEFAULT_DATA = {
     },
     {
       "key": "존귀한 자",
-      "path": "이미지/존귀한 자.png"
+      "path": ""
     },
     {
       "key": "지식",

@@ -26,6 +26,7 @@ git add -- \
   data/default-data.js \
   backup/bible-app-backup.json \
   BibleCards_Images \
+  index.html \
   offline-index.html \
   "Update Default Data.command" \
   "Publish Bible Data.command"
