@@ -311,12 +311,14 @@ function loadVerses() {
   list.innerHTML = `
     <div class='list-title'>${state.book} ${state.chapter}장 - 절을 선택하세요</div>
     <div class='list-actions'>
+      <button id="selectAllBtn" class="study-btn" type="button">모든 절 선택</button>
       <button id="startSelectedBtn" class="study-btn" type="button" disabled>선택한 절 시작</button>
       <button id="clearSelectedBtn" class="study-btn" type="button" disabled>전체 해제</button>
       <div class="list-hint">체크박스는 클릭으로 1개 선택, 드래그로 여러 개 연속 선택할 수 있습니다.</div>
     </div>
   `;
 
+  document.getElementById("selectAllBtn").onclick = selectAllVerses;
   document.getElementById("startSelectedBtn").onclick = openSelectedVerses;
   document.getElementById("clearSelectedBtn").onclick = clearAllSelections;
 
@@ -876,10 +878,22 @@ function updateStartSelectedButtonState() {
   const checked = document.querySelectorAll(".verse-check:checked").length;
   const startBtn = document.getElementById("startSelectedBtn");
   const clearBtn = document.getElementById("clearSelectedBtn");
+  const selectAllBtn = document.getElementById("selectAllBtn");
   if (!startBtn) return;
   startBtn.disabled = checked === 0;
   clearBtn.disabled = checked === 0;
+  if (selectAllBtn) {
+    const total = document.querySelectorAll(".verse-check").length;
+    selectAllBtn.disabled = total === 0 || checked === total;
+  }
   startBtn.textContent = checked > 0 ? `선택한 절 시작 (${checked})` : "선택한 절 시작";
+}
+
+function selectAllVerses() {
+  document.querySelectorAll(".verse-check").forEach((checkbox) => {
+    checkbox.checked = true;
+  });
+  updateStartSelectedButtonState();
 }
 
 function openSelectedVerses() {
