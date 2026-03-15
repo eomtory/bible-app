@@ -1,4 +1,4 @@
-window.BIBLE_APP_DEFAULT_DATA = {
+{
   "verses": [
     {
       "VerseID": "잠언:8:12",
@@ -2518,4 +2518,4 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "path": "BibleCards_Images/존귀.png"
     }
   ]
-};
+}
