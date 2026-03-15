@@ -22,6 +22,7 @@ APPLESCRIPT
 )"
 
 git add -- \
+  admin.html \
   data/default-data.js \
   backup/bible-app-backup.json \
   BibleCards_Images \

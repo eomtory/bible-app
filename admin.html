@@ -418,11 +418,93 @@ function stripPostposition(text = "") {
     "은", "는", "이", "가", "을", "를", "의", "도", "만", "요", "다"
   ];
   for (const suffix of suffixes) {
-    if (text.length > suffix.length + 1 && text.endsWith(suffix)) {
+    const minBaseLength = suffix === "다" ? 2 : 1;
+    if (text.length >= suffix.length + minBaseLength && text.endsWith(suffix)) {
       return text.slice(0, -suffix.length);
     }
   }
   return text;
+}
+
+function getBaseFormCandidates(text = "") {
+  const candidates = [];
+  const push = (value) => {
+    const normalized = normalize(value);
+    if (!normalized || candidates.includes(normalized)) return;
+    candidates.push(normalized);
+  };
+  const normalized = normalize(text);
+
+  if (normalized === "내" || normalized.startsWith("내게") || normalized.startsWith("내가")) {
+    push("나");
+  }
+  if (normalized.endsWith("이라") && normalized.length > 2) {
+    push(normalized.slice(0, -2));
+  }
+  if (normalized.endsWith("하는") && normalized.length > 3) {
+    push(`${normalized.slice(0, -2)}하다`);
+  }
+  if (normalized.endsWith("로운") && normalized.length > 2) {
+    push(normalized.slice(0, -2));
+  }
+  if (normalized.endsWith("한") && normalized.length > 2) {
+    push(normalized.slice(0, -1));
+  }
+
+  return candidates;
+}
+
+function getDictionaryFormCandidates(text = "") {
+  const candidates = [];
+  const push = (value) => {
+    const normalized = normalize(value);
+    if (!normalized || candidates.includes(normalized)) return;
+    candidates.push(normalized);
+  };
+  const appendBatchim = (char, batchimIndex) => {
+    const code = char.charCodeAt(0);
+    const HANGUL_BASE = 0xac00;
+    const HANGUL_END = 0xd7a3;
+    const JONGSEONG_COUNT = 28;
+    if (code < HANGUL_BASE || code > HANGUL_END) return "";
+    const offset = code - HANGUL_BASE;
+    const jong = offset % JONGSEONG_COUNT;
+    if (jong !== 0) return "";
+    return String.fromCharCode(code + batchimIndex);
+  };
+  const addStemVariants = (stem) => {
+    const normalizedStem = normalize(stem);
+    if (!normalizedStem || normalizedStem.length < 2) return;
+    push(normalizedStem);
+    push(`${normalizedStem}다`);
+    if (normalizedStem.endsWith("으") && normalizedStem.length > 2) {
+      push(`${normalizedStem.slice(0, -1)}다`);
+      const stemWithoutEu = normalizedStem.slice(0, -1);
+      const head = stemWithoutEu.slice(0, -1);
+      const tail = stemWithoutEu.slice(-1);
+      const siotIrregularTail = appendBatchim(tail, 19);
+      if (siotIrregularTail) {
+        push(`${head}${siotIrregularTail}다`);
+      }
+    }
+  };
+
+  const normalized = normalize(text);
+  push(normalized);
+
+  const rules = [
+    "느니라", "나니", "니라", "하니라", "하니", "느냐", "느뇨", "는가", "도다",
+    "므로", "으며", "면서", "려고", "려니", "려면", "려", "아서", "어서", "여서",
+    "하며", "하여", "아라", "어라", "여라", "아도", "어도", "여도", "아서도", "어서도",
+    "으면", "면", "고", "며", "니", "라", "는", "은", "을", "던", "어", "아", "여"
+  ];
+
+  rules.forEach((suffix) => {
+    if (normalized.length <= suffix.length + 1 || !normalized.endsWith(suffix)) return;
+    addStemVariants(normalized.slice(0, -suffix.length));
+  });
+
+  return candidates;
 }
 
 function buildAliasMap() {
@@ -445,21 +527,29 @@ function buildImageMap() {
 
 function getImageLookupTerms(text, aliasMap) {
   const terms = [];
-  const push = (value) => {
-    const normalized = normalize(value);
-    if (!normalized || terms.includes(normalized)) return;
-    terms.push(normalized);
-  };
+  const queue = [text];
+  const seen = new Set();
 
-  const normalized = normalize(text);
-  const alias = aliasMap.get(normalized);
-  const stripped = stripPostposition(normalized);
-  const strippedAlias = aliasMap.get(stripped);
+  while (queue.length > 0) {
+    const current = normalize(queue.shift());
+    if (!current || seen.has(current)) continue;
+    seen.add(current);
+    terms.push(current);
 
-  push(normalized);
-  push(alias);
-  push(stripped);
-  push(strippedAlias);
+    const stripped = stripPostposition(current);
+    const next = [
+      stripped,
+      aliasMap.get(current),
+      aliasMap.get(stripped),
+      ...getBaseFormCandidates(current),
+      ...getDictionaryFormCandidates(current)
+    ];
+    next.forEach((value) => {
+      const normalized = normalize(value);
+      if (normalized && !seen.has(normalized)) queue.push(normalized);
+    });
+  }
+
   return terms;
 }
 
