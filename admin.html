@@ -231,7 +231,7 @@
   <div class="topbar">
     <div class="title">
       <h1>성경 카드 편집</h1>
-      <p>`CardsRaw`의 `x` 편집 흐름을 브라우저에서 그대로 쓰는 화면입니다. 저장은 이 브라우저 `localStorage`에 됩니다.</p>
+      <p>`CardsRaw`의 `x` 편집 흐름을 브라우저에서 그대로 쓰는 화면입니다. 편집 내용은 이 브라우저에 저장되지만, 기본 데이터가 바뀌면 새 버전이 우선 적용됩니다.</p>
     </div>
   </div>
 
@@ -340,12 +340,23 @@ function getDefaultsVersion(defaultsData) {
   return JSON.stringify(defaultsData);
 }
 
+function clearStoredData() {
+  Object.values(STORAGE_KEYS).forEach((key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch (err) {
+      // Ignore storage cleanup failures and continue with default data.
+    }
+  });
+}
+
 function loadData() {
   const defaultsData = getDefaultsData();
   const defaultsVersion = getDefaultsVersion(defaultsData);
   const storedDefaultsVersion = localStorage.getItem(STORAGE_KEYS.defaultsVersion);
 
   if (storedDefaultsVersion !== defaultsVersion) {
+    clearStoredData();
     return defaultsData;
   }
 
@@ -365,7 +376,7 @@ function saveData() {
   writeStorage(STORAGE_KEYS.aliases, data.aliases);
   writeStorage(STORAGE_KEYS.images, data.images);
   localStorage.setItem(STORAGE_KEYS.defaultsVersion, getDefaultsVersion(getDefaultsData()));
-  setStatus("브라우저에 저장했습니다.");
+  setStatus("브라우저에 저장했습니다. 기본 데이터가 바뀌면 자동으로 새 버전으로 갱신됩니다.");
 }
 
 function makeVerseID(book, chapter, verse) {

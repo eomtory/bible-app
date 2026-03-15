@@ -26,10 +26,13 @@ git add -- \
   data/default-data.js \
   backup/bible-app-backup.json \
   BibleCards_Images \
-  index.html \
   offline-index.html \
   "Update Default Data.command" \
   "Publish Bible Data.command"
+
+if git ls-files --error-unmatch index.html >/dev/null 2>&1; then
+  git add -A -- index.html
+fi
 
 if git diff --cached --quiet; then
   osascript -e 'display alert "No staged changes" message "커밋할 데이터 변경이 없습니다."'
