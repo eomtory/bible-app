@@ -300,7 +300,8 @@ const STORAGE_KEYS = {
   cardsRaw: "bible-app-cards-raw",
   cards: "bible-app-cards",
   aliases: "bible-app-aliases",
-  images: "bible-app-images"
+  images: "bible-app-images",
+  defaultsVersion: "bible-app-defaults-version"
 };
 
 let data = loadData();
@@ -324,14 +325,36 @@ function writeStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function loadData() {
+function getDefaultsData() {
   const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
   return {
-    verses: readStorage(STORAGE_KEYS.verses) || clone(defaults.verses || []),
-    cardsRaw: readStorage(STORAGE_KEYS.cardsRaw) || clone(defaults.cardsRaw || []),
-    cards: readStorage(STORAGE_KEYS.cards) || clone(defaults.cards || []),
-    aliases: readStorage(STORAGE_KEYS.aliases) || clone(defaults.aliases || []),
-    images: readStorage(STORAGE_KEYS.images) || clone(defaults.images || [])
+    verses: clone(defaults.verses || []),
+    cardsRaw: clone(defaults.cardsRaw || []),
+    cards: clone(defaults.cards || []),
+    aliases: clone(defaults.aliases || []),
+    images: clone(defaults.images || [])
+  };
+}
+
+function getDefaultsVersion(defaultsData) {
+  return JSON.stringify(defaultsData);
+}
+
+function loadData() {
+  const defaultsData = getDefaultsData();
+  const defaultsVersion = getDefaultsVersion(defaultsData);
+  const storedDefaultsVersion = localStorage.getItem(STORAGE_KEYS.defaultsVersion);
+
+  if (storedDefaultsVersion !== defaultsVersion) {
+    return defaultsData;
+  }
+
+  return {
+    verses: readStorage(STORAGE_KEYS.verses) || defaultsData.verses,
+    cardsRaw: readStorage(STORAGE_KEYS.cardsRaw) || defaultsData.cardsRaw,
+    cards: readStorage(STORAGE_KEYS.cards) || defaultsData.cards,
+    aliases: readStorage(STORAGE_KEYS.aliases) || defaultsData.aliases,
+    images: readStorage(STORAGE_KEYS.images) || defaultsData.images
   };
 }
 
@@ -341,6 +364,7 @@ function saveData() {
   writeStorage(STORAGE_KEYS.cards, data.cards);
   writeStorage(STORAGE_KEYS.aliases, data.aliases);
   writeStorage(STORAGE_KEYS.images, data.images);
+  localStorage.setItem(STORAGE_KEYS.defaultsVersion, getDefaultsVersion(getDefaultsData()));
   setStatus("브라우저에 저장했습니다.");
 }
 
@@ -349,14 +373,7 @@ function makeVerseID(book, chapter, verse) {
 }
 
 function resetToDefault() {
-  const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
-  data = {
-    verses: clone(defaults.verses || []),
-    cardsRaw: clone(defaults.cardsRaw || []),
-    cards: clone(defaults.cards || []),
-    aliases: clone(defaults.aliases || []),
-    images: clone(defaults.images || [])
-  };
+  data = getDefaultsData();
   selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
   renderAll();
   saveData();
