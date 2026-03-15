@@ -30,7 +30,7 @@ git add -- \
   "Update Default Data.command" \
   "Publish Bible Data.command"
 
-if git ls-files --error-unmatch index.html >/dev/null 2>&1; then
+if [[ -e index.html ]] || git ls-files --error-unmatch index.html >/dev/null 2>&1; then
   git add -A -- index.html
 fi
 
