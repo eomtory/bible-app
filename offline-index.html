@@ -141,13 +141,6 @@
 
 <script src="./data/default-data.js"></script>
 <script>
-const STORAGE_KEYS = {
-  verses: "bible-app-verses",
-  cardsRaw: "bible-app-cards-raw",
-  cards: "bible-app-cards",
-  aliases: "bible-app-aliases",
-  images: "bible-app-images"
-};
 const AUTO_IMAGE_DIRS = ["BibleCards_Images", "./BibleCards_Images"];
 const AUTO_IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
 
@@ -162,23 +155,14 @@ let dragStartCheckbox = null;
 let multiVerseObserver = null;
 let appData = loadAppData();
 
-function readStorage(key) {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : null;
-  } catch (err) {
-    return null;
-  }
-}
-
 function loadAppData() {
   const defaults = window.BIBLE_APP_DEFAULT_DATA || {};
   return {
-    verses: readStorage(STORAGE_KEYS.verses) || defaults.verses || [],
-    cards: readStorage(STORAGE_KEYS.cards) || defaults.cards || [],
-    cardsRaw: readStorage(STORAGE_KEYS.cardsRaw) || defaults.cardsRaw || [],
-    aliases: readStorage(STORAGE_KEYS.aliases) || defaults.aliases || [],
-    images: readStorage(STORAGE_KEYS.images) || defaults.images || []
+    verses: defaults.verses || [],
+    cards: defaults.cards || [],
+    cardsRaw: defaults.cardsRaw || [],
+    aliases: defaults.aliases || [],
+    images: defaults.images || []
   };
 }
 
