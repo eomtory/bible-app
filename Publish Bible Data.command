@@ -33,6 +33,10 @@ if [[ -e index.html ]] || git ls-files --error-unmatch index.html >/dev/null 2>&
   git add -A -- index.html
 fi
 
+if [[ -e offline-index.html ]] || git ls-files --error-unmatch offline-index.html >/dev/null 2>&1; then
+  git add -A -- offline-index.html
+fi
+
 if git diff --cached --quiet; then
   osascript -e 'display alert "No staged changes" message "커밋할 데이터 변경이 없습니다."'
   close_terminal_window
