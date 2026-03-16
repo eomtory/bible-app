@@ -28,68 +28,69 @@
     }
 
     .app {
-      max-width: 1440px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 24px 16px 48px;
+      padding: 14px 12px 28px;
     }
 
     .hero {
-      padding: 24px;
-      border-radius: 24px;
+      padding: 16px 18px;
+      border-radius: 18px;
       border: 1px solid var(--line);
       background: linear-gradient(135deg, rgba(255,250,243,0.98), rgba(245,232,210,0.92));
       box-shadow: var(--shadow);
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
 
     .hero h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
+      margin: 0 0 4px;
+      font-size: 24px;
     }
 
     .hero p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.5;
+      font-size: 13px;
     }
 
     .layout {
       display: grid;
-      grid-template-columns: 320px minmax(0, 1fr);
-      gap: 20px;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 14px;
     }
 
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 24px;
+      border-radius: 18px;
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
     .panel-header {
-      padding: 18px 20px 12px;
+      padding: 14px 16px 10px;
       border-bottom: 1px solid rgba(221, 207, 181, 0.72);
     }
 
     .panel-header h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .panel-header p {
-      margin: 6px 0 0;
+      margin: 4px 0 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.6;
     }
 
     .panel-body {
-      padding: 18px 20px 20px;
+      padding: 14px 16px 16px;
     }
 
     .section {
-      padding: 20px;
+      padding: 16px;
       border-top: 1px solid rgba(221, 207, 181, 0.72);
     }
 
@@ -98,35 +99,91 @@
     }
 
     .section h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
+      margin: 0 0 6px;
+      font-size: 16px;
     }
 
     .section p {
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.6;
     }
 
     .verse-list {
       display: grid;
-      gap: 8px;
-      max-height: 660px;
+      gap: 10px;
+      max-height: 620px;
       overflow: auto;
       padding-right: 4px;
     }
 
-    .verse-btn {
+    .verse-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .verse-group-title {
+      margin: 0;
+    }
+
+    .verse-group-chapter {
+      display: grid;
+      gap: 6px;
+    }
+
+    .verse-group-label {
+      margin: 0;
+    }
+
+    .verse-group-toggle {
       width: 100%;
-      text-align: left;
-      padding: 11px 12px;
-      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 10px;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--text);
       cursor: pointer;
       font: inherit;
+      text-align: left;
+    }
+
+    .verse-group-toggle strong {
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    .verse-group-toggle span {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .verse-group-toggle.chapter strong {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .verse-group-grid {
+      display: grid;
+      gap: 6px;
+    }
+
+    .verse-btn {
+      width: 100%;
+      text-align: left;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
     }
 
     .verse-btn.active {
@@ -138,17 +195,18 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .btn {
-      padding: 11px 14px;
-      border-radius: 14px;
+      padding: 8px 10px;
+      border-radius: 10px;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--text);
       cursor: pointer;
       font: inherit;
+      font-size: 12px;
     }
 
     .btn.primary {
@@ -166,11 +224,11 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
 
     .field {
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .field.full {
@@ -179,59 +237,61 @@
 
     label {
       display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
+      margin-bottom: 4px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--muted);
     }
 
     input, textarea {
       width: 100%;
-      padding: 12px 14px;
-      border-radius: 14px;
+      padding: 9px 11px;
+      border-radius: 10px;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--text);
       font: inherit;
+      font-size: 13px;
     }
 
     textarea {
-      min-height: 120px;
+      min-height: 96px;
       resize: vertical;
       line-height: 1.6;
     }
 
     .status {
       margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
+      padding: 10px 12px;
+      border-radius: 10px;
       background: #f7eddd;
       color: var(--muted);
       line-height: 1.6;
       white-space: pre-wrap;
+      font-size: 12px;
     }
 
     .meta {
       display: grid;
       gap: 6px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .raw-list,
     .preview-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 8px;
     }
 
     .raw-item,
     .preview-item {
-      min-height: 172px;
-      padding: 14px 12px;
+      min-height: 136px;
+      padding: 10px 8px;
       border: 1px solid var(--line);
-      border-radius: 20px;
+      border-radius: 14px;
       background: #fff;
       display: flex;
       flex-direction: column;
@@ -245,12 +305,12 @@
     .preview-item strong {
       display: -webkit-box;
       margin: 0;
-      font-size: 16px;
-      line-height: 1.45;
+      font-size: 13px;
+      line-height: 1.35;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      min-height: 68px;
+      min-height: 52px;
       word-break: keep-all;
     }
 
@@ -260,7 +320,7 @@
       align-items: center;
       gap: 8px;
       margin: 0;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--muted);
     }
@@ -274,9 +334,9 @@
 
     .preview-media {
       width: 100%;
-      min-height: 92px;
-      padding: 10px;
-      border-radius: 16px;
+      min-height: 68px;
+      padding: 8px;
+      border-radius: 12px;
       border: 1px dashed rgba(143, 79, 45, 0.25);
       background: #faf3e7;
       display: flex;
@@ -287,8 +347,8 @@
     }
 
     .preview-media img {
-      width: 78px;
-      height: 78px;
+      width: 54px;
+      height: 54px;
       object-fit: contain;
       flex: 0 0 auto;
     }
@@ -297,18 +357,18 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 6px 10px;
+      padding: 4px 8px;
       border-radius: 999px;
       background: #f2e1c7;
       color: var(--accent);
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 800;
       line-height: 1;
     }
 
     .preview-media .missing {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 11px;
       line-height: 1.5;
       word-break: keep-all;
     }
@@ -394,14 +454,14 @@
 
         <section class="section">
           <h3>Aliases</h3>
-          <p><code>Variant	Base</code> 형식으로 입력합니다. 규칙으로 안 잡히는 예외만 추가하세요.</p>
-          <textarea id="aliasBox"></textarea>
+          <p><code>경외하는 것은, 경외</code>처럼 한 줄에 <code>변형, 기준</code> 형식으로 입력합니다. 탭, 쉼표, <code>-&gt;</code>, <code>|</code> 모두 가능합니다.</p>
+          <textarea id="aliasBox" placeholder="경외하는 것은, 경외"></textarea>
         </section>
 
         <section class="section">
           <h3>Image Mappings</h3>
-          <p><code>Key	Path</code> 형식으로 입력합니다. 파일명 자동 추론이 안 되는 경우만 등록하세요.</p>
-          <textarea id="imageBox"></textarea>
+          <p><code>경외, BibleCards_Images/경외.png</code>처럼 한 줄에 <code>기준, 경로</code> 형식으로 입력합니다. 파일명 자동 추론이 안 되는 경우만 등록하세요.</p>
+          <textarea id="imageBox" placeholder="경외, BibleCards_Images/경외.png"></textarea>
           <div class="toolbar" style="margin-top:12px;">
             <button class="btn" id="saveMetaBtn" type="button">별칭/이미지 매핑 저장</button>
             <button class="btn" id="exportBtn" type="button">백업 JSON 내보내기</button>
@@ -421,6 +481,9 @@
     let data = getDefaultsData();
     let selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
     let isCreatingVerse = false;
+    let draftVerse = null;
+    const collapsedBooks = new Set();
+    const collapsedChapters = new Set();
 
     function clone(value) {
       return JSON.parse(JSON.stringify(value));
@@ -500,6 +563,48 @@
       return data.cards.filter((card) => card.VerseID === selectedVerseId);
     }
 
+    function getChapterCollapseKey(book, chapter) {
+      return `${normalize(book)}::${chapter}`;
+    }
+
+    function getDraftFromForm() {
+      return {
+        Book: normalize(document.getElementById("bookInput").value),
+        Chapter: document.getElementById("chapterInput").value ? Number(document.getElementById("chapterInput").value) : "",
+        Verse: document.getElementById("verseInput").value ? Number(document.getElementById("verseInput").value) : "",
+        FullText: normalize(document.getElementById("fullTextInput").value)
+      };
+    }
+
+    function getNewVerseSeed() {
+      const currentDraft = getDraftFromForm();
+      if (isCreatingVerse && currentDraft.Book && currentDraft.Chapter && currentDraft.Verse) {
+        return {
+          Book: currentDraft.Book,
+          Chapter: currentDraft.Chapter,
+          Verse: Number(currentDraft.Verse) + 1,
+          FullText: ""
+        };
+      }
+
+      const selected = getSelectedVerse();
+      if (selected) {
+        return {
+          Book: selected.Book,
+          Chapter: selected.Chapter,
+          Verse: Number(selected.Verse) + 1,
+          FullText: ""
+        };
+      }
+
+      return {
+        Book: "",
+        Chapter: "",
+        Verse: "",
+        FullText: ""
+      };
+    }
+
     function fillVerseForm(verse) {
       document.getElementById("bookInput").value = verse ? verse.Book : "";
       document.getElementById("chapterInput").value = verse ? verse.Chapter : "";
@@ -510,9 +615,13 @@
     function clearVerseForm() {
       isCreatingVerse = true;
       selectedVerseId = null;
-      fillVerseForm(null);
-      renderAll();
-      setStatus("새 구절 입력 상태입니다.");
+      draftVerse = getNewVerseSeed();
+      renderAll({ keepDraft: true });
+      if (draftVerse.Book && draftVerse.Chapter && draftVerse.Verse) {
+        setStatus(`${draftVerse.Book} ${draftVerse.Chapter}:${draftVerse.Verse} 입력 상태입니다.`);
+      } else {
+        setStatus("새 구절 입력 상태입니다.");
+      }
     }
 
     function stripPostposition(text = "") {
@@ -573,10 +682,10 @@
       };
       const addStemVariants = (stem) => {
         const normalizedStem = normalize(stem);
-        if (!normalizedStem || normalizedStem.length < 2) return;
+        if (!normalizedStem) return;
         push(normalizedStem);
         push(`${normalizedStem}다`);
-        if (normalizedStem.endsWith("으") && normalizedStem.length > 2) {
+        if (normalizedStem.endsWith("으") && normalizedStem.length > 1) {
           push(`${normalizedStem.slice(0, -1)}다`);
           const stemWithoutEu = normalizedStem.slice(0, -1);
           const head = stemWithoutEu.slice(0, -1);
@@ -587,16 +696,45 @@
       };
 
       [
-        "느니라", "나니", "니라", "하니라", "하니", "느냐", "느뇨", "는가", "도다",
+        "으리라", "리라", "느니라", "나니", "니라", "하니라", "하니", "느냐", "느뇨", "는가", "도다",
         "므로", "으며", "면서", "려고", "려니", "려면", "려", "아서", "어서", "여서",
         "하며", "하여", "아라", "어라", "여라", "아도", "어도", "여도", "아서도", "어서도",
-        "으면", "면", "고", "며", "니", "라", "는", "은", "을", "던", "어", "아", "여"
+        "으면", "면", "고", "며", "게", "니", "라", "는", "은", "을", "던", "어", "아", "여", "나"
       ].forEach((suffix) => {
-        if (normalized.length <= suffix.length + 1 || !normalized.endsWith(suffix)) return;
+        if (normalized.length <= suffix.length || !normalized.endsWith(suffix)) return;
         addStemVariants(normalized.slice(0, -suffix.length));
       });
 
       return candidates;
+    }
+
+    function getResolvedImageTerms(text, aliasMap = buildAliasMap()) {
+      const normalized = normalize(text);
+      const stripped = stripPostposition(normalized);
+      const ordered = [];
+      const push = (value) => {
+        const next = normalize(value);
+        if (next && !ordered.includes(next)) ordered.push(next);
+      };
+      const score = (value) => {
+        const next = normalize(value);
+        if (!next) return -1;
+        let point = 0;
+        if (next.endsWith("하다")) point += 6;
+        else if (next.endsWith("다")) point += 5;
+        if (next !== normalized) point += 2;
+        if (next.length > 1) point += 1;
+        return point;
+      };
+
+      getDictionaryFormCandidates(normalized).sort((a, b) => score(b) - score(a)).forEach(push);
+      getBaseFormCandidates(normalized).sort((a, b) => score(b) - score(a)).forEach(push);
+      push(aliasMap.get(normalized));
+      push(aliasMap.get(stripped));
+      push(stripped);
+      push(normalized);
+      getImageLookupTerms(normalized, aliasMap).forEach(push);
+      return ordered;
     }
 
     function buildAliasMap() {
@@ -663,7 +801,9 @@
     }
 
     function resolveImage(text, aliasMap, imageMap) {
-      for (const term of getImageLookupTerms(text, aliasMap)) {
+      const terms = getResolvedImageTerms(text, aliasMap);
+
+      for (const term of terms) {
         if (imageMap.has(term)) {
           return {
             imageKey: term,
@@ -672,18 +812,8 @@
         }
       }
 
-      for (const term of getImageLookupTerms(text, aliasMap)) {
-        const candidates = getAutoImageCandidates(term);
-        if (candidates.length > 0) {
-          return {
-            imageKey: term,
-            imageUrl: candidates[0]
-          };
-        }
-      }
-
       return {
-        imageKey: "",
+        imageKey: terms[0] || normalize(text),
         imageUrl: ""
       };
     }
@@ -697,16 +827,22 @@
         if (normalized && !urls.includes(normalized)) urls.push(normalized);
       };
 
-      push(imageUrl);
-
       const seeds = [];
-      if (imageKey) seeds.push(...getImageLookupTerms(imageKey, aliasMap));
-      if (wordText) seeds.push(...getImageLookupTerms(wordText, aliasMap));
+      if (wordText) seeds.push(...getResolvedImageTerms(wordText, aliasMap));
+      if (imageKey) seeds.push(...getResolvedImageTerms(imageKey, aliasMap));
+      const nounToVerb = (value) => {
+        const stripped = stripPostposition(normalize(value));
+        return stripped && !stripped.endsWith("다") ? `${stripped}하다` : "";
+      };
+      if (wordText) seeds.push(nounToVerb(wordText));
+      if (imageKey) seeds.push(nounToVerb(imageKey));
 
       seeds.forEach((term) => {
         if (imageMap.has(term)) push(imageMap.get(term));
         getAutoImageCandidates(term).forEach(push);
       });
+
+      push(imageUrl);
 
       return urls.map((value) => encodeURI(value));
     }
@@ -759,17 +895,29 @@
     }
 
     function parseTable(text) {
-      return text
+      const rows = text
         .split(/\r?\n/)
         .map((line) => line.trim())
         .filter(Boolean)
-        .slice(1)
         .map((line) => {
           if (line.includes("->")) return line.split(/\s*->\s*/);
           if (line.includes("|")) return line.split(/\s*\|\s*/);
           if (line.includes(",")) return line.split(/\s*,\s*/);
           return line.split(/\t+/);
         });
+
+      if (rows.length === 0) return [];
+
+      const header = rows[0].map((cell) => normalize(cell).toLowerCase());
+      const looksLikeHeader =
+        (header[0] === "variant" && header[1] === "base") ||
+        (header[0] === "key" && header[1] === "path") ||
+        (header[0] === "별칭" && header[1] === "기준") ||
+        (header[0] === "변형" && header[1] === "기준") ||
+        (header[0] === "키" && header[1] === "경로") ||
+        (header[0] === "image" && header[1] === "path");
+
+      return looksLikeHeader ? rows.slice(1) : rows;
     }
 
     function saveMetaBoxes() {
@@ -826,6 +974,9 @@
 
       selectedVerseId = nextVerseId;
       isCreatingVerse = false;
+      draftVerse = null;
+      collapsedBooks.delete(book);
+      collapsedChapters.delete(getChapterCollapseKey(book, chapter));
       sortVerses();
       rebuildCards();
       renderAll();
@@ -859,6 +1010,7 @@
       data.cards = data.cards.filter((card) => card.VerseID !== verse.VerseID);
       selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
       isCreatingVerse = false;
+      draftVerse = null;
       renderAll();
       setStatus("선택한 구절을 삭제했습니다.");
     }
@@ -872,17 +1024,90 @@
         return;
       }
 
+      const grouped = new Map();
       data.verses.forEach((verse) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `verse-btn${verse.VerseID === selectedVerseId ? " active" : ""}`;
-        button.textContent = `${verse.Book} ${verse.Chapter}:${verse.Verse}`;
-        button.onclick = () => {
-          selectedVerseId = verse.VerseID;
-          isCreatingVerse = false;
-          renderAll();
+        if (!grouped.has(verse.Book)) grouped.set(verse.Book, new Map());
+        const chapterMap = grouped.get(verse.Book);
+        const chapterKey = String(verse.Chapter);
+        if (!chapterMap.has(chapterKey)) chapterMap.set(chapterKey, []);
+        chapterMap.get(chapterKey).push(verse);
+      });
+
+      grouped.forEach((chapterMap, book) => {
+        const bookSection = document.createElement("div");
+        bookSection.className = "verse-group";
+        const totalCount = Array.from(chapterMap.values()).reduce((sum, verses) => sum + verses.length, 0);
+        const bookToggle = document.createElement("button");
+        bookToggle.type = "button";
+        bookToggle.className = "verse-group-toggle";
+        bookToggle.innerHTML = `
+          <strong>${book}</strong>
+          <span>${collapsedBooks.has(book) ? "펼치기" : "접기"} · ${totalCount}절</span>
+        `;
+        bookToggle.onclick = () => {
+          if (collapsedBooks.has(book)) collapsedBooks.delete(book);
+          else collapsedBooks.add(book);
+          renderVerseList();
         };
-        list.appendChild(button);
+        const bookTitle = document.createElement("div");
+        bookTitle.className = "verse-group-title";
+        bookTitle.appendChild(bookToggle);
+        bookSection.appendChild(bookTitle);
+
+        if (collapsedBooks.has(book)) {
+          list.appendChild(bookSection);
+          return;
+        }
+
+        Array.from(chapterMap.keys()).sort((a, b) => Number(a) - Number(b)).forEach((chapterKey) => {
+          const chapterSection = document.createElement("div");
+          chapterSection.className = "verse-group-chapter";
+          const collapseKey = getChapterCollapseKey(book, chapterKey);
+          const chapterToggle = document.createElement("button");
+          chapterToggle.type = "button";
+          chapterToggle.className = "verse-group-toggle chapter";
+          chapterToggle.innerHTML = `
+            <strong>${chapterKey}장</strong>
+            <span>${collapsedChapters.has(collapseKey) ? "펼치기" : "접기"} · ${chapterMap.get(chapterKey).length}절</span>
+          `;
+          chapterToggle.onclick = () => {
+            if (collapsedChapters.has(collapseKey)) collapsedChapters.delete(collapseKey);
+            else collapsedChapters.add(collapseKey);
+            renderVerseList();
+          };
+          const chapterLabel = document.createElement("div");
+          chapterLabel.className = "verse-group-label";
+          chapterLabel.appendChild(chapterToggle);
+          chapterSection.appendChild(chapterLabel);
+
+          if (collapsedChapters.has(collapseKey)) {
+            bookSection.appendChild(chapterSection);
+            return;
+          }
+
+          const grid = document.createElement("div");
+          grid.className = "verse-group-grid";
+
+          chapterMap.get(chapterKey)
+            .sort((a, b) => Number(a.Verse) - Number(b.Verse))
+            .forEach((verse) => {
+              const button = document.createElement("button");
+              button.type = "button";
+              button.className = `verse-btn${verse.VerseID === selectedVerseId ? " active" : ""}`;
+              button.textContent = `${verse.Verse}절`;
+              button.onclick = () => {
+                selectedVerseId = verse.VerseID;
+                isCreatingVerse = false;
+                renderAll();
+              };
+              grid.appendChild(button);
+            });
+
+          chapterSection.appendChild(grid);
+          bookSection.appendChild(chapterSection);
+        });
+
+        list.appendChild(bookSection);
       });
     }
 
@@ -1036,7 +1261,7 @@
           sortVerses();
           selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
           isCreatingVerse = false;
-          if (data.cards.length === 0 && data.cardsRaw.length > 0) rebuildCards();
+          if (data.cardsRaw.length > 0) rebuildCards();
           renderAll();
           setStatus("백업 JSON을 가져왔습니다.");
         } catch (error) {
@@ -1046,11 +1271,12 @@
       reader.readAsText(file);
     }
 
-    function renderAll() {
+    function renderAll(options = {}) {
+      if (isCreatingVerse && !options.keepDraft) draftVerse = getDraftFromForm();
       sortVerses();
       renderVerseList();
       renderMetaBoxes();
-      fillVerseForm(getSelectedVerse());
+      fillVerseForm(isCreatingVerse ? draftVerse : getSelectedVerse());
       renderRawEditor();
       renderPreview();
     }
@@ -1060,7 +1286,10 @@
       data = getDefaultsData();
       selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
       isCreatingVerse = false;
-      if (data.cards.length === 0 && data.cardsRaw.length > 0) rebuildCards();
+      draftVerse = null;
+      collapsedBooks.clear();
+      collapsedChapters.clear();
+      if (data.cardsRaw.length > 0) rebuildCards();
       renderAll();
       setStatus("기본데이터를 다시 읽었습니다.");
     };
@@ -1080,7 +1309,7 @@
       event.target.value = "";
     });
 
-    if (data.cards.length === 0 && data.cardsRaw.length > 0) {
+    if (data.cardsRaw.length > 0) {
       rebuildCards();
     }
     renderAll();

@@ -14,7 +14,7 @@
       --accent: #8a4b2a;
       --accent-soft: #f0dfc4;
       --chip: #efe4d1;
-      --shadow: 0 18px 36px rgba(84, 55, 24, 0.08);
+      --shadow: 0 14px 28px rgba(84, 55, 24, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -29,117 +29,156 @@
     }
 
     .app {
-      max-width: 1200px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 24px 16px 48px;
+      padding: 14px 12px 28px;
     }
 
     .hero {
-      padding: 24px;
+      padding: 16px 18px;
       border: 1px solid var(--line);
-      border-radius: 24px;
+      border-radius: 18px;
       background: linear-gradient(135deg, rgba(255,250,242,0.98), rgba(248,236,213,0.92));
       box-shadow: var(--shadow);
     }
 
     .hero h1 {
-      margin: 0 0 8px;
-      font-size: 32px;
+      margin: 0 0 4px;
+      font-size: 24px;
     }
 
     .hero p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.5;
+      font-size: 13px;
     }
 
     .layout {
       display: grid;
-      grid-template-columns: 320px minmax(0, 1fr);
-      gap: 20px;
-      margin-top: 20px;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 14px;
     }
 
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 24px;
+      border-radius: 18px;
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
     .panel-header {
-      padding: 18px 20px 12px;
+      padding: 14px 16px 10px;
       border-bottom: 1px solid rgba(219, 205, 180, 0.7);
     }
 
     .panel-header h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .panel-header p {
-      margin: 6px 0 0;
+      margin: 4px 0 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .panel-body {
-      padding: 18px 20px 20px;
+      padding: 14px 16px 16px;
     }
 
     .field {
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .field label {
       display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
+      margin-bottom: 4px;
+      font-size: 12px;
       color: var(--muted);
       font-weight: 700;
     }
 
-    select, button {
+    select,
+    button {
       font: inherit;
     }
 
     select {
       width: 100%;
-      padding: 12px 14px;
-      border-radius: 14px;
+      padding: 9px 11px;
+      border-radius: 10px;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--text);
+      font-size: 13px;
     }
 
     .verse-list {
       display: grid;
-      gap: 8px;
-      max-height: 420px;
+      gap: 6px;
+      max-height: 360px;
       overflow: auto;
       padding-right: 4px;
     }
 
-    .verse-btn {
-      width: 100%;
-      text-align: left;
-      padding: 11px 12px;
-      border-radius: 14px;
+    .verse-tools {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .verse-tool-btn {
+      padding: 6px 8px;
+      border-radius: 10px;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--text);
       cursor: pointer;
+      font-size: 11px;
     }
 
-    .verse-btn.active {
+    .verse-summary {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .verse-option {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .verse-option.selected {
+      background: #fbf1e0;
+    }
+
+    .verse-option.active {
       border-color: var(--accent);
       background: var(--accent-soft);
     }
 
+    .verse-option input {
+      margin: 0;
+      pointer-events: none;
+    }
+
     .viewer {
-      padding: 24px;
-      min-height: 640px;
+      padding: 16px;
+      min-height: 520px;
     }
 
     .viewer-head {
@@ -147,35 +186,112 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     .viewer-head h2 {
-      margin: 0 0 8px;
-      font-size: 28px;
+      margin: 0 0 4px;
+      font-size: 21px;
     }
 
     .viewer-head p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .viewer-tools {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tool-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn,
+    .mode-btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .tool-btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .mode-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .tool-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .score-text,
+    .speech-status,
+    .speech-result {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .speech-result {
+      color: var(--accent);
+      line-height: 1.5;
     }
 
     .chips {
-      line-height: 2.35;
-      font-size: 22px;
+      line-height: 2.15;
+      font-size: 18px;
       word-break: keep-all;
+    }
+
+    .study-verse-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .study-verse {
+      border-top: 1px dashed rgba(138, 75, 42, 0.24);
+      padding-top: 12px;
+    }
+
+    .study-verse:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .study-verse-head {
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
     }
 
     .word-chip {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 68px;
-      min-height: 68px;
-      margin: 0 5px 8px 0;
-      padding: 6px;
-      border-radius: 18px;
+      min-width: 48px;
+      min-height: 48px;
+      margin: 0 4px 6px 0;
+      padding: 4px;
+      border-radius: 12px;
       border: 1px solid rgba(138, 75, 42, 0.18);
       background: var(--chip);
       vertical-align: middle;
@@ -183,32 +299,34 @@
       overflow: hidden;
     }
 
-    .word-chip.revealed {
-      padding: 8px 12px;
+    .word-chip.revealed,
+    .word-chip.hint {
       min-width: 0;
       min-height: 0;
-      font-size: 18px;
+      padding: 5px 8px;
+      font-size: 13px;
       font-weight: 700;
     }
 
     .word-chip img {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: 40px;
+      height: 40px;
       object-fit: contain;
     }
 
     .chip-hint {
-      font-size: 16px;
+      font-size: 13px;
       color: var(--muted);
       font-weight: 700;
     }
 
     .empty {
-      padding: 56px 20px;
+      padding: 44px 16px;
       text-align: center;
       color: var(--muted);
       line-height: 1.8;
+      font-size: 13px;
     }
 
     @media (max-width: 900px) {
@@ -226,7 +344,7 @@
   <div class="app">
     <section class="hero">
       <h1>성경 카드</h1>
-      <p>사전형 이미지 파일과 저장된 카드 결과를 기준으로 구절을 학습합니다. 카드가 없으면 본문 그대로 표시됩니다.</p>
+      <p>구절을 선택하고 이미지, 빈칸, 초성, 첫글자 모드로 암기할 수 있습니다.</p>
     </section>
 
     <div class="layout">
@@ -261,12 +379,23 @@
   <script>
     const AUTO_IMAGE_DIRS = ["BibleCards_Images", "./BibleCards_Images"];
     const AUTO_IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition || null;
 
     const appData = normalizeData(window.BIBLE_APP_DEFAULT_DATA || {});
     const state = {
       book: "",
       chapter: "",
-      verseId: ""
+      verseId: "",
+      selectedVerseIds: [],
+      studyMode: "image"
+    };
+
+    let recognition = null;
+    let isListening = false;
+    let currentTranscript = "";
+    let dragSelection = {
+      active: false,
+      value: false
     };
 
     function normalize(text = "") {
@@ -313,6 +442,7 @@
         "으로서", "으로써", "와", "과", "랑", "나", "로", "께", "에", "은", "는", "이", "가",
         "을", "를", "의", "도", "만"
       ];
+
       for (const suffix of suffixes) {
         if (text.length > suffix.length && text.endsWith(suffix)) {
           return text.slice(0, -suffix.length);
@@ -354,6 +484,7 @@
         const next = normalize(value);
         if (next && !candidates.includes(next)) candidates.push(next);
       };
+
       const appendBatchim = (char, batchimIndex) => {
         const code = char.charCodeAt(0);
         if (code < 0xac00 || code > 0xd7a3) return "";
@@ -361,12 +492,13 @@
         if (offset % 28 !== 0) return "";
         return String.fromCharCode(code + batchimIndex);
       };
+
       const addStemVariants = (stem) => {
         const normalizedStem = normalize(stem);
-        if (!normalizedStem || normalizedStem.length < 2) return;
+        if (!normalizedStem) return;
         push(normalizedStem);
         push(`${normalizedStem}다`);
-        if (normalizedStem.endsWith("으") && normalizedStem.length > 2) {
+        if (normalizedStem.endsWith("으") && normalizedStem.length > 1) {
           push(`${normalizedStem.slice(0, -1)}다`);
           const base = normalizedStem.slice(0, -1);
           const head = base.slice(0, -1);
@@ -377,16 +509,46 @@
       };
 
       [
-        "느니라", "나니", "니라", "하니라", "하니", "느냐", "는가", "도다",
+        "으리라", "리라", "느니라", "나니", "니라", "하니라", "하니", "느냐", "는가", "도다",
         "므로", "으며", "면서", "려고", "려면", "아서", "어서", "여서",
-        "하며", "하여", "아도", "어도", "여도", "으면", "면", "고", "며",
-        "니", "라", "는", "은", "을", "던", "어", "아", "여"
+        "하며", "하여", "아도", "어도", "여도", "으면", "면", "고", "며", "게",
+        "니", "라", "는", "은", "을", "던", "어", "아", "여", "나"
       ].forEach((suffix) => {
-        if (normalized.length <= suffix.length + 1 || !normalized.endsWith(suffix)) return;
+        if (normalized.length <= suffix.length || !normalized.endsWith(suffix)) return;
         addStemVariants(normalized.slice(0, -suffix.length));
       });
 
       return candidates;
+    }
+
+    function getResolvedImageTerms(text = "") {
+      const normalized = normalize(text);
+      const stripped = stripPostposition(normalized);
+      const aliasMap = buildAliasMap();
+      const ordered = [];
+      const push = (value) => {
+        const next = normalize(value);
+        if (next && !ordered.includes(next)) ordered.push(next);
+      };
+      const score = (value) => {
+        const next = normalize(value);
+        if (!next) return -1;
+        let point = 0;
+        if (next.endsWith("하다")) point += 6;
+        else if (next.endsWith("다")) point += 5;
+        if (next !== normalized) point += 2;
+        if (next.length > 1) point += 1;
+        return point;
+      };
+
+      getDictionaryFormCandidates(normalized).sort((a, b) => score(b) - score(a)).forEach(push);
+      getBaseFormCandidates(normalized).sort((a, b) => score(b) - score(a)).forEach(push);
+      push(aliasMap.get(normalized));
+      push(aliasMap.get(stripped));
+      push(stripped);
+      push(normalized);
+      getLookupTerms(normalized).forEach(push);
+      return ordered;
     }
 
     function getLookupTerms(text = "") {
@@ -425,13 +587,17 @@
         if (normalized && !candidates.includes(normalized)) candidates.push(normalized);
       };
 
-      push(card.imageUrl || card.ImageURL || "");
-
       const seeds = [];
       const imageKey = normalize(card.imageKey || card.ImageKey || "");
-      const text = normalize(card.text || card.WordText || "");
-      if (imageKey) seeds.push(...getLookupTerms(imageKey));
-      if (text) seeds.push(...getLookupTerms(text));
+      const text = normalize(card.wordText || card.WordText || "");
+      if (text) seeds.push(...getResolvedImageTerms(text));
+      if (imageKey) seeds.push(...getResolvedImageTerms(imageKey));
+      const nounToVerb = (value) => {
+        const stripped = stripPostposition(normalize(value));
+        return stripped && !stripped.endsWith("다") ? `${stripped}하다` : "";
+      };
+      if (text) seeds.push(nounToVerb(text));
+      if (imageKey) seeds.push(nounToVerb(imageKey));
 
       seeds.forEach((term) => {
         if (imageMap.has(term)) push(imageMap.get(term));
@@ -443,6 +609,8 @@
           });
         });
       });
+
+      push(card.imageUrl || card.ImageURL || "");
 
       return candidates.map((value) => encodeURI(value));
     }
@@ -463,6 +631,24 @@
       return appData.verses
         .filter((verse) => verse.Book === book && String(verse.Chapter) === String(chapter))
         .sort((a, b) => Number(a.Verse) - Number(b.Verse));
+    }
+
+    function getCurrentVerses() {
+      return getVerses(state.book, state.chapter);
+    }
+
+    function getSelectedVerseIdsInOrder() {
+      const validIds = new Set(getCurrentVerses().map((verse) => verse.VerseID));
+      return state.selectedVerseIds.filter((id) => validIds.has(id));
+    }
+
+    function getSelectedVerses() {
+      const selectedIds = new Set(getSelectedVerseIdsInOrder());
+      return getCurrentVerses().filter((verse) => selectedIds.has(verse.VerseID));
+    }
+
+    function getCurrentVerse() {
+      return appData.verses.find((item) => item.VerseID === state.verseId) || null;
     }
 
     function getCardsForVerse(verseId) {
@@ -491,58 +677,197 @@
 
     function renderVerseList() {
       const verseList = document.getElementById("verseList");
-      const verses = getVerses(state.book, state.chapter);
+      const verses = getCurrentVerses();
       if (verses.length === 0) {
         state.verseId = "";
+        state.selectedVerseIds = [];
         verseList.innerHTML = `<div class="empty">등록된 절이 없습니다.</div>`;
         return;
       }
 
-      if (!verses.some((verse) => verse.VerseID === state.verseId)) {
-        state.verseId = verses[0].VerseID;
+      const verseIds = verses.map((verse) => verse.VerseID);
+      state.selectedVerseIds = state.selectedVerseIds.filter((id) => verseIds.includes(id));
+      if (state.selectedVerseIds.length === 0) {
+        state.selectedVerseIds = [verseIds[0]];
+      }
+      if (!state.selectedVerseIds.includes(state.verseId)) {
+        state.verseId = state.selectedVerseIds[0] || "";
       }
 
-      verseList.innerHTML = "";
+      verseList.innerHTML = `
+        <div class="verse-tools">
+          <button type="button" class="verse-tool-btn" id="selectAllVersesBtn">전체 선택</button>
+          <button type="button" class="verse-tool-btn" id="clearAllVersesBtn">전체 해제</button>
+          <button type="button" class="verse-tool-btn" id="startSelectedVersesBtn">선택한 절 시작</button>
+        </div>
+        <div class="verse-summary" id="verseSummary"></div>
+      `;
+
+      document.getElementById("selectAllVersesBtn").onclick = () => {
+        state.selectedVerseIds = verseIds.slice();
+        if (!state.verseId) state.verseId = state.selectedVerseIds[0] || "";
+        updateVerseSelectionUI();
+        renderViewer();
+      };
+
+      document.getElementById("clearAllVersesBtn").onclick = () => {
+        state.selectedVerseIds = [];
+        state.verseId = "";
+        updateVerseSelectionUI();
+        renderViewer();
+      };
+
+      document.getElementById("startSelectedVersesBtn").onclick = () => {
+        state.verseId = getSelectedVerseIdsInOrder()[0] || "";
+        updateVerseSelectionUI();
+        renderViewer();
+      };
+
       verses.forEach((verse) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `verse-btn${verse.VerseID === state.verseId ? " active" : ""}`;
-        button.textContent = `${verse.Verse}절`;
-        button.onclick = () => {
+        const row = document.createElement("div");
+        row.className = "verse-option";
+        row.dataset.verseId = verse.VerseID;
+        row.innerHTML = `
+          <input type="checkbox" ${state.selectedVerseIds.includes(verse.VerseID) ? "checked" : ""}>
+          <span>${verse.Verse}절</span>
+        `;
+
+        row.addEventListener("mousedown", (event) => {
+          if (event.button !== 0) return;
+          event.preventDefault();
+          const isSelected = getSelectedVerseIdsInOrder().includes(verse.VerseID);
+          dragSelection.active = true;
+          dragSelection.value = !isSelected;
+          applyVerseSelection(verse.VerseID, dragSelection.value);
+        });
+
+        row.addEventListener("mouseenter", () => {
+          if (!dragSelection.active) return;
+          applyVerseSelection(verse.VerseID, dragSelection.value);
+        });
+
+        row.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          if (!getSelectedVerseIdsInOrder().includes(verse.VerseID)) {
+            applyVerseSelection(verse.VerseID, true);
+          }
           state.verseId = verse.VerseID;
-          renderVerseList();
+          updateVerseSelectionUI();
           renderViewer();
-        };
-        verseList.appendChild(button);
+        });
+
+        verseList.appendChild(row);
       });
+
+      updateVerseSelectionUI();
+    }
+
+    function applyVerseSelection(verseId, selected) {
+      const currentIds = getCurrentVerses().map((verse) => verse.VerseID);
+      const selectedSet = new Set(state.selectedVerseIds.filter((id) => currentIds.includes(id)));
+      if (selected) {
+        selectedSet.add(verseId);
+      } else {
+        selectedSet.delete(verseId);
+      }
+
+      state.selectedVerseIds = currentIds.filter((id) => selectedSet.has(id));
+      if (state.selectedVerseIds.includes(verseId)) {
+        state.verseId = verseId;
+      } else if (!state.selectedVerseIds.includes(state.verseId)) {
+        state.verseId = state.selectedVerseIds[0] || "";
+      }
+
+      currentTranscript = "";
+      stopListening();
+      updateVerseSelectionUI();
+      renderViewer();
+    }
+
+    function updateVerseSelectionUI() {
+      const selectedIds = new Set(getSelectedVerseIdsInOrder());
+      document.querySelectorAll(".verse-option").forEach((row) => {
+        const verseId = row.dataset.verseId;
+        const selected = selectedIds.has(verseId);
+        row.classList.toggle("selected", selected);
+        row.classList.toggle("active", verseId === state.verseId);
+        const checkbox = row.querySelector("input");
+        if (checkbox) checkbox.checked = selected;
+      });
+
+      const summary = document.getElementById("verseSummary");
+      if (summary) {
+        summary.textContent = `선택한 절 ${selectedIds.size}개`;
+      }
     }
 
     function renderViewer() {
       const viewer = document.getElementById("viewer");
-      const verse = appData.verses.find((item) => item.VerseID === state.verseId);
-      if (!verse) {
-        viewer.innerHTML = `<div class="empty">구절을 먼저 등록하세요.</div>`;
+      const selectedVerses = getSelectedVerses();
+      const verse = getCurrentVerse();
+      if (!verse || selectedVerses.length === 0) {
+        viewer.innerHTML = `<div class="empty">절을 하나 이상 선택하세요.</div>`;
         return;
       }
 
-      const cards = getCardsForVerse(verse.VerseID);
+      const currentIndex = selectedVerses.findIndex((item) => item.VerseID === verse.VerseID) + 1;
+      const heading = selectedVerses.length === 1
+        ? `${verse.Book} ${verse.Chapter}장 ${verse.Verse}절`
+        : `${verse.Book} ${verse.Chapter}장`;
+      const description = selectedVerses.length === 1
+        ? "선택한 절 1개를 암기 중입니다."
+        : `선택한 절 ${selectedVerses.length}개를 함께 암기 중입니다.`;
+
       viewer.innerHTML = `
         <div class="viewer-head">
           <div>
-            <h2>${verse.Book} ${verse.Chapter}장 ${verse.Verse}절</h2>
-            <p>${verse.FullText}</p>
+            <h2>${heading}</h2>
+            <p>${description}${selectedVerses.length === 1 ? "" : ` 현재 기준 절 ${currentIndex}/${selectedVerses.length}`}</p>
           </div>
         </div>
-        <div class="chips" id="chips"></div>
+        <div class="viewer-tools">
+          <div class="tool-row">
+            <button class="tool-btn" id="speechStartBtn" type="button">음성 시작</button>
+            <button class="tool-btn" id="speechStopBtn" type="button" disabled>음성 중지</button>
+            <span class="speech-status" id="speechStatus">음성 대기</span>
+          </div>
+          <div class="tool-row">
+            <button class="mode-btn active" data-mode="image" type="button">이미지</button>
+            <button class="mode-btn" data-mode="blank" type="button">빈칸</button>
+            <button class="mode-btn" data-mode="chosung" type="button">초성</button>
+            <button class="mode-btn" data-mode="first" type="button">첫글자</button>
+          </div>
+          <div class="tool-row">
+            <span class="score-text" id="scoreText">정답률: 0/0 (0%)</span>
+            <button class="tool-btn" id="resetRevealBtn" type="button">다시 가리기</button>
+            <button class="tool-btn primary" id="nextVerseBtn" type="button">다음 절</button>
+          </div>
+          <div class="speech-result" id="speechResult"></div>
+        </div>
+        <div class="study-verse-list" id="studyVerseList"></div>
       `;
 
-      const chips = document.getElementById("chips");
-      if (cards.length === 0) {
-        chips.innerHTML = `<div class="empty">등록된 카드가 없습니다. 관리자에서 카드를 추가하세요.</div>`;
-        return;
-      }
+      const list = document.getElementById("studyVerseList");
+      selectedVerses.forEach((selectedVerse) => {
+        const cards = getCardsForVerse(selectedVerse.VerseID);
+        const block = document.createElement("section");
+        block.className = "study-verse";
+        block.dataset.verseId = selectedVerse.VerseID;
+        block.innerHTML = `
+          <div class="study-verse-head">${selectedVerse.Verse}절</div>
+          <div class="chips"></div>
+        `;
+        const chips = block.querySelector(".chips");
+        if (cards.length === 0) {
+          chips.innerHTML = `<div class="empty">등록된 카드가 없습니다.</div>`;
+        } else {
+          renderTextWithCards(selectedVerse.FullText, cards, chips);
+        }
+        list.appendChild(block);
+      });
 
-      renderTextWithCards(verse.FullText, cards, chips);
+      bindViewerControls();
+      refreshScore();
     }
 
     function renderTextWithCards(fullText, cards, container) {
@@ -575,15 +900,46 @@
       });
     }
 
+    function toChosung(text = "") {
+      const CHO = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
+      return Array.from(text).map((ch) => {
+        const code = ch.charCodeAt(0);
+        if (code < 0xac00 || code > 0xd7a3) return ch;
+        return CHO[Math.floor((code - 0xac00) / 588)];
+      }).join("");
+    }
+
+    function toFirstHint(text = "") {
+      if (!text) return "";
+      if (text.length === 1) return text;
+      return `${text[0]}${"_".repeat(Math.max(1, text.length - 1))}`;
+    }
+
+    function toBlankHint(text = "") {
+      return "_".repeat(Math.max(2, text.length));
+    }
+
+    function getHiddenDisplayWord(text = "") {
+      if (state.studyMode === "blank") return toBlankHint(text);
+      if (state.studyMode === "chosung") return toChosung(text);
+      if (state.studyMode === "first") return toFirstHint(text);
+      return text;
+    }
+
     function renderHiddenChip(chip, card) {
-      chip.classList.remove("revealed");
+      chip.classList.remove("revealed", "hint");
       chip.innerHTML = "";
+
+      if (state.studyMode !== "image") {
+        chip.classList.add("hint");
+        chip.innerHTML = `<span class="chip-hint">${getHiddenDisplayWord(card.wordText)}</span>`;
+        return;
+      }
+
       const candidates = getImageCandidates(card);
       if (candidates.length === 0) {
-        const hint = document.createElement("span");
-        hint.className = "chip-hint";
-        hint.textContent = card.wordText;
-        chip.appendChild(hint);
+        chip.classList.add("hint");
+        chip.innerHTML = `<span class="chip-hint">${card.wordText}</span>`;
         return;
       }
 
@@ -593,6 +949,7 @@
       let index = 0;
       const tryNext = () => {
         if (index >= candidates.length) {
+          chip.classList.add("hint");
           chip.innerHTML = `<span class="chip-hint">${card.wordText}</span>`;
           return;
         }
@@ -607,24 +964,181 @@
     function toggleChip(chip, card) {
       if (chip.classList.contains("revealed")) {
         renderHiddenChip(chip, card);
+      } else {
+        chip.classList.remove("hint");
+        chip.classList.add("revealed");
+        chip.textContent = card.wordText;
+      }
+      refreshScore();
+    }
+
+    function refreshScore() {
+      const scoreText = document.getElementById("scoreText");
+      if (!scoreText) return;
+      const chips = [...document.querySelectorAll(".study-verse .word-chip")];
+      const total = chips.length;
+      const revealed = chips.filter((chip) => chip.classList.contains("revealed")).length;
+      const percent = total === 0 ? 0 : Math.round((revealed / total) * 100);
+      scoreText.textContent = `정답률: ${revealed}/${total} (${percent}%)`;
+    }
+
+    function resetReveal() {
+      document.querySelectorAll(".study-verse").forEach((block) => {
+        const verseId = block.dataset.verseId;
+        const cards = getCardsForVerse(verseId);
+        const chips = [...block.querySelectorAll(".word-chip")];
+        chips.forEach((chip, index) => {
+          if (cards[index]) renderHiddenChip(chip, cards[index]);
+        });
+      });
+      refreshScore();
+    }
+
+    function goNextVerse() {
+      stopListening();
+      const verses = getSelectedVerses();
+      const index = verses.findIndex((verse) => verse.VerseID === state.verseId);
+      if (index < 0 || index >= verses.length - 1) return;
+      state.verseId = verses[index + 1].VerseID;
+      currentTranscript = "";
+      updateVerseSelectionUI();
+      renderViewer();
+    }
+
+    function ensureRecognition() {
+      if (!SpeechRecognitionAPI) return null;
+      if (recognition) return recognition;
+
+      recognition = new SpeechRecognitionAPI();
+      recognition.lang = "ko-KR";
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onresult = (event) => {
+        currentTranscript = Array.from(event.results)
+          .map((result) => result[0]?.transcript || "")
+          .join(" ")
+          .trim();
+        const resultNode = document.getElementById("speechResult");
+        const statusNode = document.getElementById("speechStatus");
+        if (resultNode) resultNode.textContent = currentTranscript;
+        if (statusNode) statusNode.textContent = currentTranscript ? "인식 중" : "음성 대기";
+      };
+
+      recognition.onerror = () => {
+        isListening = false;
+        updateSpeechButtons();
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        updateSpeechButtons();
+      };
+
+      return recognition;
+    }
+
+    function updateSpeechButtons() {
+      const startBtn = document.getElementById("speechStartBtn");
+      const stopBtn = document.getElementById("speechStopBtn");
+      const statusNode = document.getElementById("speechStatus");
+      if (!startBtn || !stopBtn || !statusNode) return;
+
+      startBtn.disabled = !SpeechRecognitionAPI || isListening;
+      stopBtn.disabled = !SpeechRecognitionAPI || !isListening;
+
+      if (!SpeechRecognitionAPI) {
+        statusNode.textContent = "이 브라우저는 음성인식을 지원하지 않습니다.";
+      } else if (!isListening && !currentTranscript) {
+        statusNode.textContent = "음성 대기";
+      }
+    }
+
+    function startListening() {
+      const instance = ensureRecognition();
+      if (!instance || isListening) return;
+      currentTranscript = "";
+      const resultNode = document.getElementById("speechResult");
+      const statusNode = document.getElementById("speechStatus");
+      if (resultNode) resultNode.textContent = "";
+      if (statusNode) statusNode.textContent = "듣는 중";
+      isListening = true;
+      updateSpeechButtons();
+      try {
+        instance.start();
+      } catch (error) {
+        isListening = false;
+        updateSpeechButtons();
+      }
+    }
+
+    function stopListening() {
+      if (!recognition || !isListening) {
+        isListening = false;
+        updateSpeechButtons();
         return;
       }
-      chip.classList.add("revealed");
-      chip.textContent = card.wordText;
+      try {
+        recognition.stop();
+      } catch (error) {
+        isListening = false;
+      }
+      updateSpeechButtons();
+    }
+
+    function bindViewerControls() {
+      const startBtn = document.getElementById("speechStartBtn");
+      const stopBtn = document.getElementById("speechStopBtn");
+      const resetBtn = document.getElementById("resetRevealBtn");
+      const nextBtn = document.getElementById("nextVerseBtn");
+
+      if (startBtn) startBtn.onclick = startListening;
+      if (stopBtn) stopBtn.onclick = stopListening;
+      if (resetBtn) resetBtn.onclick = resetReveal;
+      if (nextBtn) nextBtn.onclick = goNextVerse;
+      if (nextBtn) nextBtn.disabled = getSelectedVerses().length !== 1;
+
+      document.querySelectorAll(".mode-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.mode === state.studyMode);
+        button.onclick = () => {
+          state.studyMode = button.dataset.mode;
+          document.querySelectorAll(".mode-btn").forEach((btn) => {
+            btn.classList.toggle("active", btn === button);
+          });
+          resetReveal();
+        };
+      });
+
+      const resultNode = document.getElementById("speechResult");
+      if (resultNode) resultNode.textContent = currentTranscript;
+      updateSpeechButtons();
     }
 
     function bindEvents() {
       document.getElementById("bookSelect").addEventListener("change", (event) => {
+        stopListening();
         state.book = event.target.value;
+        state.studyMode = state.studyMode || "image";
+        state.verseId = "";
+        state.selectedVerseIds = [];
+        currentTranscript = "";
         renderChapters();
         renderVerseList();
         renderViewer();
       });
 
       document.getElementById("chapterSelect").addEventListener("change", (event) => {
+        stopListening();
         state.chapter = event.target.value;
+        state.verseId = "";
+        state.selectedVerseIds = [];
+        currentTranscript = "";
         renderVerseList();
         renderViewer();
+      });
+
+      document.addEventListener("mouseup", () => {
+        dragSelection.active = false;
       });
     }
 

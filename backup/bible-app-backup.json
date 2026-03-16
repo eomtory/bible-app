@@ -667,646 +667,659 @@
       "VerseID": "잠언:8:12",
       "WordText": "나",
       "ImageKey": "나",
-      "ImageURL": "BibleCards_Images/나.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-2",
       "VerseID": "잠언:8:12",
       "WordText": "지혜는",
-      "ImageKey": "지혜는",
-      "ImageURL": "BibleCards_Images/지혜는.png"
+      "ImageKey": "지혜다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-3",
       "VerseID": "잠언:8:12",
       "WordText": "명철로",
-      "ImageKey": "명철로",
-      "ImageURL": "BibleCards_Images/명철로.png"
+      "ImageKey": "명철",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-4",
       "VerseID": "잠언:8:12",
       "WordText": "주소를",
-      "ImageKey": "주소를",
-      "ImageURL": "BibleCards_Images/주소를.png"
+      "ImageKey": "주소",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-5",
       "VerseID": "잠언:8:12",
       "WordText": "삼으며",
-      "ImageKey": "삼으며",
-      "ImageURL": "BibleCards_Images/삼으며.png"
+      "ImageKey": "삼다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-6",
       "VerseID": "잠언:8:12",
       "WordText": "지식과",
-      "ImageKey": "지식과",
-      "ImageURL": "BibleCards_Images/지식과.png"
+      "ImageKey": "지식",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-7",
       "VerseID": "잠언:8:12",
       "WordText": "근신을",
-      "ImageKey": "근신을",
-      "ImageURL": "BibleCards_Images/근신을.png"
+      "ImageKey": "근신다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-8",
       "VerseID": "잠언:8:12",
       "WordText": "찾아",
-      "ImageKey": "찾아",
-      "ImageURL": "BibleCards_Images/찾아.png"
+      "ImageKey": "찾다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:12-card-9",
       "VerseID": "잠언:8:12",
       "WordText": "얻나니",
-      "ImageKey": "얻나니",
-      "ImageURL": "BibleCards_Images/얻나니.png"
+      "ImageKey": "얻다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-1",
       "VerseID": "잠언:8:13",
       "WordText": "여호와를",
-      "ImageKey": "여호와를",
-      "ImageURL": "BibleCards_Images/여호와를.png"
+      "ImageKey": "여호와",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-2",
       "VerseID": "잠언:8:13",
       "WordText": "경외하는 것은",
-      "ImageKey": "경외하는 것은",
-      "ImageURL": "BibleCards_Images/경외하는 것은.png"
+      "ImageKey": "경외하는 것다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-3",
       "VerseID": "잠언:8:13",
       "WordText": "악을",
-      "ImageKey": "악을",
-      "ImageURL": "BibleCards_Images/악을.png"
+      "ImageKey": "악다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-4",
       "VerseID": "잠언:8:13",
       "WordText": "미워하는 것이라",
-      "ImageKey": "미워하는 것이라",
-      "ImageURL": "BibleCards_Images/미워하는 것이라.png"
+      "ImageKey": "미워하는 것이다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-5",
       "VerseID": "잠언:8:13",
       "WordText": "나는",
-      "ImageKey": "나는",
-      "ImageURL": "BibleCards_Images/나는.png"
+      "ImageKey": "나다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-6",
       "VerseID": "잠언:8:13",
       "WordText": "교만과",
-      "ImageKey": "교만과",
-      "ImageURL": "BibleCards_Images/교만과.png"
+      "ImageKey": "교만",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-7",
       "VerseID": "잠언:8:13",
       "WordText": "거만과",
-      "ImageKey": "거만과",
-      "ImageURL": "BibleCards_Images/거만과.png"
+      "ImageKey": "거만",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-8",
       "VerseID": "잠언:8:13",
       "WordText": "악한 행실과",
-      "ImageKey": "악한 행실과",
-      "ImageURL": "BibleCards_Images/악한 행실과.png"
+      "ImageKey": "악한 행실",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-9",
       "VerseID": "잠언:8:13",
       "WordText": "패역한 입을",
-      "ImageKey": "패역한 입을",
-      "ImageURL": "BibleCards_Images/패역한 입을.png"
+      "ImageKey": "패역한 입다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:13-card-10",
       "VerseID": "잠언:8:13",
       "WordText": "미워하느니라",
-      "ImageKey": "미워하느니라",
-      "ImageURL": "BibleCards_Images/미워하느니라.png"
+      "ImageKey": "미워하다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-1",
       "VerseID": "잠언:8:14",
       "WordText": "내게는",
-      "ImageKey": "내게는",
-      "ImageURL": "BibleCards_Images/내게는.png"
+      "ImageKey": "내게다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-2",
       "VerseID": "잠언:8:14",
       "WordText": "계략과",
-      "ImageKey": "계략과",
-      "ImageURL": "BibleCards_Images/계략과.png"
+      "ImageKey": "계략",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-3",
       "VerseID": "잠언:8:14",
       "WordText": "참",
       "ImageKey": "참",
-      "ImageURL": "BibleCards_Images/참.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-4",
       "VerseID": "잠언:8:14",
       "WordText": "지식이",
-      "ImageKey": "지식이",
-      "ImageURL": "BibleCards_Images/지식이.png"
+      "ImageKey": "지식",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-5",
       "VerseID": "잠언:8:14",
       "WordText": "있으며",
-      "ImageKey": "있으며",
-      "ImageURL": "BibleCards_Images/있으며.png"
+      "ImageKey": "있다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-6",
       "VerseID": "잠언:8:14",
       "WordText": "나는",
-      "ImageKey": "나는",
-      "ImageURL": "BibleCards_Images/나는.png"
+      "ImageKey": "나다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-7",
       "VerseID": "잠언:8:14",
       "WordText": "명철이라",
-      "ImageKey": "명철이라",
-      "ImageURL": "BibleCards_Images/명철이라.png"
+      "ImageKey": "명철이다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-8",
       "VerseID": "잠언:8:14",
       "WordText": "내게",
-      "ImageKey": "내게",
-      "ImageURL": "BibleCards_Images/내게.png"
+      "ImageKey": "내다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-9",
       "VerseID": "잠언:8:14",
       "WordText": "능력이",
-      "ImageKey": "능력이",
-      "ImageURL": "BibleCards_Images/능력이.png"
+      "ImageKey": "능력",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:14-card-10",
       "VerseID": "잠언:8:14",
       "WordText": "있으므로",
-      "ImageKey": "있으므로",
-      "ImageURL": "BibleCards_Images/있으므로.png"
+      "ImageKey": "있으다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-1",
       "VerseID": "잠언:8:15",
       "WordText": "나로",
-      "ImageKey": "나로",
-      "ImageURL": "BibleCards_Images/나로.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-2",
       "VerseID": "잠언:8:15",
       "WordText": "말미암아",
-      "ImageKey": "말미암아",
-      "ImageURL": "BibleCards_Images/말미암아.png"
+      "ImageKey": "말미암다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-3",
       "VerseID": "잠언:8:15",
       "WordText": "왕들이",
-      "ImageKey": "왕들이",
-      "ImageURL": "BibleCards_Images/왕들이.png"
+      "ImageKey": "왕들",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-4",
       "VerseID": "잠언:8:15",
       "WordText": "치리하며",
-      "ImageKey": "치리하며",
-      "ImageURL": "BibleCards_Images/치리하며.png"
+      "ImageKey": "치리하다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-5",
       "VerseID": "잠언:8:15",
       "WordText": "방백들이",
-      "ImageKey": "방백들이",
-      "ImageURL": "BibleCards_Images/방백들이.png"
+      "ImageKey": "방백들",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-6",
       "VerseID": "잠언:8:15",
       "WordText": "공의를",
-      "ImageKey": "공의를",
-      "ImageURL": "BibleCards_Images/공의를.png"
+      "ImageKey": "공의",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:15-card-7",
       "VerseID": "잠언:8:15",
       "WordText": "세우며",
-      "ImageKey": "세우며",
-      "ImageURL": "BibleCards_Images/세우며.png"
+      "ImageKey": "세우다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-1",
       "VerseID": "잠언:8:16",
       "WordText": "나로",
-      "ImageKey": "나로",
-      "ImageURL": "BibleCards_Images/나로.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-2",
       "VerseID": "잠언:8:16",
       "WordText": "말미암아",
-      "ImageKey": "말미암아",
-      "ImageURL": "BibleCards_Images/말미암아.png"
+      "ImageKey": "말미암다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-3",
       "VerseID": "잠언:8:16",
       "WordText": "재상과",
-      "ImageKey": "재상과",
-      "ImageURL": "BibleCards_Images/재상과.png"
+      "ImageKey": "재상",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-4",
       "VerseID": "잠언:8:16",
       "WordText": "존귀한",
-      "ImageKey": "존귀한",
-      "ImageURL": "BibleCards_Images/존귀한.png"
+      "ImageKey": "존귀",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-5",
       "VerseID": "잠언:8:16",
       "WordText": "자",
       "ImageKey": "자",
-      "ImageURL": "BibleCards_Images/자.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-6",
       "VerseID": "잠언:8:16",
       "WordText": "곧",
       "ImageKey": "곧",
-      "ImageURL": "BibleCards_Images/곧.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-7",
       "VerseID": "잠언:8:16",
       "WordText": "모든",
       "ImageKey": "모든",
-      "ImageURL": "BibleCards_Images/모든.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-8",
       "VerseID": "잠언:8:16",
       "WordText": "의로운",
-      "ImageKey": "의로운",
-      "ImageURL": "BibleCards_Images/의로운.png"
+      "ImageKey": "의",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-9",
       "VerseID": "잠언:8:16",
       "WordText": "재판관들이",
-      "ImageKey": "재판관들이",
-      "ImageURL": "BibleCards_Images/재판관들이.png"
+      "ImageKey": "재판관들",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:16-card-10",
       "VerseID": "잠언:8:16",
       "WordText": "다스리느니라",
-      "ImageKey": "다스리느니라",
-      "ImageURL": "BibleCards_Images/다스리느니라.png"
+      "ImageKey": "다스리다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-1",
       "VerseID": "잠언:8:17",
       "WordText": "나를",
-      "ImageKey": "나를",
-      "ImageURL": "BibleCards_Images/나를.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-2",
       "VerseID": "잠언:8:17",
       "WordText": "사랑하는",
-      "ImageKey": "사랑하는",
-      "ImageURL": "BibleCards_Images/사랑하는.png"
+      "ImageKey": "사랑하다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-3",
       "VerseID": "잠언:8:17",
       "WordText": "자들이",
-      "ImageKey": "자들이",
-      "ImageURL": "BibleCards_Images/자들이.png"
+      "ImageKey": "자들",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-4",
       "VerseID": "잠언:8:17",
       "WordText": "나의",
-      "ImageKey": "나의",
-      "ImageURL": "BibleCards_Images/나의.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-5",
       "VerseID": "잠언:8:17",
       "WordText": "사랑을",
-      "ImageKey": "사랑을",
-      "ImageURL": "BibleCards_Images/사랑을.png"
+      "ImageKey": "사랑다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-6",
       "VerseID": "잠언:8:17",
       "WordText": "입으며",
-      "ImageKey": "입으며",
-      "ImageURL": "BibleCards_Images/입으며.png"
+      "ImageKey": "입다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-7",
       "VerseID": "잠언:8:17",
       "WordText": "나를",
-      "ImageKey": "나를",
-      "ImageURL": "BibleCards_Images/나를.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-8",
       "VerseID": "잠언:8:17",
       "WordText": "간절히",
       "ImageKey": "간절히",
-      "ImageURL": "BibleCards_Images/간절히.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-9",
       "VerseID": "잠언:8:17",
       "WordText": "찾는",
-      "ImageKey": "찾는",
-      "ImageURL": "BibleCards_Images/찾는.png"
+      "ImageKey": "찾다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-10",
       "VerseID": "잠언:8:17",
       "WordText": "자가",
-      "ImageKey": "자가",
-      "ImageURL": "BibleCards_Images/자가.png"
+      "ImageKey": "자",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-11",
       "VerseID": "잠언:8:17",
       "WordText": "나를",
-      "ImageKey": "나를",
-      "ImageURL": "BibleCards_Images/나를.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:17-card-12",
       "VerseID": "잠언:8:17",
       "WordText": "만날 것이니라",
-      "ImageKey": "만날 것이니라",
-      "ImageURL": "BibleCards_Images/만날 것이니라.png"
+      "ImageKey": "만날 것이다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-1",
       "VerseID": "잠언:8:18",
       "WordText": "부귀가",
-      "ImageKey": "부귀가",
-      "ImageURL": "BibleCards_Images/부귀가.png"
+      "ImageKey": "부귀",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-2",
       "VerseID": "잠언:8:18",
       "WordText": "내게",
-      "ImageKey": "내게",
-      "ImageURL": "BibleCards_Images/내게.png"
+      "ImageKey": "내다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-3",
       "VerseID": "잠언:8:18",
       "WordText": "있고",
-      "ImageKey": "있고",
-      "ImageURL": "BibleCards_Images/있고.png"
+      "ImageKey": "있다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-4",
       "VerseID": "잠언:8:18",
       "WordText": "장구한",
-      "ImageKey": "장구한",
-      "ImageURL": "BibleCards_Images/장구한.png"
+      "ImageKey": "장구",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-5",
       "VerseID": "잠언:8:18",
       "WordText": "재물과",
-      "ImageKey": "재물과",
-      "ImageURL": "BibleCards_Images/재물과.png"
+      "ImageKey": "재물",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-6",
       "VerseID": "잠언:8:18",
       "WordText": "공의도",
-      "ImageKey": "공의도",
-      "ImageURL": "BibleCards_Images/공의도.png"
+      "ImageKey": "공의",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:18-card-7",
       "VerseID": "잠언:8:18",
       "WordText": "그러하니라",
-      "ImageKey": "그러하니라",
-      "ImageURL": "BibleCards_Images/그러하니라.png"
+      "ImageKey": "그러하다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-1",
       "VerseID": "잠언:8:19",
       "WordText": "내",
-      "ImageKey": "내",
-      "ImageURL": "BibleCards_Images/내.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-2",
       "VerseID": "잠언:8:19",
       "WordText": "열매는",
-      "ImageKey": "열매는",
-      "ImageURL": "BibleCards_Images/열매는.png"
+      "ImageKey": "열매다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-3",
       "VerseID": "잠언:8:19",
       "WordText": "금이나",
-      "ImageKey": "금이나",
-      "ImageURL": "BibleCards_Images/금이나.png"
+      "ImageKey": "금이다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-4",
       "VerseID": "잠언:8:19",
       "WordText": "정금보다",
-      "ImageKey": "정금보다",
-      "ImageURL": "BibleCards_Images/정금보다.png"
+      "ImageKey": "정금",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-5",
       "VerseID": "잠언:8:19",
       "WordText": "나으며",
-      "ImageKey": "나으며",
-      "ImageURL": "BibleCards_Images/나으며.png"
+      "ImageKey": "나다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-6",
       "VerseID": "잠언:8:19",
       "WordText": "내",
-      "ImageKey": "내",
-      "ImageURL": "BibleCards_Images/내.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-7",
       "VerseID": "잠언:8:19",
       "WordText": "소득은",
-      "ImageKey": "소득은",
-      "ImageURL": "BibleCards_Images/소득은.png"
+      "ImageKey": "소득다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-8",
       "VerseID": "잠언:8:19",
       "WordText": "순은보다",
-      "ImageKey": "순은보다",
-      "ImageURL": "BibleCards_Images/순은보다.png"
+      "ImageKey": "순은",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:19-card-9",
       "VerseID": "잠언:8:19",
       "WordText": "나으니라",
-      "ImageKey": "나으니라",
-      "ImageURL": "BibleCards_Images/나으니라.png"
+      "ImageKey": "나으다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-1",
       "VerseID": "잠언:8:20",
       "WordText": "나는",
-      "ImageKey": "나는",
-      "ImageURL": "BibleCards_Images/나는.png"
+      "ImageKey": "나다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-2",
       "VerseID": "잠언:8:20",
       "WordText": "정의로운",
-      "ImageKey": "정의로운",
-      "ImageURL": "BibleCards_Images/정의로운.png"
+      "ImageKey": "정의",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-3",
       "VerseID": "잠언:8:20",
       "WordText": "길로",
-      "ImageKey": "길로",
-      "ImageURL": "BibleCards_Images/길로.png"
+      "ImageKey": "길",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-4",
       "VerseID": "잠언:8:20",
       "WordText": "행하며",
-      "ImageKey": "행하며",
-      "ImageURL": "BibleCards_Images/행하며.png"
+      "ImageKey": "행하다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-5",
       "VerseID": "잠언:8:20",
       "WordText": "공의로운",
-      "ImageKey": "공의로운",
-      "ImageURL": "BibleCards_Images/공의로운.png"
+      "ImageKey": "공의",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-6",
       "VerseID": "잠언:8:20",
       "WordText": "길",
       "ImageKey": "길",
-      "ImageURL": "BibleCards_Images/길.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-7",
       "VerseID": "잠언:8:20",
       "WordText": "가운데로",
-      "ImageKey": "가운데로",
-      "ImageURL": "BibleCards_Images/가운데로.png"
+      "ImageKey": "가운데",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:20-card-8",
       "VerseID": "잠언:8:20",
       "WordText": "다니나니",
-      "ImageKey": "다니나니",
-      "ImageURL": "BibleCards_Images/다니나니.png"
+      "ImageKey": "다니다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-1",
       "VerseID": "잠언:8:21",
       "WordText": "이는",
-      "ImageKey": "이는",
-      "ImageURL": "BibleCards_Images/이는.png"
+      "ImageKey": "이다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-2",
       "VerseID": "잠언:8:21",
       "WordText": "나를",
-      "ImageKey": "나를",
-      "ImageURL": "BibleCards_Images/나를.png"
+      "ImageKey": "나",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-3",
       "VerseID": "잠언:8:21",
       "WordText": "사랑하는",
-      "ImageKey": "사랑하는",
-      "ImageURL": "BibleCards_Images/사랑하는.png"
+      "ImageKey": "사랑하다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-4",
       "VerseID": "잠언:8:21",
       "WordText": "자가",
-      "ImageKey": "자가",
-      "ImageURL": "BibleCards_Images/자가.png"
+      "ImageKey": "자",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-5",
       "VerseID": "잠언:8:21",
       "WordText": "재물을",
-      "ImageKey": "재물을",
-      "ImageURL": "BibleCards_Images/재물을.png"
+      "ImageKey": "재물다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-6",
       "VerseID": "잠언:8:21",
       "WordText": "얻어서",
-      "ImageKey": "얻어서",
-      "ImageURL": "BibleCards_Images/얻어서.png"
+      "ImageKey": "얻다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-7",
       "VerseID": "잠언:8:21",
       "WordText": "그",
       "ImageKey": "그",
-      "ImageURL": "BibleCards_Images/그.png"
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-8",
       "VerseID": "잠언:8:21",
       "WordText": "곳간에",
-      "ImageKey": "곳간에",
-      "ImageURL": "BibleCards_Images/곳간에.png"
+      "ImageKey": "곳간",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-9",
       "VerseID": "잠언:8:21",
       "WordText": "채우게",
-      "ImageKey": "채우게",
-      "ImageURL": "BibleCards_Images/채우게.png"
+      "ImageKey": "채우다",
+      "ImageURL": ""
     },
     {
       "CardID": "잠언:8:21-card-10",
       "VerseID": "잠언:8:21",
       "WordText": "하려 함이니라",
-      "ImageKey": "하려 함이니라",
-      "ImageURL": "BibleCards_Images/하려 함이니라.png"
+      "ImageKey": "하려 함이다",
+      "ImageURL": ""
     }
   ],
-  "aliases": [],
+  "aliases": [
+    {
+      "variant": "경외하는 것은",
+      "base": "경외"
+    },
+    {
+      "variant": "미워하는 것이라",
+      "base": "미워하다"
+    },
+    {
+      "variant": "만날 것이니라",
+      "base": "만나다"
+    }
+  ],
   "images": []
 }
