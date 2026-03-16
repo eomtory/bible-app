@@ -69,6 +69,41 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "Chapter": 8,
       "Verse": 21,
       "FullText": "이는 나를 사랑하는 자가 재물을 얻어서 그 곳간에 채우게 하려 함이니라"
+    },
+    {
+      "VerseID": "히브리서:4:12",
+      "Book": "히브리서",
+      "Chapter": 4,
+      "Verse": 12,
+      "FullText": "하나님의 말씀은 살아 있고 활력이 있어 좌우에 날선 어떤 검보다도 예리하여 혼과 영과 및 관절과 골수를 찔러 쪼개기까지 하며 또 마음의 생각과 뜻을 판단하나니"
+    },
+    {
+      "VerseID": "히브리서:4:13",
+      "Book": "히브리서",
+      "Chapter": 4,
+      "Verse": 13,
+      "FullText": "지으신 것이 하나도 그 앞에 나타나지 않음이 없고 우리의 결산을 받으실 이의 눈 앞에 만물이 벌거벗은 것 같이 드러나느니라"
+    },
+    {
+      "VerseID": "히브리서:4:14",
+      "Book": "히브리서",
+      "Chapter": 4,
+      "Verse": 14,
+      "FullText": "그러므로 우리에게 큰 대제사장이 계시니 승천하신 이 곧 하나님의 아들 예수시라 우리가 믿는 도리를 굳게 잡을지어다"
+    },
+    {
+      "VerseID": "히브리서:4:15",
+      "Book": "히브리서",
+      "Chapter": 4,
+      "Verse": 15,
+      "FullText": "우리에게 있는 대제사장은 우리의 연약함을 동정하지 못하실 이가 아니요 모든 일에 우리와 똑같이 시험을 받으신 이로되 죄는 없으시니라"
+    },
+    {
+      "VerseID": "히브리서:4:16",
+      "Book": "히브리서",
+      "Chapter": 4,
+      "Verse": 16,
+      "FullText": "그러므로 우리는 긍휼하심을 받고 때를 따라 돕는 은혜를 얻기 위하여 은혜의 보좌 앞에 담대히 나아갈 것이니라"
     }
   ],
   "cardsRaw": [
@@ -659,6 +694,564 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "VerseID": "잠언:8:21",
       "Token": "함이니라",
       "JoinWithPrev": true
+    },
+    {
+      "id": "히브리서:4:12-raw-1",
+      "VerseID": "히브리서:4:12",
+      "Token": "하나님의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-2",
+      "VerseID": "히브리서:4:12",
+      "Token": "말씀은",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-3",
+      "VerseID": "히브리서:4:12",
+      "Token": "살아",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-4",
+      "VerseID": "히브리서:4:12",
+      "Token": "있고",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-5",
+      "VerseID": "히브리서:4:12",
+      "Token": "활력이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-6",
+      "VerseID": "히브리서:4:12",
+      "Token": "있어",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-7",
+      "VerseID": "히브리서:4:12",
+      "Token": "좌우에",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-8",
+      "VerseID": "히브리서:4:12",
+      "Token": "날선",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-9",
+      "VerseID": "히브리서:4:12",
+      "Token": "어떤",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-10",
+      "VerseID": "히브리서:4:12",
+      "Token": "검보다도",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-11",
+      "VerseID": "히브리서:4:12",
+      "Token": "예리하여",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-12",
+      "VerseID": "히브리서:4:12",
+      "Token": "혼과",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-13",
+      "VerseID": "히브리서:4:12",
+      "Token": "영과",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-14",
+      "VerseID": "히브리서:4:12",
+      "Token": "및",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-15",
+      "VerseID": "히브리서:4:12",
+      "Token": "관절과",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-16",
+      "VerseID": "히브리서:4:12",
+      "Token": "골수를",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-17",
+      "VerseID": "히브리서:4:12",
+      "Token": "찔러",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-18",
+      "VerseID": "히브리서:4:12",
+      "Token": "쪼개기까지",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-19",
+      "VerseID": "히브리서:4:12",
+      "Token": "하며",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-20",
+      "VerseID": "히브리서:4:12",
+      "Token": "또",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-21",
+      "VerseID": "히브리서:4:12",
+      "Token": "마음의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-22",
+      "VerseID": "히브리서:4:12",
+      "Token": "생각과",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-23",
+      "VerseID": "히브리서:4:12",
+      "Token": "뜻을",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:12-raw-24",
+      "VerseID": "히브리서:4:12",
+      "Token": "판단하나니",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-1",
+      "VerseID": "히브리서:4:13",
+      "Token": "지으신",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-2",
+      "VerseID": "히브리서:4:13",
+      "Token": "것이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-3",
+      "VerseID": "히브리서:4:13",
+      "Token": "하나도",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-4",
+      "VerseID": "히브리서:4:13",
+      "Token": "그",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-5",
+      "VerseID": "히브리서:4:13",
+      "Token": "앞에",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-6",
+      "VerseID": "히브리서:4:13",
+      "Token": "나타나지",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-7",
+      "VerseID": "히브리서:4:13",
+      "Token": "않음이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-8",
+      "VerseID": "히브리서:4:13",
+      "Token": "없고",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-9",
+      "VerseID": "히브리서:4:13",
+      "Token": "우리의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-10",
+      "VerseID": "히브리서:4:13",
+      "Token": "결산을",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-11",
+      "VerseID": "히브리서:4:13",
+      "Token": "받으실",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-12",
+      "VerseID": "히브리서:4:13",
+      "Token": "이의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-13",
+      "VerseID": "히브리서:4:13",
+      "Token": "눈",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-14",
+      "VerseID": "히브리서:4:13",
+      "Token": "앞에",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-15",
+      "VerseID": "히브리서:4:13",
+      "Token": "만물이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-16",
+      "VerseID": "히브리서:4:13",
+      "Token": "벌거벗은",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-17",
+      "VerseID": "히브리서:4:13",
+      "Token": "것",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-18",
+      "VerseID": "히브리서:4:13",
+      "Token": "같이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:13-raw-19",
+      "VerseID": "히브리서:4:13",
+      "Token": "드러나느니라",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-1",
+      "VerseID": "히브리서:4:14",
+      "Token": "그러므로",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-2",
+      "VerseID": "히브리서:4:14",
+      "Token": "우리에게",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-3",
+      "VerseID": "히브리서:4:14",
+      "Token": "큰",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-4",
+      "VerseID": "히브리서:4:14",
+      "Token": "대제사장이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-5",
+      "VerseID": "히브리서:4:14",
+      "Token": "계시니",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-6",
+      "VerseID": "히브리서:4:14",
+      "Token": "승천하신",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-7",
+      "VerseID": "히브리서:4:14",
+      "Token": "이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-8",
+      "VerseID": "히브리서:4:14",
+      "Token": "곧",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-9",
+      "VerseID": "히브리서:4:14",
+      "Token": "하나님의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-10",
+      "VerseID": "히브리서:4:14",
+      "Token": "아들",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-11",
+      "VerseID": "히브리서:4:14",
+      "Token": "예수시라",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-12",
+      "VerseID": "히브리서:4:14",
+      "Token": "우리가",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-13",
+      "VerseID": "히브리서:4:14",
+      "Token": "믿는",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-14",
+      "VerseID": "히브리서:4:14",
+      "Token": "도리를",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-15",
+      "VerseID": "히브리서:4:14",
+      "Token": "굳게",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:14-raw-16",
+      "VerseID": "히브리서:4:14",
+      "Token": "잡을지어다",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-1",
+      "VerseID": "히브리서:4:15",
+      "Token": "우리에게",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-2",
+      "VerseID": "히브리서:4:15",
+      "Token": "있는",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-3",
+      "VerseID": "히브리서:4:15",
+      "Token": "대제사장은",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-4",
+      "VerseID": "히브리서:4:15",
+      "Token": "우리의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-5",
+      "VerseID": "히브리서:4:15",
+      "Token": "연약함을",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-6",
+      "VerseID": "히브리서:4:15",
+      "Token": "동정하지",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-7",
+      "VerseID": "히브리서:4:15",
+      "Token": "못하실",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-8",
+      "VerseID": "히브리서:4:15",
+      "Token": "이가",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-9",
+      "VerseID": "히브리서:4:15",
+      "Token": "아니요",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-10",
+      "VerseID": "히브리서:4:15",
+      "Token": "모든",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-11",
+      "VerseID": "히브리서:4:15",
+      "Token": "일에",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-12",
+      "VerseID": "히브리서:4:15",
+      "Token": "우리와",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-13",
+      "VerseID": "히브리서:4:15",
+      "Token": "똑같이",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-14",
+      "VerseID": "히브리서:4:15",
+      "Token": "시험을",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-15",
+      "VerseID": "히브리서:4:15",
+      "Token": "받으신",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-16",
+      "VerseID": "히브리서:4:15",
+      "Token": "이로되",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-17",
+      "VerseID": "히브리서:4:15",
+      "Token": "죄는",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:15-raw-18",
+      "VerseID": "히브리서:4:15",
+      "Token": "없으시니라",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-1",
+      "VerseID": "히브리서:4:16",
+      "Token": "그러므로",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-2",
+      "VerseID": "히브리서:4:16",
+      "Token": "우리는",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-3",
+      "VerseID": "히브리서:4:16",
+      "Token": "긍휼하심을",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-4",
+      "VerseID": "히브리서:4:16",
+      "Token": "받고",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-5",
+      "VerseID": "히브리서:4:16",
+      "Token": "때를",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-6",
+      "VerseID": "히브리서:4:16",
+      "Token": "따라",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-7",
+      "VerseID": "히브리서:4:16",
+      "Token": "돕는",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-8",
+      "VerseID": "히브리서:4:16",
+      "Token": "은혜를",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-9",
+      "VerseID": "히브리서:4:16",
+      "Token": "얻기",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-10",
+      "VerseID": "히브리서:4:16",
+      "Token": "위하여",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-11",
+      "VerseID": "히브리서:4:16",
+      "Token": "은혜의",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-12",
+      "VerseID": "히브리서:4:16",
+      "Token": "보좌",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-13",
+      "VerseID": "히브리서:4:16",
+      "Token": "앞에",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-14",
+      "VerseID": "히브리서:4:16",
+      "Token": "담대히",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-15",
+      "VerseID": "히브리서:4:16",
+      "Token": "나아갈",
+      "JoinWithPrev": false
+    },
+    {
+      "id": "히브리서:4:16-raw-16",
+      "VerseID": "히브리서:4:16",
+      "Token": "것이니라",
+      "JoinWithPrev": false
     }
   ],
   "cards": [
@@ -1304,6 +1897,657 @@ window.BIBLE_APP_DEFAULT_DATA = {
       "VerseID": "잠언:8:21",
       "WordText": "하려 함이니라",
       "ImageKey": "하려 함이다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-1",
+      "VerseID": "히브리서:4:12",
+      "WordText": "하나님의",
+      "ImageKey": "하나님",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-2",
+      "VerseID": "히브리서:4:12",
+      "WordText": "말씀은",
+      "ImageKey": "말씀다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-3",
+      "VerseID": "히브리서:4:12",
+      "WordText": "살아",
+      "ImageKey": "살다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-4",
+      "VerseID": "히브리서:4:12",
+      "WordText": "있고",
+      "ImageKey": "있다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-5",
+      "VerseID": "히브리서:4:12",
+      "WordText": "활력이",
+      "ImageKey": "활력",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-6",
+      "VerseID": "히브리서:4:12",
+      "WordText": "있어",
+      "ImageKey": "있다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-7",
+      "VerseID": "히브리서:4:12",
+      "WordText": "좌우에",
+      "ImageKey": "좌우",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-8",
+      "VerseID": "히브리서:4:12",
+      "WordText": "날선",
+      "ImageKey": "날선",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-9",
+      "VerseID": "히브리서:4:12",
+      "WordText": "어떤",
+      "ImageKey": "어떤",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-10",
+      "VerseID": "히브리서:4:12",
+      "WordText": "검보다도",
+      "ImageKey": "검보다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-11",
+      "VerseID": "히브리서:4:12",
+      "WordText": "예리하여",
+      "ImageKey": "예리하다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-12",
+      "VerseID": "히브리서:4:12",
+      "WordText": "혼과",
+      "ImageKey": "혼",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-13",
+      "VerseID": "히브리서:4:12",
+      "WordText": "영과",
+      "ImageKey": "영",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-14",
+      "VerseID": "히브리서:4:12",
+      "WordText": "및",
+      "ImageKey": "및",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-15",
+      "VerseID": "히브리서:4:12",
+      "WordText": "관절과",
+      "ImageKey": "관절",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-16",
+      "VerseID": "히브리서:4:12",
+      "WordText": "골수를",
+      "ImageKey": "골수",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-17",
+      "VerseID": "히브리서:4:12",
+      "WordText": "찔러",
+      "ImageKey": "찔러",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-18",
+      "VerseID": "히브리서:4:12",
+      "WordText": "쪼개기까지",
+      "ImageKey": "쪼개기",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-19",
+      "VerseID": "히브리서:4:12",
+      "WordText": "하며",
+      "ImageKey": "하다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-20",
+      "VerseID": "히브리서:4:12",
+      "WordText": "또",
+      "ImageKey": "또",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-21",
+      "VerseID": "히브리서:4:12",
+      "WordText": "마음의",
+      "ImageKey": "마음",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-22",
+      "VerseID": "히브리서:4:12",
+      "WordText": "생각과",
+      "ImageKey": "생각",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-23",
+      "VerseID": "히브리서:4:12",
+      "WordText": "뜻을",
+      "ImageKey": "뜻다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:12-card-24",
+      "VerseID": "히브리서:4:12",
+      "WordText": "판단하나니",
+      "ImageKey": "판단하다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-1",
+      "VerseID": "히브리서:4:13",
+      "WordText": "지으신",
+      "ImageKey": "지으신",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-2",
+      "VerseID": "히브리서:4:13",
+      "WordText": "것이",
+      "ImageKey": "것",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-3",
+      "VerseID": "히브리서:4:13",
+      "WordText": "하나도",
+      "ImageKey": "하나",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-4",
+      "VerseID": "히브리서:4:13",
+      "WordText": "그",
+      "ImageKey": "그",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-5",
+      "VerseID": "히브리서:4:13",
+      "WordText": "앞에",
+      "ImageKey": "앞",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-6",
+      "VerseID": "히브리서:4:13",
+      "WordText": "나타나지",
+      "ImageKey": "나타나지",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-7",
+      "VerseID": "히브리서:4:13",
+      "WordText": "않음이",
+      "ImageKey": "않음",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-8",
+      "VerseID": "히브리서:4:13",
+      "WordText": "없고",
+      "ImageKey": "없다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-9",
+      "VerseID": "히브리서:4:13",
+      "WordText": "우리의",
+      "ImageKey": "우리",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-10",
+      "VerseID": "히브리서:4:13",
+      "WordText": "결산을",
+      "ImageKey": "결산다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-11",
+      "VerseID": "히브리서:4:13",
+      "WordText": "받으실",
+      "ImageKey": "받으실",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-12",
+      "VerseID": "히브리서:4:13",
+      "WordText": "이의",
+      "ImageKey": "이",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-13",
+      "VerseID": "히브리서:4:13",
+      "WordText": "눈",
+      "ImageKey": "눈",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-14",
+      "VerseID": "히브리서:4:13",
+      "WordText": "앞에",
+      "ImageKey": "앞",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-15",
+      "VerseID": "히브리서:4:13",
+      "WordText": "만물이",
+      "ImageKey": "만물",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-16",
+      "VerseID": "히브리서:4:13",
+      "WordText": "벌거벗은",
+      "ImageKey": "벌거벗다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-17",
+      "VerseID": "히브리서:4:13",
+      "WordText": "것",
+      "ImageKey": "것",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-18",
+      "VerseID": "히브리서:4:13",
+      "WordText": "같이",
+      "ImageKey": "같",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:13-card-19",
+      "VerseID": "히브리서:4:13",
+      "WordText": "드러나느니라",
+      "ImageKey": "드러나다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-1",
+      "VerseID": "히브리서:4:14",
+      "WordText": "그러므로",
+      "ImageKey": "그러다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-2",
+      "VerseID": "히브리서:4:14",
+      "WordText": "우리에게",
+      "ImageKey": "우리에다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-3",
+      "VerseID": "히브리서:4:14",
+      "WordText": "큰",
+      "ImageKey": "큰",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-4",
+      "VerseID": "히브리서:4:14",
+      "WordText": "대제사장이",
+      "ImageKey": "대제사장",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-5",
+      "VerseID": "히브리서:4:14",
+      "WordText": "계시니",
+      "ImageKey": "계시다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-6",
+      "VerseID": "히브리서:4:14",
+      "WordText": "승천하신",
+      "ImageKey": "승천하신",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-7",
+      "VerseID": "히브리서:4:14",
+      "WordText": "이",
+      "ImageKey": "이",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-8",
+      "VerseID": "히브리서:4:14",
+      "WordText": "곧",
+      "ImageKey": "곧",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-9",
+      "VerseID": "히브리서:4:14",
+      "WordText": "하나님의",
+      "ImageKey": "하나님",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-10",
+      "VerseID": "히브리서:4:14",
+      "WordText": "아들",
+      "ImageKey": "아들",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-11",
+      "VerseID": "히브리서:4:14",
+      "WordText": "예수시라",
+      "ImageKey": "예수시다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-12",
+      "VerseID": "히브리서:4:14",
+      "WordText": "우리가",
+      "ImageKey": "우리",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-13",
+      "VerseID": "히브리서:4:14",
+      "WordText": "믿는",
+      "ImageKey": "믿다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-14",
+      "VerseID": "히브리서:4:14",
+      "WordText": "도리를",
+      "ImageKey": "도리",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-15",
+      "VerseID": "히브리서:4:14",
+      "WordText": "굳게",
+      "ImageKey": "굳다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:14-card-16",
+      "VerseID": "히브리서:4:14",
+      "WordText": "잡을지어다",
+      "ImageKey": "잡을지어다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-1",
+      "VerseID": "히브리서:4:15",
+      "WordText": "우리에게",
+      "ImageKey": "우리에다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-2",
+      "VerseID": "히브리서:4:15",
+      "WordText": "있는",
+      "ImageKey": "있다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-3",
+      "VerseID": "히브리서:4:15",
+      "WordText": "대제사장은",
+      "ImageKey": "대제사장다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-4",
+      "VerseID": "히브리서:4:15",
+      "WordText": "우리의",
+      "ImageKey": "우리",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-5",
+      "VerseID": "히브리서:4:15",
+      "WordText": "연약함을",
+      "ImageKey": "연약함다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-6",
+      "VerseID": "히브리서:4:15",
+      "WordText": "동정하지",
+      "ImageKey": "동정하지",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-7",
+      "VerseID": "히브리서:4:15",
+      "WordText": "못하실",
+      "ImageKey": "못하실",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-8",
+      "VerseID": "히브리서:4:15",
+      "WordText": "이가",
+      "ImageKey": "이",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-9",
+      "VerseID": "히브리서:4:15",
+      "WordText": "아니요",
+      "ImageKey": "아니",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-10",
+      "VerseID": "히브리서:4:15",
+      "WordText": "모든",
+      "ImageKey": "모든",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-11",
+      "VerseID": "히브리서:4:15",
+      "WordText": "일에",
+      "ImageKey": "일",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-12",
+      "VerseID": "히브리서:4:15",
+      "WordText": "우리와",
+      "ImageKey": "우리",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-13",
+      "VerseID": "히브리서:4:15",
+      "WordText": "똑같이",
+      "ImageKey": "똑같",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-14",
+      "VerseID": "히브리서:4:15",
+      "WordText": "시험을",
+      "ImageKey": "시험다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-15",
+      "VerseID": "히브리서:4:15",
+      "WordText": "받으신",
+      "ImageKey": "받으신",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-16",
+      "VerseID": "히브리서:4:15",
+      "WordText": "이로되",
+      "ImageKey": "이로되",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-17",
+      "VerseID": "히브리서:4:15",
+      "WordText": "죄는",
+      "ImageKey": "죄다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:15-card-18",
+      "VerseID": "히브리서:4:15",
+      "WordText": "없으시니라",
+      "ImageKey": "없으시다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-1",
+      "VerseID": "히브리서:4:16",
+      "WordText": "그러므로",
+      "ImageKey": "그러다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-2",
+      "VerseID": "히브리서:4:16",
+      "WordText": "우리는",
+      "ImageKey": "우리다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-3",
+      "VerseID": "히브리서:4:16",
+      "WordText": "긍휼하심을",
+      "ImageKey": "긍휼하심다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-4",
+      "VerseID": "히브리서:4:16",
+      "WordText": "받고",
+      "ImageKey": "받다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-5",
+      "VerseID": "히브리서:4:16",
+      "WordText": "때를",
+      "ImageKey": "때",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-6",
+      "VerseID": "히브리서:4:16",
+      "WordText": "따라",
+      "ImageKey": "따다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-7",
+      "VerseID": "히브리서:4:16",
+      "WordText": "돕는",
+      "ImageKey": "돕다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-8",
+      "VerseID": "히브리서:4:16",
+      "WordText": "은혜를",
+      "ImageKey": "은혜",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-9",
+      "VerseID": "히브리서:4:16",
+      "WordText": "얻기",
+      "ImageKey": "얻기",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-10",
+      "VerseID": "히브리서:4:16",
+      "WordText": "위하여",
+      "ImageKey": "위하다",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-11",
+      "VerseID": "히브리서:4:16",
+      "WordText": "은혜의",
+      "ImageKey": "은혜",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-12",
+      "VerseID": "히브리서:4:16",
+      "WordText": "보좌",
+      "ImageKey": "보좌",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-13",
+      "VerseID": "히브리서:4:16",
+      "WordText": "앞에",
+      "ImageKey": "앞",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-14",
+      "VerseID": "히브리서:4:16",
+      "WordText": "담대히",
+      "ImageKey": "담대히",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-15",
+      "VerseID": "히브리서:4:16",
+      "WordText": "나아갈",
+      "ImageKey": "나아갈",
+      "ImageURL": ""
+    },
+    {
+      "CardID": "히브리서:4:16-card-16",
+      "VerseID": "히브리서:4:16",
+      "WordText": "것이니라",
+      "ImageKey": "것이다",
       "ImageURL": ""
     }
   ],
