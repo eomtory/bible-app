@@ -373,6 +373,149 @@
       word-break: keep-all;
     }
 
+    .meta-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .meta-head h3 {
+      margin: 0;
+    }
+
+    .meta-count {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(48, 33, 20, 0.38);
+      z-index: 20;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-panel {
+      width: min(900px, 100%);
+      max-height: min(82vh, 900px);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid rgba(221, 207, 181, 0.72);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .modal-subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .modal-toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(221, 207, 181, 0.72);
+    }
+
+    .modal-toolbar input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .modal-body {
+      overflow: auto;
+      padding: 14px 16px 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .manager-section {
+      display: grid;
+      gap: 8px;
+    }
+
+    .manager-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .manager-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .manager-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .manager-item strong,
+    .manager-item span {
+      display: block;
+      word-break: break-word;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .manager-item strong {
+      margin-bottom: 2px;
+      color: var(--text);
+    }
+
+    .manager-item span {
+      color: var(--muted);
+    }
+
+    .manager-empty {
+      padding: 14px 12px;
+      border: 1px dashed rgba(143, 79, 45, 0.28);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      background: #fff;
+    }
+
     @media (max-width: 1100px) {
       .layout {
         grid-template-columns: 1fr;
@@ -453,23 +596,61 @@
         </section>
 
         <section class="section">
-          <h3>Aliases</h3>
+          <div class="meta-head">
+            <h3>Aliases</h3>
+            <span class="meta-count" id="aliasCount"></span>
+          </div>
           <p><code>경외하는 것은, 경외</code>처럼 한 줄에 <code>변형, 기준</code> 형식으로 입력합니다. 탭, 쉼표, <code>-&gt;</code>, <code>|</code> 모두 가능합니다.</p>
           <textarea id="aliasBox" placeholder="경외하는 것은, 경외"></textarea>
         </section>
 
         <section class="section">
-          <h3>Image Mappings</h3>
+          <div class="meta-head">
+            <h3>Image Mappings</h3>
+            <span class="meta-count" id="imageCount"></span>
+          </div>
           <p><code>경외, BibleCards_Images/경외.png</code>처럼 한 줄에 <code>기준, 경로</code> 형식으로 입력합니다. 파일명 자동 추론이 안 되는 경우만 등록하세요.</p>
           <textarea id="imageBox" placeholder="경외, BibleCards_Images/경외.png"></textarea>
           <div class="toolbar" style="margin-top:12px;">
             <button class="btn" id="saveMetaBtn" type="button">별칭/이미지 매핑 저장</button>
+            <button class="btn" id="openMetaManagerBtn" type="button">목록 관리</button>
             <button class="btn" id="exportBtn" type="button">백업 JSON 내보내기</button>
             <label class="btn" for="importFile">백업 JSON 가져오기</label>
             <input id="importFile" type="file" accept="application/json" style="display:none;">
           </div>
         </section>
       </main>
+    </div>
+  </div>
+
+  <div class="modal" id="metaManagerModal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <h3>Aliases / Image Mappings 관리</h3>
+          <p class="modal-subtitle">가나다순으로 정렬되며, 검색과 삭제를 여기서 할 수 있습니다.</p>
+        </div>
+        <button class="btn" id="closeMetaManagerBtn" type="button">닫기</button>
+      </div>
+      <div class="modal-toolbar">
+        <input id="metaManagerSearch" type="text" placeholder="검색어를 입력하세요">
+      </div>
+      <div class="modal-body">
+        <section class="manager-section">
+          <div class="manager-title">
+            <span>Aliases</span>
+            <span id="aliasManagerCount"></span>
+          </div>
+          <div class="manager-list" id="aliasManagerList"></div>
+        </section>
+        <section class="manager-section">
+          <div class="manager-title">
+            <span>Image Mappings</span>
+            <span id="imageManagerCount"></span>
+          </div>
+          <div class="manager-list" id="imageManagerList"></div>
+        </section>
+      </div>
     </div>
   </div>
 
@@ -818,6 +999,25 @@
       };
     }
 
+    function sortAliases() {
+      data.aliases.sort((a, b) =>
+        normalize(a.variant).localeCompare(normalize(b.variant), "ko")
+        || normalize(a.base).localeCompare(normalize(b.base), "ko")
+      );
+    }
+
+    function sortImages() {
+      data.images.sort((a, b) =>
+        normalize(a.key).localeCompare(normalize(b.key), "ko")
+        || normalize(a.path).localeCompare(normalize(b.path), "ko")
+      );
+    }
+
+    function sortMetaEntries() {
+      sortAliases();
+      sortImages();
+    }
+
     function getImageCandidateUrls(wordText, imageKey, imageUrl) {
       const imageMap = buildImageMap();
       const aliasMap = buildAliasMap();
@@ -920,18 +1120,57 @@
       return looksLikeHeader ? rows.slice(1) : rows;
     }
 
-    function saveMetaBoxes() {
-      data.aliases = parseTable(document.getElementById("aliasBox").value)
-        .map(([variant, base]) => ({ variant: normalize(variant), base: normalize(base) }))
-        .filter((item) => item.variant && item.base);
+    function mergeAliases(rows) {
+      const map = new Map();
+      data.aliases.forEach((item) => {
+        const variant = normalize(item.variant);
+        const base = normalize(item.base);
+        if (variant && base) map.set(variant, { variant, base });
+      });
 
-      data.images = parseTable(document.getElementById("imageBox").value)
+      rows
+        .map(([variant, base]) => ({ variant: normalize(variant), base: normalize(base) }))
+        .filter((item) => item.variant && item.base)
+        .forEach((item) => map.set(item.variant, item));
+
+      data.aliases = Array.from(map.values());
+    }
+
+    function mergeImages(rows) {
+      const map = new Map();
+      data.images.forEach((item) => {
+        const key = normalize(item.key);
+        const path = normalize(item.path);
+        if (key && path) map.set(key, { key, path });
+      });
+
+      rows
         .map(([key, path]) => ({ key: normalize(key), path: normalize(path) }))
-        .filter((item) => item.key && item.path);
+        .filter((item) => item.key && item.path)
+        .forEach((item) => map.set(item.key, item));
+
+      data.images = Array.from(map.values());
+    }
+
+    function saveMetaBoxes() {
+      const aliasRows = parseTable(document.getElementById("aliasBox").value);
+      const imageRows = parseTable(document.getElementById("imageBox").value);
+
+      if (aliasRows.length === 0 && imageRows.length === 0) {
+        setStatus("추가할 Aliases 또는 Image Mappings를 입력하세요.");
+        return;
+      }
+
+      if (aliasRows.length > 0) mergeAliases(aliasRows);
+      if (imageRows.length > 0) mergeImages(imageRows);
+
+      sortMetaEntries();
 
       rebuildCards();
-      renderPreview();
-      setStatus("별칭과 이미지 매핑을 저장하고 카드를 다시 계산했습니다.");
+      document.getElementById("aliasBox").value = "";
+      document.getElementById("imageBox").value = "";
+      renderAll();
+      setStatus("입력한 Aliases / Image Mappings를 추가하고 카드를 다시 계산했습니다.");
     }
 
     function saveVerseFromForm() {
@@ -1219,13 +1458,76 @@
     }
 
     function renderMetaBoxes() {
-      const aliasLines = ["Variant\tBase"];
-      data.aliases.forEach((item) => aliasLines.push(`${item.variant}\t${item.base}`));
-      document.getElementById("aliasBox").value = aliasLines.join("\n");
+      document.getElementById("aliasCount").textContent = `${data.aliases.length}개 저장됨`;
+      document.getElementById("imageCount").textContent = `${data.images.length}개 저장됨`;
+    }
 
-      const imageLines = ["Key\tPath"];
-      data.images.forEach((item) => imageLines.push(`${item.key}\t${item.path}`));
-      document.getElementById("imageBox").value = imageLines.join("\n");
+    function renderManagerList(type, items, searchText) {
+      const list = document.getElementById(type === "alias" ? "aliasManagerList" : "imageManagerList");
+      const count = document.getElementById(type === "alias" ? "aliasManagerCount" : "imageManagerCount");
+      const keyword = normalize(searchText).toLowerCase();
+      const filtered = items.filter((item) => {
+        const first = normalize(type === "alias" ? item.variant : item.key).toLowerCase();
+        const second = normalize(type === "alias" ? item.base : item.path).toLowerCase();
+        return !keyword || first.includes(keyword) || second.includes(keyword);
+      });
+
+      count.textContent = `${filtered.length}개`;
+      list.innerHTML = "";
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="manager-empty">${keyword ? "검색 결과가 없습니다." : "저장된 항목이 없습니다."}</div>`;
+        return;
+      }
+
+      filtered.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "manager-item";
+        row.innerHTML = `
+          <div>
+            <strong>${type === "alias" ? item.variant : item.key}</strong>
+            <span>${type === "alias" ? item.base : item.path}</span>
+          </div>
+        `;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "btn danger";
+        removeButton.textContent = "삭제";
+        removeButton.onclick = () => {
+          if (type === "alias") {
+            data.aliases = data.aliases.filter((entry) => normalize(entry.variant) !== normalize(item.variant));
+          } else {
+            data.images = data.images.filter((entry) => normalize(entry.key) !== normalize(item.key));
+          }
+          sortMetaEntries();
+          rebuildCards();
+          renderAll();
+          renderMetaManager();
+          setStatus(`${type === "alias" ? "Alias" : "Image Mapping"}를 삭제하고 카드를 다시 계산했습니다.`);
+        };
+
+        row.appendChild(removeButton);
+        list.appendChild(row);
+      });
+    }
+
+    function renderMetaManager() {
+      const searchText = document.getElementById("metaManagerSearch").value || "";
+      renderManagerList("alias", data.aliases, searchText);
+      renderManagerList("image", data.images, searchText);
+    }
+
+    function openMetaManager() {
+      document.getElementById("metaManagerModal").classList.add("open");
+      document.getElementById("metaManagerModal").setAttribute("aria-hidden", "false");
+      renderMetaManager();
+      document.getElementById("metaManagerSearch").focus();
+    }
+
+    function closeMetaManager() {
+      document.getElementById("metaManagerModal").classList.remove("open");
+      document.getElementById("metaManagerModal").setAttribute("aria-hidden", "true");
     }
 
     function exportBackup() {
@@ -1258,6 +1560,7 @@
             aliases: Array.isArray(parsed.aliases) ? parsed.aliases : [],
             images: Array.isArray(parsed.images) ? parsed.images : []
           };
+          sortMetaEntries();
           sortVerses();
           selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
           isCreatingVerse = false;
@@ -1276,6 +1579,7 @@
       sortVerses();
       renderVerseList();
       renderMetaBoxes();
+      if (document.getElementById("metaManagerModal").classList.contains("open")) renderMetaManager();
       fillVerseForm(isCreatingVerse ? draftVerse : getSelectedVerse());
       renderRawEditor();
       renderPreview();
@@ -1284,6 +1588,7 @@
     document.getElementById("newVerseBtn").onclick = clearVerseForm;
     document.getElementById("resetBtn").onclick = () => {
       data = getDefaultsData();
+      sortMetaEntries();
       selectedVerseId = data.verses[0] ? data.verses[0].VerseID : null;
       isCreatingVerse = false;
       draftVerse = null;
@@ -1302,6 +1607,12 @@
       setStatus("카드를 다시 계산했습니다.");
     };
     document.getElementById("saveMetaBtn").onclick = saveMetaBoxes;
+    document.getElementById("openMetaManagerBtn").onclick = openMetaManager;
+    document.getElementById("closeMetaManagerBtn").onclick = closeMetaManager;
+    document.getElementById("metaManagerSearch").addEventListener("input", renderMetaManager);
+    document.getElementById("metaManagerModal").addEventListener("click", (event) => {
+      if (event.target.id === "metaManagerModal") closeMetaManager();
+    });
     document.getElementById("exportBtn").onclick = exportBackup;
     document.getElementById("importFile").addEventListener("change", (event) => {
       const file = event.target.files && event.target.files[0];
@@ -1309,6 +1620,7 @@
       event.target.value = "";
     });
 
+    sortMetaEntries();
     if (data.cardsRaw.length > 0) {
       rebuildCards();
     }
